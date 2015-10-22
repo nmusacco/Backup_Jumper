@@ -10,7 +10,7 @@
 
 
 // game class
-#include "game.h"
+#include "brandiD.h"
 
 
 
@@ -30,7 +30,7 @@ bool killmovement = false;
 #include "gordoncode.cpp"
 
 // game textures/sprite draw commands
-#include "textures.cpp"
+#include "pedroG.cpp"
 
 
 // NOT used for fps counter!

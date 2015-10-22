@@ -235,7 +235,6 @@ void check_mouse(XEvent *e, Game *game)
 // and handles player speed and movement
 void physics(Game * game)
 {
-	
 	game->inAir(); 
 	game->applyGravity();
 	game->checkBottomScreen();
@@ -353,7 +352,7 @@ void render(Game * game)
 		
 		
 		drawSpike();
-		
+		drawMissile(game);
 		drawSkeleton(game);
 		
 	}

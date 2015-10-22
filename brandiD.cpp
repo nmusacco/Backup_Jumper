@@ -1,3 +1,10 @@
+// CS335 fall 2015
+// ===========================
+// Final Project: Group 2
+// 
+// student: Brandi Duncan
+// 
+// ===========================
 
 #include "brandiD.h"
 

@@ -2,7 +2,7 @@
 // ===========================
 // Final Project: Group 2
 // 
-// student: Pedro Gonzalez
+// student: Brandi Duncan
 // 
 // ===========================
 

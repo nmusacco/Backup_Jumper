@@ -59,6 +59,7 @@ struct Particle {
 	Vec velocity;
 };
 
+#include "nsalemS.cpp"
 
 
 

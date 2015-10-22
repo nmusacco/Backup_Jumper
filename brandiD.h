@@ -142,7 +142,7 @@ class Game
 		bool checkRightScreenHit();
 		
 		// more collision checking with rect platforms??!?!
-        bool Game::checkCollision()
+        bool Game::checkCollision();
 };
 
 

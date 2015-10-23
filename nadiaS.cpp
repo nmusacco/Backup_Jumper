@@ -12,7 +12,7 @@ void drawPlatform()
 {
     glColor3ub(255,255,255);
 
-
+    Shape *s;
     float w, h;
     for(int j = 0; j < 5; j++)
     {
@@ -33,7 +33,8 @@ void drawPlatform()
 
 void makePlatform(int amt)
 {
-    for(int i = 0; i<5; i++)
+    Platform P;
+    for(int i = 0; i<amt; i++)
     {
         p.platform[i].width=50;
         p.platform[i].height=10;

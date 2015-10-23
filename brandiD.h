@@ -89,7 +89,7 @@ class Game
 		
 		int powerupTimer; // in seconds
 		
-		
+		Platform platform[5];
 		
 		Powerup * powerups;
 	

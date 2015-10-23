@@ -32,9 +32,9 @@ void makePlatform(int amt, Game *game)
     
     for(int i = 0; i<amt; i++)
     {
-        game->platform[i].width=50;
-        game->platform[i].height=10;
-        game->platform[i].center.x=120+5*65-50*i;
-        game->platform[i].center.y=120+5*65-50*i;
+        game->platform[i].platform.width=50;
+        game->platform[i].platform.height=10;
+        game->platform[i].platform.center.x=120+5*65-50*i;
+        game->platform[i].platform.center.y=120+5*65-50*i;
     }
 }

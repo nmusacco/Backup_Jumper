@@ -87,7 +87,6 @@ class Game
 		int max_vel;
 		float gravity; // default is gonna be 1 unless set otherwise
 		
-		Platform platform;		
 		int powerupTimer; // in seconds
 		
 		

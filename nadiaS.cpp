@@ -33,7 +33,7 @@ void drawPlatform(Game *game)
 
 void makePlatform(int amt)
 {
-    Platform P;
+    Platform p;
     for(int i = 0; i<amt; i++)
     {
         p.platform[i].width=50;

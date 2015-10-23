@@ -188,7 +188,8 @@ bool Game::checkRightScreenHit()
 
 bool Game::checkCollision()
 {
-    if(player.position.x >= platform.x && player.position.y >= platform.y)
+	//needs fixing platform --> is array
+    //if(player.position.x >= platform.x && player.position.y >= platform.y)
     {
         setPosX(window_width - player.width);
         return true;

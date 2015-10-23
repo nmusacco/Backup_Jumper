@@ -27,14 +27,14 @@ void drawPlatform(Game *game)
     }
 }
 
-void makePlatform(int amt)
+void makePlatform(int amt, Game *game)
 {
-    Platform p;
+    
     for(int i = 0; i<amt; i++)
     {
-        p.platform[i].width=50;
-        p.platform[i].height=10;
-        p.platform[i].center.x=120+5*65-50*i;
-        p.platform[i].center.y=120+5*65-50*i;
+        game->platform[i].width=50;
+        game->platform[i].height=10;
+        game->platform[i].center.x=120+5*65-50*i;
+        game->platform[i].center.y=120+5*65-50*i;
     }
 }

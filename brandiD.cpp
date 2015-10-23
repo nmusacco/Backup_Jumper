@@ -7,6 +7,7 @@
 // ===========================
 
 #include "brandiD.h"
+#include "nadiaS.cpp"
 
 int PLAYER_WIDTH;
 int PLAYER_HEIGHT;

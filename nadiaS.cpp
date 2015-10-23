@@ -8,7 +8,7 @@ struct Platform
 	Shape platform[5];
 	Platform *next;
 };
-void drawPlatform()
+void drawPlatform(Game *game)
 {
     glColor3ub(255,255,255);
 

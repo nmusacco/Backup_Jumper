@@ -5,7 +5,7 @@
 #include "brandiD.h"
 struct Platform
 {
-	Shape platform[5];
+	Shape platform;
 	Platform *next;
 };
 void drawPlatform(Game *game)

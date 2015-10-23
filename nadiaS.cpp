@@ -16,7 +16,7 @@ void drawPlatform(Game *game)
     float w, h;
     for(int j = 0; j < 5; j++)
     {
-        s = &game->platform[j];
+        s = game->platform[j];
         glPushMatrix();
         glTranslatef(s->center.x,s->center.y, 0);
         w=s->width;

@@ -3,11 +3,7 @@
 #include <X11/keysym.h>
 #include <GL/glx.h>
 #include "brandiD.h"
-struct Platform
-{
-	Shape platform;
-	Platform *next;
-};
+
 void drawPlatform(Game *game)
 {
     glColor3ub(255,255,255);

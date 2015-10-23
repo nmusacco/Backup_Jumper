@@ -76,7 +76,7 @@ void physics(Game * game)
 
     if(bubbler) // if bubbler is toggled only stream water from the top, no mouse involved
     {
-	for(int i = 0; i < window_height * 0.15; i++)
+        for(int i = 0; i < window_height * 0.15; i++)
         {
             x_bubbler += rnd()*10;
             makeParticle(x_bubbler, y_bubbler);
@@ -96,7 +96,7 @@ void physics(Game * game)
         {
             //std::cout << "off screen" << std::endl;
             memcpy(&par[i], &par[numParticles -1], 
-                sizeof(Particle));
+              sizeof(Particle));
             numParticles--;
         }
     }

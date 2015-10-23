@@ -71,6 +71,12 @@ struct Guy
 	int height;
 };
 
+struct Platform
+{
+	Shape platform;
+	Platform *next;
+};
+
 class Game
 {
 	public:	

@@ -143,5 +143,4 @@ class Game
         	bool checkCollision();
 };
 
-#include "nadiaS.cpp"
 #endif

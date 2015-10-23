@@ -57,9 +57,7 @@ struct Shape {
 struct Particle {
 	Shape s;
 	Vec velocity;
-};
-
-#include "nadiaS.cpp"
+}
 
 
 
@@ -145,5 +143,5 @@ class Game
         	bool checkCollision();
 };
 
-
+#include "nadiaS.cpp"
 #endif

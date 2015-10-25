@@ -8,15 +8,14 @@ void drawPlatform(Game *game)
 {
     glColor3ub(255,255,255);
 
-    Shape *s;
+    
     float w, h;
     for(int j = 0; j < 5; j++)
     {
-        s = &game->platform[j].platform;
         glPushMatrix();
         glTranslatef(s->center.x,s->center.y, 0);
-        w=s->width;
-        h=s->height;
+        w=game->platform[i].width;
+        h=game->platform[i].height;
         glBegin(GL_QUADS);
         glVertex2i(-w,-h);
         glVertex2i(-w,h);
@@ -27,14 +26,14 @@ void drawPlatform(Game *game)
     }
 }
 
-void makePlatform(int amt, Game *game)
+void makePlatform(int amt, Game *game, int centerX)
 {
     
     for(int i = 0; i<amt; i++)
     {
-        game->platform[i].platform.width=50;
-        game->platform[i].platform.height=10;
-        game->platform[i].platform.center.x=120+5*65-50*i;
-        game->platform[i].platform.center.y=120+5*65-50*i;
+        game->platform[i].width=50;
+        game->platform[i].height=10;
+        game->platform[i].pos.x=centerY;
+        game->platform[i].pos.y=120+5*65-50*i;
     }
 }

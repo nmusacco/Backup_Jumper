@@ -73,7 +73,9 @@ struct Guy
 
 struct Platform
 {
-	Shape platform;
+	Vec pos;
+	int width;
+	int height;
 	Platform *next;
 };
 

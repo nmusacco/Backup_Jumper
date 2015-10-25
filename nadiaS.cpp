@@ -33,7 +33,7 @@ void makePlatform(int amt, Game *game, int centerX)
     {
         game->platform[i].width=50;
         game->platform[i].height=10;
-        game->platform[i].pos.x=centerX;
+        game->platform[i].pos.x=centerX +30*i;
         game->platform[i].pos.y=120+5*65-50*i;
     }
 }

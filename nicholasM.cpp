@@ -129,14 +129,10 @@ int check_keys(XEvent *e, Game * game)
             else
         	pausegame = true;
         }
-        if(!gamepause)
+        if(!pausegame)
         {
             if(key != XK_Left || key != XK_Right)
                 killmovement = false;
-            if(key == XK_Escape)
-            {
-                game->run = false;
-            }
 
             if(key == XK_b)
             {
@@ -157,6 +153,11 @@ int check_keys(XEvent *e, Game * game)
                 setbackground = false;
             else 
                 setbackground = true;
+        }
+
+	if(key == XK_Escape)
+        {
+            game->run = false;
         }
     }	
     return 0;

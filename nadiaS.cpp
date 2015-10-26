@@ -1,8 +1,5 @@
 /*Nadia Salem*/
-#include <X11/Xlib.h>
-#include <X11/keysym.h>
-#include <GL/glx.h>
-#include "game.h"
+
 
 void drawPlatform(Game *game)
 {
@@ -13,9 +10,9 @@ void drawPlatform(Game *game)
     for(int j = 0; j < 5; j++)
     {
         glPushMatrix();
-        glTranslatef(s->center.x,s->center.y, 0);
-        w=game->platform[i].width;
-        h=game->platform[i].height;
+        glTranslatef(game->platform[j].pos.x,game->platform[j].pos.x, 0);
+        w=game->platform[j].width;
+        h=game->platform[j].height;
         glBegin(GL_QUADS);
         glVertex2i(-w,-h);
         glVertex2i(-w,h);
@@ -26,6 +23,8 @@ void drawPlatform(Game *game)
     }
 }
 
+
+// Pedro Gonzalez: "this will cause issue if amt is greater than 5!!!"
 void makePlatform(int amt, Game *game, int centerX)
 {
     

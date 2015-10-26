@@ -56,7 +56,7 @@ bool setbackground = false;
 // game textures/sprite draw functions
 #include "pedroG.cpp"
 #include "nicholasM.cpp"
-
+#include "nadiaS.cpp"
 
 int main()
 {

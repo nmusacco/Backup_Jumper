@@ -12,10 +12,6 @@
 #include <stdlib.h>
 #include <math.h> // atan2(); 
 
-int PLAYER_WIDTH;
-int PLAYER_HEIGHT;
-
-
 Game::Game()
 {
 	setPos(30,1000);

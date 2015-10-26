@@ -23,12 +23,6 @@ bool killmovement = false;
 // Gordon's timer & x11/opengl code
 #include "gordoncode.cpp"
 
-// game textures/sprite draw functions
-#include "pedroG.cpp"
-
-// add your function definitions here!
-//#include "nameX"
-
 // NOT used for fps counter!
 // now used for sprite timer
 int frames = 0;
@@ -38,7 +32,7 @@ int check_keys(XEvent *e, Game * game);
 void check_mouse(XEvent *e, Game *game);
 void physics(Game * game);
 void render(Game * game);
-
+void makeParticle(int x, int y);
 
 using std::cout;
 using std::endl;
@@ -50,7 +44,6 @@ using std::endl;
 #define INITIAL_VELOCITY 5
 
 
-
 // random function
 #define rnd() (float)rand() / (float)RAND_MAX
 #define MAX_PARTICLES 10000
@@ -58,7 +51,13 @@ Particle par[MAX_PARTICLES];
 int numParticles = 0;
 bool bubbler = false;
 bool setbackground = false;
-#include <cassert>
+
+
+// game textures/sprite draw functions
+#include "pedroG.cpp"
+#include "nicholasM.cpp"
+
+
 int main()
 {
 	initXWindows();
@@ -233,9 +232,10 @@ void check_mouse(XEvent *e, Game *game)
 }
 
 
+// NO LONGER USED
 // checks if the player is in the air, hits a screen edge, 
 // and handles player speed and movement
-void physics(Game * game)
+void OLDphysics(Game * game)
 {
 	game->inAir(); 
 	game->applyGravity();

@@ -24,8 +24,10 @@ bool pausegame = false;
 void physics(Game * game)
 {
 
-    game->inAir(); 
-    game->checkBottomScreen();
+	game->inAir(); 
+	//game->applyGravity();
+	game->checkBottomScreen();
+	game->missileChasePlayer();
 
     if(!pausegame)
     {

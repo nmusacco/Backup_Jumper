@@ -97,10 +97,8 @@ class Game
 		int powerupTimer; // in seconds
 		
 		Missile missiles;
-		
 		Powerup * powerups;
-	
-		// platform object?	
+		Platform platform[5];
 
 		// initialized game objects
 		// set player position, etc

@@ -59,8 +59,8 @@ void physics(Game * game)
             //cout << "jump" <<endl;
             game->accelY(2 * INITIAL_VELOCITY);
         }
-
-        if(killmovement) // kill movement on x axis only
+		
+        if(killmovement && game->inAir()) // kill movement on x axis only
             game->player.velocity.x = 0;
 
         if(game->velX() > MAX_VELOCITY)

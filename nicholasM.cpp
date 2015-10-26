@@ -24,10 +24,10 @@ bool pausegame = false;
 void physics(Game * game)
 {
 
-	game->inAir(); 
-	//game->applyGravity();
-	game->checkBottomScreen();
-	game->missileChasePlayer();
+    game->inAir(); 
+    //game->applyGravity();
+    game->checkBottomScreen();
+    game->missileChasePlayer();
 
     if(!pausegame)
     {
@@ -59,7 +59,7 @@ void physics(Game * game)
             //cout << "jump" <<endl;
             game->accelY(2 * INITIAL_VELOCITY);
         }
-		
+
         if(killmovement && game->inAir()) // kill movement on x axis only
             game->player.velocity.x = 0;
 
@@ -99,12 +99,68 @@ void physics(Game * game)
         {
             //std::cout << "off screen" << std::endl;
             memcpy(&par[i], &par[numParticles -1], 
-              sizeof(Particle));
+                    sizeof(Particle));
             numParticles--;
         }
     }
 }
 
+
+int check_keys(XEvent *e, Game * game)
+{
+    int key = XLookupKeysym(&e->xkey, 0);
+
+
+    killmovement = true;
+    if(e->type == KeyRelease) 
+    {
+        keys[key] = 0;
+        if(key == XK_space)
+            killmovement = false;
+    }
+
+    if(e->type == KeyPress)
+    {
+        keys[key] = 1;
+        if(key == XK_p)
+        {
+            if(pausegame)
+                pausegame = false;
+            else
+        	pausegame = true;
+        }
+        if(!gamepause)
+        {
+            if(key != XK_Left || key != XK_Right)
+                killmovement = false;
+            if(key == XK_Escape)
+            {
+                game->run = false;
+            }
+
+            if(key == XK_b)
+            {
+                if(bubbler)
+                    bubbler = false;
+                else
+                    bubbler = true;
+            }
+
+            if(key == XK_m)
+            {
+                game->createMissiles();
+            }
+        }
+        if(key == XK_w)
+        {
+            if(setbackground)
+                setbackground = false;
+            else 
+                setbackground = true;
+        }
+    }	
+    return 0;
+}
 
 
 

@@ -14,8 +14,14 @@
 // explaination of texture sprite coordinates
 // http://stackoverflow.com/questions/11457394/texture-sampling-coordinates-to-render-a-sprite
 
+// rotate sprite texture
+// https://www.opengl.org/discussion_boards/showthread.php/165578-Rotating-a-Texture-on-a-Quad
+
 // sprite animation helpful
 // http://forum.devmaster.net/t/spritesheet-animation-in-opengl/24020
+
+// using this site for help with missile chasing algorithm
+// http://code.tutsplus.com/tutorials/hit-the-target-with-a-deadly-homing-missile--active-8933
 
 // using this site https://convertio.co/png-ppm/ for png to ppm conversion 
 // Skeleton spritesheet by MoikMellah
@@ -24,9 +30,8 @@
 // http://opengameart.org/content/platformer-animations
 // metal slug 2 rocket
 // http://www.spriters-resource.com/arcade/ms2/sheet/53203/
-// explosions
 
-
+#include <math.h> // atan2();  
 
 Ppmimage * spike = NULL;
 GLuint spikeTexture; 
@@ -34,6 +39,7 @@ GLuint spikeTexture;
 Ppmimage * missile = NULL;
 GLuint missileTexture;
 
+// skeleton is the player's texture
 Ppmimage * skeletonBase = NULL;
 GLuint skeletonTexture;
 
@@ -67,7 +73,7 @@ void loadTextures()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, 3, missile->width, missile->height,
-	0, GL_RGB, GL_UNSIGNED_BYTE, missile->data);
+				0, GL_RGB, GL_UNSIGNED_BYTE, missile->data);
 	
 	
 	/////////////////// spikes ////////////////
@@ -75,7 +81,7 @@ void loadTextures()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, 3, spike->width, spike->height,
-	0, GL_RGB, GL_UNSIGNED_BYTE, spike->data);
+				0, GL_RGB, GL_UNSIGNED_BYTE, spike->data);
 	
 	
 	/////////////////// Skeleton sprite texture ////////////////////////
@@ -87,7 +93,7 @@ void loadTextures()
 
 	// write to video memory
 	glTexImage2D(GL_TEXTURE_2D, 0, 3, skeletonBase->width, skeletonBase->height,
-	0, GL_RGB, GL_UNSIGNED_BYTE, skeletonBase->data);
+					0, GL_RGB, GL_UNSIGNED_BYTE, skeletonBase->data);
 
 	
 	//////////////////// silhouette for character///////////////////////
@@ -96,7 +102,7 @@ void loadTextures()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	unsigned char *silhouetteData = buildAlphaData(skeletonBase);	
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, skeletonBase->width, skeletonBase->height, 0,
-	GL_RGBA, GL_UNSIGNED_BYTE, silhouetteData);
+					GL_RGBA, GL_UNSIGNED_BYTE, silhouetteData);
 	delete [] silhouetteData;
 	
 	//////////////////// silhouette for spikes///////////////////////
@@ -105,7 +111,7 @@ void loadTextures()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	silhouetteData = buildAlphaData(spike);	
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, spike->width, spike->height, 0,
-	GL_RGBA, GL_UNSIGNED_BYTE, silhouetteData);
+					GL_RGBA, GL_UNSIGNED_BYTE, silhouetteData);
 	delete [] silhouetteData;
 	
 	//////////////////// silhouette for missile///////////////////////
@@ -114,7 +120,7 @@ void loadTextures()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	silhouetteData = buildAlphaData(missile);	
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, missile->width, missile->height, 0,
-	GL_RGBA, GL_UNSIGNED_BYTE, silhouetteData);
+					GL_RGBA, GL_UNSIGNED_BYTE, silhouetteData);
 	delete [] silhouetteData;
 	
 	
@@ -123,17 +129,51 @@ void loadTextures()
 	glBindTexture(GL_TEXTURE_2D, backgroundTexture);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexImage2D(GL_TEXTURE_2D, 0, 3,
-	background->width, background->height,
-	0, GL_RGB, GL_UNSIGNED_BYTE, background->data);
+	glTexImage2D(GL_TEXTURE_2D, 0, 3, background->width, background->height,
+					0, GL_RGB, GL_UNSIGNED_BYTE, background->data);
 	
 	
 }
 
+void drawBackground()
+{
+	glColor3f(1.0, 1.0, 1.0);
+	glBindTexture(GL_TEXTURE_2D, backgroundTexture);
+	glBegin(GL_QUADS);
+	glTexCoord2f(0,1);
+		glVertex2i(0,0);
+	glTexCoord2f(0,0);
+		glVertex2i(0, window_height);
+	glTexCoord2f(1,0);
+		glVertex2i(window_width, window_height);
+	glTexCoord2f(1,1);
+		glVertex2i(window_width, 0);
+	glEnd();
+}
+
+
 void drawMissile(Game * game)
 {
+	//if(game->missiles == NULL)
+		//return;
+
+	//cout << "missile checked" << endl;
+	float x = game->missiles.position.x;
+	float y = game->missiles.position.y;
+	
+	
+	// 12 missiles on spritesheet 1/12 is 0.083
+	float x_i = 0.08333333333;
+	// 3 missiles on spritesheet, 2 big 1 small
+	// 1 big missiles has a height of 134px and spritetexture's height is 380 so 134/380 = 0.352...
+	float y_i =  0.352632;
+	
+	float PI = 3.14159265359;
+	float angle = atan2(game->posX() - x, game->posY() - y) * 180 / PI;
+
 	glPushMatrix();
-	glTranslatef(0, 100, 0);
+	glTranslatef(x, y, 0);
+	glRotatef(angle,0,0.0,-1.0);
 	glBindTexture(GL_TEXTURE_2D, missileTexture);
 
 	glBindTexture(GL_TEXTURE_2D, silhouetteTextureMissile);
@@ -141,24 +181,14 @@ void drawMissile(Game * game)
 	glAlphaFunc(GL_GREATER, 0.0f);
 	glColor4ub(255,255,255,255);
 	
-	int wid = 80*game->player.width;
-	cout << wid << endl;
+	int wid = 3*game->player.width;
+	int height = 2*game->player.height;
 	
 	glBegin(GL_QUADS);
-	// corner coordinates must follow this order
-	//glTexCoord2f(0, 0.0); glVertex2i(-wid, wid); // top left
-//	glTexCoord2f(0,  1); glVertex2i(-wid,-wid); //bottom left
-	//glTexCoord2f(1, 1); glVertex2i( wid,-wid); // bottom right
-	//glTexCoord2f(1, 0); glVertex2i( wid, wid); // top right 
-	
-	glTexCoord2f(0,1);
-	glVertex2i(0,0);
-	glTexCoord2f(0,0);
-	glVertex2i(0, wid);
-	glTexCoord2f(1,0);
-	glVertex2i(wid, wid);
-	glTexCoord2f(1,1);
-	glVertex2i(wid, 0);
+	glTexCoord2f(0, y_i); glVertex2i(-wid, -height); // top left
+	glTexCoord2f(0,  0); glVertex2i(-wid,height); //bottom left
+	glTexCoord2f(x_i, 0.0); glVertex2i( wid,height); // bottom right
+	glTexCoord2f(x_i, y_i); glVertex2i( wid, -height); // top right
 	glEnd();
 
 	glEnd();
@@ -181,11 +211,6 @@ void drawSpike()
 	int wid = spike->width;
 	
 	glBegin(GL_QUADS);
-	// corner coordinates must follow this order
-	//glTexCoord2f(0, 0.0); glVertex2i(-wid, wid); // top left
-	//glTexCoord2f(0,  1); glVertex2i(-wid,-wid); //bottom left
-	//glTexCoord2f(1, 1); glVertex2i( wid,-wid); // bottom right
-	//glTexCoord2f(1, 0); glVertex2i( wid, wid); // top right 
 	
 	glTexCoord2f(0,1);
 	glVertex2i(0,0);
@@ -213,9 +238,9 @@ void renderCell(float f, float x_i, float y_i, float lvl, float toplvl, Game * g
 	glBindTexture(GL_TEXTURE_2D, skeletonTexture);
 
 	if(g->player.left)
-	glScalef( -1.0f, 1, 1);
+		glScalef( -1.0f, 1, 1);
 	if(g->player.right)
-	glScalef(1.0f, 1, 1 );
+		glScalef(1.0f, 1, 1 );
 
 	glBindTexture(GL_TEXTURE_2D, silhouetteTexture);
 	glEnable(GL_ALPHA_TEST);
@@ -252,7 +277,7 @@ void drawSkeleton(Game * game)
 
 	
 	if(frame <= 3*x_increment)
-	frame = 4*x_increment;
+		frame = 4*x_increment;
 	
 	int lvl = 1;
 	float toplvl = 0.0f;
@@ -288,7 +313,6 @@ void drawSkeleton(Game * game)
 			toplvl = 0.0f;
 		}
 	}
-	
 	
 	// lower level of texture
 	if(frame > 7 * x_increment)

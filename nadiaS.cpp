@@ -1,13 +1,13 @@
 /*Nadia Salem*/
 
 
-void drawPlatform(Game *game)
+void drawPlatform(Game *game, int amt)
 {
     glColor3ub(255,255,255);
 
     
     float w, h;
-    for(int j = 0; j < 5; j++)
+    for(int j = 0; j < amt; j++)
     {
         glPushMatrix();
         glTranslatef(game->platform[j].pos.x,game->platform[j].pos.x, 0);
@@ -25,6 +25,8 @@ void drawPlatform(Game *game)
 
 
 // Pedro Gonzalez: "this will cause issue if amt is greater than 5!!!"
+//Nadia Salem: I fixed Drawplatforms so it won't happen
+
 void makePlatform(int amt, Game *game, int centerX)
 {
     

@@ -115,6 +115,7 @@ int main()
 		}
 		frames++;
 		makePlatform(5,game,120+5*65+30);
+		render(&game);
 		glXSwapBuffers(dpy, win);
 	}	
 	

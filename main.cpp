@@ -290,7 +290,7 @@ void OLDphysics(Game * game)
 			makeParticle(x_bubbler, y_bubbler);
 		}
 	}
-	drawPlatform(game, 5);
+	
 	// particles
 	Particle *p = &par[numParticles];
 		

@@ -69,7 +69,7 @@ int main()
 	Game game;
 	
 	game.setGravity(GRAVITY);
-	
+	makePlatform(5,game,120+5*65+30);
 	// set players position
 	game.setPos(window_width/2, window_height/2);
 	game.setResolution(window_width, window_height);
@@ -114,7 +114,7 @@ int main()
 			frames = 0;
 		}
 		frames++;
-		makePlatform(5,game,120+5*65+30);
+		
 		render(&game);
 		glXSwapBuffers(dpy, win);
 	}	

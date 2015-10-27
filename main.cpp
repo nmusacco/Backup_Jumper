@@ -114,8 +114,7 @@ int main()
 			frames = 0;
 		}
 		frames++;
-			
-		render(&game);
+		makePlatform(5,game,120+5*65+30);
 		glXSwapBuffers(dpy, win);
 	}	
 	
@@ -291,7 +290,7 @@ void OLDphysics(Game * game)
 			makeParticle(x_bubbler, y_bubbler);
 		}
 	}
-	
+	drawPlatform(game, 5);
 	// particles
 	Particle *p = &par[numParticles];
 		

@@ -154,23 +154,50 @@ void drawBackground()
 
 void drawMissile(Game * game)
 {
-	//if(game->missiles == NULL)
-		//return;
-
 	//cout << "missile checked" << endl;
 	float x = game->missiles.position.x;
 	float y = game->missiles.position.y;
 	
 	
+			Rect r1;
+	r1.bot = window_height - 20;
+	r1.left = 10;
+	r1.center = 0;
+	ggprint8b(&r1, 16, 0x00FFFF00, "");
+	
+	
+	
 	// 12 missiles on spritesheet 1/12 is 0.083
-	float x_i = 0.08333333333;
+	float x_i = 1.0/12.0;
 	// 3 missiles on spritesheet, 2 big 1 small
 	// 1 big missiles has a height of 134px and spritetexture's height is 380 so 134/380 = 0.352...
 	float y_i =  0.352632;
 	
 	float PI = 3.14159265359;
 	float angle = atan2(game->posX() - x, game->posY() - y) * 180 / PI;
+	
+	float rad = (((-angle)+90.0) / 360.0f) * PI * 2.0;
+		//convert angle to a vector
+		float xdir = cos(rad);
+		float ydir = sin(rad);
+		glColor3ub(150 ,160 ,255);
+		float xs,ys,xe,ye,r;
+		glBegin(GL_LINES);
+		for (int i=0; i<16; i++) {
+			xs = -xdir * 11.0f + rnd() * 4.0 - 2.0;
+			ys = -ydir * 11.0f + rnd() * 4.0 - 2.0;
+			r = rnd()*40.0+40.0;
+			xe = -xdir * r + rnd() * 18.0 - 9.0;
+			ye = -ydir * r + rnd() * 18.0 - 9.0;
+			glColor3f(rnd()*.3+.7, rnd()*.3+.7, 0);
+			glVertex2f(x+xs, y+ys);
+			glVertex2f(x+xe, y+ye);
+		}
+		glEnd();
+	
+	
 
+	
 	glPushMatrix();
 	glTranslatef(x, y, 0);
 	glRotatef(angle,0,0.0,-1.0);
@@ -184,17 +211,30 @@ void drawMissile(Game * game)
 	int wid = 3*game->player.width;
 	int height = 2*game->player.height;
 	
+	int x_frame = game->missiles.nextframe;
+	float toplvl = 0;
+	
+	if(x_frame > 23)
+		game->missiles.nextframe = 0;
+	if(x_frame > 11)
+	{
+		toplvl = y_i;
+		x_frame -= 11; 
+	}
+	
 	glBegin(GL_QUADS);
-	glTexCoord2f(0, y_i); glVertex2i(-wid, -height); // top left
-	glTexCoord2f(0,  0); glVertex2i(-wid,height); //bottom left
-	glTexCoord2f(x_i, 0.0); glVertex2i( wid,height); // bottom right
-	glTexCoord2f(x_i, y_i); glVertex2i( wid, -height); // top right
+	glTexCoord2f( x_frame*x_i, toplvl + y_i); glVertex2i(-wid, -height); // bottom left
+	glTexCoord2f( x_frame*x_i,  toplvl); glVertex2i(-wid,height); //top left
+	glTexCoord2f(x_i + x_frame*x_i, toplvl); glVertex2i( wid,height); // top right
+	glTexCoord2f(x_i + x_frame*x_i, toplvl + y_i); glVertex2i( wid, -height); // bottom right
 	glEnd();
 
-	glEnd();
 	glPopMatrix();
 	
 	glDisable(GL_ALPHA_TEST);
+	
+	
+
 }
 
 void drawSpike()
@@ -317,8 +357,6 @@ void drawSkeleton(Game * game)
 	// lower level of texture
 	if(frame > 7 * x_increment)
 	{
-		//cout << "NEXT" << endl;
-
 		lvl = 2;
 		toplvl = 1 * 0.111111111;
 	}
@@ -331,7 +369,6 @@ void drawSkeleton(Game * game)
 		frame = 4*x_increment;
 	}
 
-	//cout << frame/x_increment << endl;
 	renderCell(frame, x_increment, y_increment, lvl, toplvl, game);
 }
 

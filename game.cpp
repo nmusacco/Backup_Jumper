@@ -33,6 +33,7 @@ Game::Game()
 void Game::createMissiles()
 {
 
+	missiles.nextframe = 0;
 	int x = this->window_width/2;
 	int y = this->window_height/2;
 	
@@ -81,6 +82,8 @@ void Game::missileChasePlayer()
 	float x_vel;
 	float y_vel;
 
+	missiles.nextframe++;
+	
 	if(posX() > x)   
 		x_vel = speed;
 	else if(posX() == x)
@@ -94,6 +97,8 @@ void Game::missileChasePlayer()
 		y_vel = 0;
 	else
 		y_vel = -speed;
+	
+	
 	
 	missiles.velocity.x = x_vel;
 	missiles.velocity.y = y_vel;

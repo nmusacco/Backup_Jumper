@@ -68,6 +68,7 @@ struct Missile
 	int width;
 	int height;
 	Missile * next;
+	int nextframe; // used for sprite animation
 };
 
 struct Platform

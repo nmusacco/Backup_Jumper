@@ -125,13 +125,13 @@ int main()
 	return 0;
 }
 
-
+// NO LONGER USED
 // TODO!
 // -----------------------
 // Kind of working! 
 // Needs to check if key pressed is later released, Example user presses LEFT then lets go,
 // the code then should kill movement on the x axis
-int check_keys(XEvent *e, Game * game)
+int OLDcheck_keys(XEvent *e, Game * game)
 {
 	int key = XLookupKeysym(&e->xkey, 0);
 		

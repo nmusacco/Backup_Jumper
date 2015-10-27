@@ -8,3 +8,4 @@ drawBackground();
 drawSpike();
 drawMissile(game);
 drawSkeleton(game);	
+drawPlatform(game,5);

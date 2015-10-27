@@ -73,7 +73,7 @@ void loadTextures()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, 3, missile->width, missile->height,
-				0, GL_RGB, GL_UNSIGNED_BYTE, missile->data);
+	0, GL_RGB, GL_UNSIGNED_BYTE, missile->data);
 	
 	
 	/////////////////// spikes ////////////////
@@ -81,7 +81,7 @@ void loadTextures()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, 3, spike->width, spike->height,
-				0, GL_RGB, GL_UNSIGNED_BYTE, spike->data);
+	0, GL_RGB, GL_UNSIGNED_BYTE, spike->data);
 	
 	
 	/////////////////// Skeleton sprite texture ////////////////////////
@@ -93,7 +93,7 @@ void loadTextures()
 
 	// write to video memory
 	glTexImage2D(GL_TEXTURE_2D, 0, 3, skeletonBase->width, skeletonBase->height,
-					0, GL_RGB, GL_UNSIGNED_BYTE, skeletonBase->data);
+	0, GL_RGB, GL_UNSIGNED_BYTE, skeletonBase->data);
 
 	
 	//////////////////// silhouette for character///////////////////////
@@ -102,7 +102,7 @@ void loadTextures()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	unsigned char *silhouetteData = buildAlphaData(skeletonBase);	
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, skeletonBase->width, skeletonBase->height, 0,
-					GL_RGBA, GL_UNSIGNED_BYTE, silhouetteData);
+	GL_RGBA, GL_UNSIGNED_BYTE, silhouetteData);
 	delete [] silhouetteData;
 	
 	//////////////////// silhouette for spikes///////////////////////
@@ -111,7 +111,7 @@ void loadTextures()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	silhouetteData = buildAlphaData(spike);	
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, spike->width, spike->height, 0,
-					GL_RGBA, GL_UNSIGNED_BYTE, silhouetteData);
+	GL_RGBA, GL_UNSIGNED_BYTE, silhouetteData);
 	delete [] silhouetteData;
 	
 	//////////////////// silhouette for missile///////////////////////
@@ -120,7 +120,7 @@ void loadTextures()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	silhouetteData = buildAlphaData(missile);	
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, missile->width, missile->height, 0,
-					GL_RGBA, GL_UNSIGNED_BYTE, silhouetteData);
+	GL_RGBA, GL_UNSIGNED_BYTE, silhouetteData);
 	delete [] silhouetteData;
 	
 	
@@ -130,7 +130,7 @@ void loadTextures()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, 3, background->width, background->height,
-					0, GL_RGB, GL_UNSIGNED_BYTE, background->data);
+	0, GL_RGB, GL_UNSIGNED_BYTE, background->data);
 	
 	
 }
@@ -141,13 +141,13 @@ void drawBackground()
 	glBindTexture(GL_TEXTURE_2D, backgroundTexture);
 	glBegin(GL_QUADS);
 	glTexCoord2f(0,1);
-		glVertex2i(0,0);
+	glVertex2i(0,0);
 	glTexCoord2f(0,0);
-		glVertex2i(0, window_height);
+	glVertex2i(0, window_height);
 	glTexCoord2f(1,0);
-		glVertex2i(window_width, window_height);
+	glVertex2i(window_width, window_height);
 	glTexCoord2f(1,1);
-		glVertex2i(window_width, 0);
+	glVertex2i(window_width, 0);
 	glEnd();
 }
 
@@ -158,14 +158,12 @@ void drawMissile(Game * game)
 	float x = game->missiles.position.x;
 	float y = game->missiles.position.y;
 	
-	
-			Rect r1;
+	// used to allow thrust to be drawn yellow
+	Rect r1;
 	r1.bot = window_height - 20;
 	r1.left = 10;
 	r1.center = 0;
 	ggprint8b(&r1, 16, 0x00FFFF00, "");
-	
-	
 	
 	// 12 missiles on spritesheet 1/12 is 0.083
 	float x_i = 1.0/12.0;
@@ -175,29 +173,30 @@ void drawMissile(Game * game)
 	
 	float PI = 3.14159265359;
 	float angle = atan2(game->posX() - x, game->posY() - y) * 180 / PI;
+	int wid = 3*game->player.width;
+	int height = 2*game->player.height;
 	
 	float rad = (((-angle)+90.0) / 360.0f) * PI * 2.0;
-		//convert angle to a vector
-		float xdir = cos(rad);
-		float ydir = sin(rad);
-		glColor3ub(150 ,160 ,255);
-		float xs,ys,xe,ye,r;
-		glBegin(GL_LINES);
-		for (int i=0; i<16; i++) {
-			xs = -xdir * 11.0f + rnd() * 4.0 - 2.0;
-			ys = -ydir * 11.0f + rnd() * 4.0 - 2.0;
-			r = rnd()*40.0+40.0;
-			xe = -xdir * r + rnd() * 18.0 - 9.0;
-			ye = -ydir * r + rnd() * 18.0 - 9.0;
-			glColor3f(rnd()*.3+.7, rnd()*.3+.7, 0);
-			glVertex2f(x+xs, y+ys);
-			glVertex2f(x+xe, y+ye);
-		}
-		glEnd();
-	
+	//convert angle to a vector
+	float xdir = cos(rad);
+	float ydir = sin(rad);
+	glColor3ub(150 ,160 ,255);
+	float xs,ys,xe,ye,r;
+	glBegin(GL_LINES);
+	for (int i=0; i<16; i++) 
+	{
+		xs = -xdir * 11.0f + rnd() * 4.0 - 2.0;
+		ys = -ydir * 11.0f + rnd() * 4.0 - 2.0;
+		r = rnd()*40.0+  height;
+		xe = -xdir * r + rnd() * 18.0 - 9.0;
+		ye = -ydir * r + rnd() * 18.0 - 9.0;
+		glColor3f(rnd()*.3+.7, rnd()*.3+.7, 0);
+		glVertex2f(x+xs, y+ys);
+		glVertex2f(x+xe, y+ye);
+	}
+	glEnd();
 	
 
-	
 	glPushMatrix();
 	glTranslatef(x, y, 0);
 	glRotatef(angle,0,0.0,-1.0);
@@ -207,9 +206,6 @@ void drawMissile(Game * game)
 	glEnable(GL_ALPHA_TEST);
 	glAlphaFunc(GL_GREATER, 0.0f);
 	glColor4ub(255,255,255,255);
-	
-	int wid = 3*game->player.width;
-	int height = 2*game->player.height;
 	
 	int x_frame = game->missiles.nextframe;
 	float toplvl = 0;
@@ -233,8 +229,6 @@ void drawMissile(Game * game)
 	
 	glDisable(GL_ALPHA_TEST);
 	
-	
-
 }
 
 void drawSpike()
@@ -278,9 +272,9 @@ void renderCell(float f, float x_i, float y_i, float lvl, float toplvl, Game * g
 	glBindTexture(GL_TEXTURE_2D, skeletonTexture);
 
 	if(g->player.left)
-		glScalef( -1.0f, 1, 1);
+	glScalef( -1.0f, 1, 1);
 	if(g->player.right)
-		glScalef(1.0f, 1, 1 );
+	glScalef(1.0f, 1, 1 );
 
 	glBindTexture(GL_TEXTURE_2D, silhouetteTexture);
 	glEnable(GL_ALPHA_TEST);
@@ -369,4 +363,6 @@ void drawSkeleton(Game * game)
 		frame = 4*x_increment;
 	}
 
-	renderCell(frame, x_increment, y_increment, lvl, to
+	renderCell(frame, x_increment, y_increment, lvl, toplvl, game);
+}
+

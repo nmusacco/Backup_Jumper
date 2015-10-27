@@ -1,30 +1,5 @@
 /*Nadia Salem*/
-int random(int x, int y)
-{
-     srand(time(NULL));
-    int num;
-    if(x < 0 && y < 0)
-    {
-            num = rand()%((y-x))+y;
-    }
-    else if (x > 0 && y > 0)
-    {
-        if(x < y)
-        {
-            num = rand() % (x-y)+ x;
-        }
-        else
-        num = rand() % (x-y) + y;
-    }
-    else
-    {
-        if(x < y)
-           num = rand() % ((-1*x)+y) +x;
-        else
-        num = rand() % ((-1*y)+x)+y;
-    }
-return num;
-}
+
 void drawPlatform(Game *game, int amt)
 {
     glColor3ub(255,255,255);
@@ -53,12 +28,12 @@ void drawPlatform(Game *game, int amt)
 
 void makePlatform(int amt, Game *game, int startCenterX)
 {
-    
+    srand(time(NULL));
     for(int i = 0; i<amt; i++)
     {
         game->platform[i].width=50;
         game->platform[i].height=10;
-        game->platform[i].pos.x=startCenterX +random(-100,100) +30*i;
-        game->platform[i].pos.y=120+5*65-50*i;
+        game->platform[i].pos.x=rand()%window_width;
+        game->platform[i].pos.y=rand()%window_height;
     }
 }

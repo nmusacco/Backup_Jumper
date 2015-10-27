@@ -369,6 +369,4 @@ void drawSkeleton(Game * game)
 		frame = 4*x_increment;
 	}
 
-	renderCell(frame, x_increment, y_increment, lvl, toplvl, game);
-}
-
+	renderCell(frame, x_increment, y_increment, lvl, to

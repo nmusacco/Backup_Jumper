@@ -210,18 +210,24 @@ void drawMissile(Game * game)
 	int x_frame = game->missiles.nextframe;
 	float toplvl = 0;
 	
-	if(x_frame > 23)
-		game->missiles.nextframe = 0;
-	if(x_frame > 11)
+	if(game->missiles.nextframe > 23)
 	{
-		toplvl = y_i;
-		x_frame -= 11; 
+		game->missiles.nextframe = 0;
+		toplvl = 0;
+		x_frame = 0;
 	}
+	else if(game->missiles.nextframe > 11)
+	{
+		cout << x_frame << endl;
+		toplvl = y_i;
+		x_frame -= 12; 
+	}
+
 	
 	glBegin(GL_QUADS);
 	glTexCoord2f( x_frame*x_i, toplvl + y_i); glVertex2i(-wid, -height); // bottom left
 	glTexCoord2f( x_frame*x_i,  toplvl); glVertex2i(-wid,height); //top left
-	glTexCoord2f(x_i + x_frame*x_i, toplvl); glVertex2i( wid,height); // top right
+	glTexCoord2f(x_i + x_frame*x_i,toplvl); glVertex2i( wid,height); // top right
 	glTexCoord2f(x_i + x_frame*x_i, toplvl + y_i); glVertex2i( wid, -height); // bottom right
 	glEnd();
 

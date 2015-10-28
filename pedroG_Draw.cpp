@@ -5,7 +5,7 @@
 // all draw methods that get called in render funciton
 
 drawBackground();
-drawSpike();
+drawSpike(game);
 drawMissile(game);
 
 // used to allow non textures objects to maintain their color

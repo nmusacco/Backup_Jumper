@@ -230,34 +230,35 @@ void drawMissile(Game * game)
 	
 }
 
-void drawSpike()
+void drawSpike(Game * game)
 {
-	glPushMatrix();
-	glTranslatef(0, 5, 0);
+
 	glBindTexture(GL_TEXTURE_2D, spikeTexture);
+	float wid = 10 * game->player.width;//spike->width *
+	for(int i = 0; i < window_width; i+= wid)
+	{
+		glPushMatrix();
+		glTranslatef(i, 0, 0);
+		glBindTexture(GL_TEXTURE_2D, silhouetteTextureSpikes);
+		glEnable(GL_ALPHA_TEST);
+		glAlphaFunc(GL_GREATER, 0.0f);
+		glColor4ub(255,255,255,255);	
+	
+		glBegin(GL_QUADS);
+	
+		glTexCoord2f(0,1);
+		glVertex2i(0,0);
+		glTexCoord2f(0,0);
+		glVertex2i(0, wid);
+		glTexCoord2f(1,0);
+		glVertex2i(wid, wid);
+		glTexCoord2f(1,1);
+		glVertex2i(wid, 0);
+		glEnd();
 
-	glBindTexture(GL_TEXTURE_2D, silhouetteTextureSpikes);
-	glEnable(GL_ALPHA_TEST);
-	glAlphaFunc(GL_GREATER, 0.0f);
-	glColor4ub(255,255,255,255);
-	
-	int wid = spike->width;
-	
-	glBegin(GL_QUADS);
-	
-	glTexCoord2f(0,1);
-	glVertex2i(0,0);
-	glTexCoord2f(0,0);
-	glVertex2i(0, wid);
-	glTexCoord2f(1,0);
-	glVertex2i(wid, wid);
-	glTexCoord2f(1,1);
-	glVertex2i(wid, 0);
-	glEnd();
-
-	glEnd();
-	glPopMatrix();
-	
+		glEnd();
+		glPopMatrix();
+	}
 	glDisable(GL_ALPHA_TEST);
 }
 
@@ -271,9 +272,9 @@ void renderCell(float f, float x_i, float y_i, float lvl, float toplvl, Game * g
 	glBindTexture(GL_TEXTURE_2D, skeletonTexture);
 
 	if(g->player.left)
-	glScalef( -1.0f, 1, 1);
+		glScalef( -1.0f, 1, 1);
 	if(g->player.right)
-	glScalef(1.0f, 1, 1 );
+		glScalef(1.0f, 1, 1 );
 
 	glBindTexture(GL_TEXTURE_2D, silhouetteTexture);
 	glEnable(GL_ALPHA_TEST);

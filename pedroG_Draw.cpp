@@ -7,5 +7,9 @@
 drawBackground();
 drawSpike();
 drawMissile(game);
-drawSkeleton(game);	
+
+// used to allow non textures objects to maintain their color
+glBindTexture(GL_TEXTURE_2D, 0);
+
 drawPlatform(game,5);
+drawSkeleton(game);	

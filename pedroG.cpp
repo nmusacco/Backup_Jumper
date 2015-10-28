@@ -154,16 +154,12 @@ void drawBackground()
 
 void drawMissile(Game * game)
 {
+	// used to allow non textures objects to maintain their color
+	glBindTexture(GL_TEXTURE_2D, 0);
+
 	//cout << "missile checked" << endl;
 	float x = game->missiles.position.x;
 	float y = game->missiles.position.y;
-	
-	// used to allow thrust to be drawn yellow
-	Rect r1;
-	r1.bot = window_height - 20;
-	r1.left = 10;
-	r1.center = 0;
-	ggprint8b(&r1, 16, 0x00FFFF00, "");
 	
 	// 12 missiles on spritesheet 1/12 is 0.083
 	float x_i = 1.0/12.0;
@@ -196,7 +192,6 @@ void drawMissile(Game * game)
 	}
 	glEnd();
 	
-
 	glPushMatrix();
 	glTranslatef(x, y, 0);
 	glRotatef(angle,0,0.0,-1.0);
@@ -223,14 +218,12 @@ void drawMissile(Game * game)
 		x_frame -= 12; 
 	}
 
-	
 	glBegin(GL_QUADS);
 	glTexCoord2f( x_frame*x_i, toplvl + y_i); glVertex2i(-wid, -height); // bottom left
 	glTexCoord2f( x_frame*x_i,  toplvl); glVertex2i(-wid,height); //top left
 	glTexCoord2f(x_i + x_frame*x_i,toplvl); glVertex2i( wid,height); // top right
 	glTexCoord2f(x_i + x_frame*x_i, toplvl + y_i); glVertex2i( wid, -height); // bottom right
 	glEnd();
-
 	glPopMatrix();
 	
 	glDisable(GL_ALPHA_TEST);

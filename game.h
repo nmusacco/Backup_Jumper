@@ -150,6 +150,7 @@ class Game
 		void checkBottomScreen();
 		bool checkLeftScreenHit();
 		bool checkRightScreenHit();
+		bool checkCollision();
 		
 		// more collision checking with rect platforms??!?!
 		~Game();

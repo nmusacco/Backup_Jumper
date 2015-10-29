@@ -76,7 +76,7 @@ struct Platform
 	Vec pos;
 	int width;
 	int height;
-	Platform *next;
+	
 };
 
 class Game

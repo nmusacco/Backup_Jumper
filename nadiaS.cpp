@@ -6,7 +6,7 @@ void drawPlatform(Game *game, int amt)
 
     
     float w, h;
-    for(int j = 0; j <2; j++)
+    for(int j = 0; j <amt; j++)
     {
         glPushMatrix();
         glTranslatef(game->platform[j].pos.x,game->platform[j].pos.y, 0);
@@ -29,7 +29,7 @@ void drawPlatform(Game *game, int amt)
 void makePlatform(int amt, Game *game)
 {
     srand(time(NULL));
-    for(int i = 0; i<2; i++)
+    for(int i = 0; i<amt; i++)
     {
         game->platform[i].width=50;
         game->platform[i].height=10;

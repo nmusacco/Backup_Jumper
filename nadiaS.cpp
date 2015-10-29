@@ -34,6 +34,6 @@ void makePlatform(int amt, Game *game)
         game->platform[i].width=50;
         game->platform[i].height=10;
         game->platform[i].pos.x=window_width/(2);
-        game->platform[i].pos.y=(window_height+i)/4;
+        game->platform[i].pos.y=(window_height+i+1)/4;
     }
 }

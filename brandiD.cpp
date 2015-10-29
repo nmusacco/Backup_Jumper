@@ -48,7 +48,7 @@ bool Game::checkCollision()
     	{
 	setPosY(player.height + (p->pos.y + p->height));
 	setAccel(velX(),0);
-	if_jump = true;
+	//if_jump = true;
 	return true;
     }
     }

@@ -9,7 +9,7 @@ void drawPlatform(Game *game, int amt)
     for(int j = 0; j < amt; j++)
     {
         glPushMatrix();
-        glTranslatef(game->platform[j].pos.x,game->platform[j].pos.x, 0);
+        glTranslatef(game->platform[j].pos.x,game->platform[j].pos.y, 0);
         w=game->platform[j].width;
         h=game->platform[j].height;
         glBegin(GL_QUADS);

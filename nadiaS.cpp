@@ -33,7 +33,7 @@ void makePlatform(int amt, Game *game, int startCenterX)
     {
         game->platform[i].width=50;
         game->platform[i].height=10;
-        game->platform[i].pos.x=window_width/(i+2);
-        game->platform[i].pos.y=window_height/(i+2);
+        game->platform[i].pos.x=window_width/(2);
+        game->platform[i].pos.y=random()%window_height/(i+2);
     }
 }

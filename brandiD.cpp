@@ -39,5 +39,21 @@ bool Game::checkRightScreenHit()
 	return false;
 }
 
+bool Game::checkCollision()
+{
+    for(int i =0; i <5; i++)
+    {
+    	Platform *p = &platform[i];
+	if((player.position.y - player.height) >= (p->pos.y + p->height) && (player.position.x <= (p->pos.x + p->width) && player.position.x >= (p->pos.x - p->width)))
+    	{
+	setPosY(player.height + (p->pos.y + p->height));
+	setAccel(velX(),0);
+	if_jump = true;
+	return true;
+    }
+    }
+    return false;
 
+
+}
 // more collisions!!!

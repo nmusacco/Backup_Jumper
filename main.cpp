@@ -50,7 +50,7 @@ using std::endl;
 Particle par[MAX_PARTICLES];
 int numParticles = 0;
 bool bubbler = false;
-bool setbackground = false;
+bool setbackground = true;
 
 
 // game textures/sprite draw functions

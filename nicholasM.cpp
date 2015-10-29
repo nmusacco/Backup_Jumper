@@ -26,13 +26,14 @@ void physics(Game * game)
 
     game->inAir(); 
     //game->applyGravity();
-    game->checkBottomScreen();
-    game->missileChasePlayer();
+    
 
     if(!pausegame)
     {
         game->applyGravity();
-
+	game->checkBottomScreen();
+	game->missileChasePlayer();
+	game->checkCollision();
 
         if(keys[XK_Left]) // left
         {

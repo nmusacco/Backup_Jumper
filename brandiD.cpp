@@ -3,7 +3,9 @@
 // -----------------------------------------
 // collisions!
 
-void Game::checkBottomScreen()
+#include <cmath>
+
+bool Game::checkBottomScreen()
 {
 	// bottom of screen, allow double jump
 	if(player.position.y - player.height <= 0) // WORKS!!!
@@ -11,8 +13,9 @@ void Game::checkBottomScreen()
 		setPosY(player.height);
 		setAccel(velX(),0);
 		if_jump = true;
+		return true;
 	}
-
+	return false;
 }
 
 bool Game::checkLeftScreenHit()
@@ -39,21 +42,35 @@ bool Game::checkRightScreenHit()
 	return false;
 }
 
+// checks PLATFORM collisions
 bool Game::checkCollision()
 {
-    for(int i =0; i <5; i++)
-    {
-    	Platform *p = &platform[i];
-	if((player.position.y - player.height) >= (p->pos.y + p->height) && (player.position.x <= (p->pos.x + p->width) && player.position.x >= (p->pos.x - p->width)))
-    	{
-	setPosY(player.height + (p->pos.y + p->height));
-	setAccel(velX(),0);
-	//if_jump = true;
-	return true;
-    }
-    }
-    return false;
+	for(int i =0; i <5; i++)
+	{
+		Platform *p = &platform[i];
+		if(posY() - player.height >= p->pos.y  && posY() - player.height <= p->pos.y + p->height)
+			if(posX() <= (p->pos.x + p->width) && posX() >= (p->pos.x - p->width))
+				if(velY() <= 0) // makes him land first before setting it as a collision
+				{ 
+					setPosY(player.height + (p->pos.y + p->height) - 0.04 * player.height);
+					setAccel(velX(),0);
+					if_jump = true;  
+					return true;
+				}
+	}
+	return false;
+}
 
-
+bool Game::checkMissileHit()
+{
+	int x = posX();
+	int y = posY();
+	int mx = missiles.position.x;
+	int my = missiles.position.y;
+	
+	float distance = sqrt(pow(x-mx,2) + pow(y-my,2));
+	if(distance <= missiles.height/3 || distance <= player.width)
+		return true;
+	return false;
 }
 // more collisions!!!

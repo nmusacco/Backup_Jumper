@@ -87,7 +87,7 @@ class Game
 		bool if_hit; // collision then true, 
 		bool if_jump; // if true allow jumping
 		bool run; // runs main loop
-		
+		bool guts;
 		int window_height;
 		int window_width;
 		
@@ -146,12 +146,14 @@ class Game
 		// the platforms, player, missles, etc
 		// increment x and y position with x and y velocity
 		void move();
+		
+		void updatePlatforms();
 
-		void checkBottomScreen();
+		bool checkBottomScreen();
 		bool checkLeftScreenHit();
 		bool checkRightScreenHit();
 		bool checkCollision();
-		
+		bool checkMissileHit();
 		// more collision checking with rect platforms??!?!
 		~Game();
 };

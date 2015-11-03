@@ -24,17 +24,19 @@ bool pausegame = false;
 void physics(Game * game)
 {
 
-    game->inAir(); 
-    //game->applyGravity();
-    
-
     if(!pausegame)
     {
-        game->applyGravity();
-	game->checkBottomScreen();
-	game->missileChasePlayer();
-	game->checkCollision();
+		game->inAir(); 
+		game->updatePlatforms();
+		game->applyGravity();
+		if(game->checkBottomScreen()) // spikes collision?
+			game->guts = true;
+		game->missileChasePlayer();
+		game->checkCollision();
 
+		if(game->checkMissileHit())
+			game->guts = true;
+		
         if(keys[XK_Left]) // left
         {
             game->player.right = false;
@@ -58,6 +60,7 @@ void physics(Game * game)
         if(keys[XK_space] && game->if_jump) // spacebar
         {
             //cout << "jump" <<endl;
+	
             game->accelY(2 * INITIAL_VELOCITY);
         }
 
@@ -69,11 +72,7 @@ void physics(Game * game)
         if(game->velX() < -1 * MAX_VELOCITY)
             game->player.velocity.x = -1 * MAX_VELOCITY;
 
-        if(!pausegame)
-        {
-            game->move();
-        }
-
+        game->move();
     }
     int x_bubbler = 100;
     int y_bubbler = window_height;
@@ -87,7 +86,11 @@ void physics(Game * game)
         }
     }
 
-    // particles
+	
+	if(game->guts == false) // respawn, reset guts animation
+		numblood = 0;
+	
+    // waterfall settings
     Particle *p = &par[numParticles];
     for(int i = 0; i < numParticles; ++i)
     {
@@ -102,6 +105,25 @@ void physics(Game * game)
             memcpy(&par[i], &par[numParticles -1], 
                     sizeof(Particle));
             numParticles--;
+			//if(numParticles == 0)
+				//game->guts = false;
+        }
+    }
+	
+	// blood settings
+    Particle *p2 = &blood[numblood];
+    for(int i = 0; i < numblood; ++i)
+    {
+        p2 = &blood[i];
+        p2->s.center.x += p2->velocity.x;
+        p2->s.center.y += p2->velocity.y;
+        p2->velocity.y -= 0.1; 
+
+        if (p2->s.center.y < 0.0 || p2->s.center.y > window_height) 
+        {
+            memcpy(&blood[i], &blood[numblood -1], 
+                    sizeof(Particle));
+            numblood--;
         }
     }
 }
@@ -123,12 +145,22 @@ int check_keys(XEvent *e, Game * game)
     if(e->type == KeyPress)
     {
         keys[key] = 1;
+		
+		if(key == XK_k) // respawn
+		{
+			if(game->guts == true) // 
+			{
+				game->setPos(window_width/2, window_height);
+				game->guts = false;
+			}
+		}
+		
         if(key == XK_p)
         {
             if(pausegame)
                 pausegame = false;
             else
-        	pausegame = true;
+				pausegame = true;
         }
         if(!pausegame)
         {
@@ -168,5 +200,32 @@ int check_keys(XEvent *e, Game * game)
 
 
 
+// check for button clicks?
+void check_mouse(XEvent *e, Game *game)
+{
+	static int savex = 0;
+	static int savey = 0;
+	
+	if (e->type == ButtonRelease) {
+		return;
+	}
+	if (e->type == ButtonPress) {
+		if (e->xbutton.button==1) {
+			//Left button was pressed
+	
+			return;
+		}
+		if (e->xbutton.button==3) {
+			//Right button was pressed
+			//std::cout << "right mouse b down" << std::endl;
+			return;
+		}
+	}
+	//Did the mouse move?
+	if (savex != e->xbutton.x || savey != e->xbutton.y) 
+	{
 
+
+	}
+}
 

@@ -48,9 +48,12 @@ bool Game::checkCollision()
 	for(int i =0; i <5; i++)
 	{
 		Platform *p = &platform[i];
+		// check y axis
 		if(posY() - player.height >= p->pos.y  && posY() - player.height <= p->pos.y + p->height)
+			// checks x axis
 			if(posX() <= (p->pos.x + p->width) && posX() >= (p->pos.x - p->width))
-				if(velY() <= 0) // makes him land first before setting it as a collision
+				// makes him land first before setting it as a collision
+				if(velY() <= 0)
 				{ 
 					setPosY(player.height + (p->pos.y + p->height) - 0.04 * player.height);
 					setAccel(velX(),0);
@@ -61,6 +64,7 @@ bool Game::checkCollision()
 	return false;
 }
 
+// needs work
 bool Game::checkMissileHit()
 {
 	int x = posX();
@@ -73,4 +77,5 @@ bool Game::checkMissileHit()
 		return true;
 	return false;
 }
+
 // more collisions!!!

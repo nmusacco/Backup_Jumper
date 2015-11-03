@@ -27,6 +27,7 @@ Game::Game()
 	if_jump = false;
 	if_hit = false;
 	run = true;
+	guts = false;
 }
 
 // create ONE missile
@@ -48,8 +49,13 @@ void Game::createMissiles()
 	cout << "missile created" << endl;
 }
 
+
+
 bool Game::inAir()
 {
+	//if(checkCollision())
+		//return false;
+	
 	if(player.position.y > 0 && if_jump == true)
 	{
 		if_jump = false;
@@ -61,10 +67,8 @@ bool Game::inAir()
 void Game::applyGravity()
 {
 	if(player.position.y - player.height > 0)
-	accelY(-0.25 * gravity);
-	//accelY(-1 * gravity);
-
-
+		accelY(-0.25 * gravity);
+	
 	Powerup * p = powerups;
 	while(p != NULL)
 	{
@@ -97,9 +101,7 @@ void Game::missileChasePlayer()
 		y_vel = 0;
 	else
 		y_vel = -speed;
-	
-	
-	
+
 	missiles.velocity.x = x_vel;
 	missiles.velocity.y = y_vel;
 }
@@ -138,13 +140,19 @@ void Game::setResolution(int x, int y)
 	window_height = y;
 	player.width = window_height*0.01;
 	player.height = window_height*0.05;
+	missiles.width = 3*player.width;
+	missiles.height = 2*3*player.height;
 	
-	//if(y > 600*2)
-	//gravity = 2;
 	
-	//init_vel = 
-	//max_vel = 
+	
+	for(int i = 0; i < 5; ++i)
+	{
+		platform[i].width = player.width * 15;
+		platform[i].height = player.height * 0.35;
+		//platform[i].pos.y += 1.0/6.0 *window_height* (i + 1) + platform[i].height*2;
+	}
 }
+
 
 void Game::setPos(float x = 0, float y = 0)
 {
@@ -185,8 +193,25 @@ void Game::move()
 	
 	missiles.position.x += missiles.velocity.x;
 	missiles.position.y += missiles.velocity.y;
+
+	//player.position.y -= 0.1 *player.height;
+	for(int i = 0; i < 5; ++i)
+			platform[i].pos.y -= 0.04 * player.height;
 }
 
+void Game::updatePlatforms()
+{
+	//int width = player.width * 15;
+	//int height = player.height * 0.35;
+	for(int i = 0; i < 5; ++i)
+		if(platform[i].pos.y < 0)
+		{
+			srand(time(NULL));
+			platform[i].pos.x= rand()%window_width;
+			// h_w - h_w/5 * (i + 1) + player height * 2
+			platform[i].pos.y = window_height + platform[i].height;//-20;//window_height - 1.0/6.0 *window_height* (i + 1) + platform[i].height*2;
+		}
+}
 
 #include "brandiD.cpp"
 

@@ -16,17 +16,22 @@
 int window_width = 800;
 int window_height = 600;
 
+
 // check key inputs
 int keys[65536];
 bool killmovement = false;
 
+
+
 // Gordon's timer & x11/opengl code
 #include "gordoncode.cpp"
+
 
 // NOT used for fps counter!
 // now used for sprite timer
 int frames = 0;
 timespec start;
+int fps = 0; // USED FOR FRAMES PER SECOND
 
 int check_keys(XEvent *e, Game * game);
 void check_mouse(XEvent *e, Game *game);
@@ -40,7 +45,7 @@ using std::endl;
 
 // TODO fix gravity when window resizes
 #define GRAVITY 1
-#define MAX_VELOCITY 10
+#define MAX_VELOCITY 6
 #define INITIAL_VELOCITY 5
 
 
@@ -50,30 +55,40 @@ using std::endl;
 Particle par[MAX_PARTICLES];
 int numParticles = 0;
 bool bubbler = false;
-bool setbackground = true;
+bool setbackground = false;
+
+Particle blood[MAX_PARTICLES];
+int numblood = 0;
 
 
-// game textures/sprite draw functions
-#include "pedroG.cpp"
-#include "nicholasM.cpp"
-#include "nadiaS.cpp"
+#include "nadiaS.cpp" // make platform and draw function
+#include "pedroG.cpp" // game textures/sprite draw functions
+#include "nicholasM.cpp" // input checking, call all game methods in physics()
 
-int main()
+int main(int argc, char ** argv)
 {
+	// makes the game run on a full window
+	/*
+	Display* disp = XOpenDisplay(NULL);
+	Screen*  scrn = DefaultScreenOfDisplay(disp);
+	window_height = scrn->height;
+	window_width = scrn->width;
+	*/
+
 	initXWindows();
 	init_opengl();
+	 
 	loadTextures(); 
 	//assert(true);
 	cout << "start game" << endl;
 	
 	Game game;
-	
 	game.setGravity(GRAVITY);
-	makePlatform(5,&game);
-	// set players position
-	game.setPos(window_width/2, window_height/2);
-	game.setResolution(window_width, window_height);
 	
+	// set players position
+	game.setPos(window_width/2, window_height);
+	game.setResolution(window_width, window_height);
+	makePlatform(5,&game);
 	
 	srand(time(NULL));
 	
@@ -109,11 +124,16 @@ int main()
 		
 		// used for sprite timing DON'T TOUCH
 		if(frames > 2)
+			frames = 0;
+		frames++;
+		
+		// FPS COUNTER/RESET
+		if(fps > 100)
 		{
 			clock_gettime(CLOCK_REALTIME, &start);
-			frames = 0;
+			fps = 0;
 		}
-		frames++;
+		fps++;
 		
 		render(&game);
 		glXSwapBuffers(dpy, win);
@@ -126,191 +146,19 @@ int main()
 	return 0;
 }
 
-// NO LONGER USED
-// TODO!
-// -----------------------
-// Kind of working! 
-// Needs to check if key pressed is later released, Example user presses LEFT then lets go,
-// the code then should kill movement on the x axis
-int OLDcheck_keys(XEvent *e, Game * game)
+void makeParticle(int x, int y) 
 {
-	int key = XLookupKeysym(&e->xkey, 0);
-		
-	
-	killmovement = true;
-	if(e->type == KeyRelease) 
-	{
-		keys[key] = 0;
-		if(key == XK_space)
-			killmovement = false;
-	}
-	
-	if(e->type == KeyPress)
-	{
-		keys[key] = 1;
-		
-		if(key != XK_Left || key != XK_Right)
-			killmovement = false;
-		if(key == XK_Escape)
-		{
-			game->run = false;
-		}
-		
-		if(key == XK_b)
-		{
-			if(bubbler)
-				bubbler = false;
-			else
-				bubbler = true;
-		}
-
-		if(key == XK_m)
-		{
-			game->createMissiles();
-		}
-		
-		if(key == XK_w)
-		{
-			if(setbackground)
-				setbackground = false;
-			else 
-				setbackground = true;
-		}
-	}	
-	return 0;
-}
-
-
-
-void makeParticle(int x, int y) {
 	if (numParticles >= MAX_PARTICLES)
 		return;
-	//std::cout << "makeParticle() " << x << " " << y << std::endl;
-	//position of particle
-	Particle *p = &par[numParticles];
 
+	Particle *p = &par[numParticles];
 	p->s.center.x = x;
 	p->s.center.y = y;
-	
 	p->velocity.x =  1.0 + rnd() * 0.1;
-
 	p->velocity.y = rnd() * 1.0 - 0.5;
-
 	numParticles++;
 }
 
-
-// check for button clicks?
-void check_mouse(XEvent *e, Game *game)
-{
-
-	static int savex = 0;
-	static int savey = 0;
-	//static int n = 0;
-
-	if (e->type == ButtonRelease) {
-		return;
-	}
-	if (e->type == ButtonPress) {
-		if (e->xbutton.button==1) {
-			//Left button was pressed
-	
-			return;
-		}
-		if (e->xbutton.button==3) {
-			//Right button was pressed
-			//std::cout << "right mouse b down" << std::endl;
-			return;
-		}
-	}
-	//Did the mouse move?
-	if (savex != e->xbutton.x || savey != e->xbutton.y) 
-	{
-
-
-	}
-}
-
-
-// NO LONGER USED
-// checks if the player is in the air, hits a screen edge, 
-// and handles player speed and movement
-void OLDphysics(Game * game)
-{
-	game->inAir(); 
-	game->applyGravity();
-	game->checkBottomScreen();
-	game->missileChasePlayer();
-
-	if(keys[XK_Left]) // left
-	{
-		game->player.right = false;
-		game->player.left = true;
-		if(frames == 1)
-			frame += 0.125;
-		//cout << "left" << endl;
-		game->accelX(-1 * INITIAL_VELOCITY);
-	}
-
-	if(keys[XK_Right]) // right
-	{
-		game->player.left = false;
-		game->player.right = true;
-		if(frames == 1)
-			frame +=  0.125;
-		//cout << "right" << endl;
- 		game->accelX(INITIAL_VELOCITY);
-	}
-
-	if(keys[XK_space] && game->if_jump) // spacebar
-	{
-		//cout << "jump" <<endl;
-		game->accelY(2 * INITIAL_VELOCITY);
-	}
-	 
-	if(killmovement && game->inAir()) // kill movement on x axis only
-		game->player.velocity.x = 0;
-	
-	
-	
-	if(game->velX() > MAX_VELOCITY)
-		game->player.velocity.x = MAX_VELOCITY;
-	if(game->velX() < -1 * MAX_VELOCITY)
-		game->player.velocity.x = -1 * MAX_VELOCITY;
-	
-	game->move();
-	
-	int x_bubbler = 100;
-	int y_bubbler = window_height;
-
-	if(bubbler) // if bubbler is toggled only stream water from the top, no mouse involved
-	{
-		for(int i = 0; i < window_height * 0.15; i++)
-		{
-			x_bubbler += rnd()*10;
-			makeParticle(x_bubbler, y_bubbler);
-		}
-	}
-	
-	// particles
-	Particle *p = &par[numParticles];
-		
-	for(int i = 0; i < numParticles; ++i)
-	{
-		p = &par[i];
-		p->s.center.x += p->velocity.x;
-		p->s.center.y += p->velocity.y;
-		p->velocity.y -= 0.1; 
-	
-		if (p->s.center.y < 0.0 || p->s.center.y > window_height) 
-		{
-			//std::cout << "off screen" << std::endl;
-			memcpy(&par[i], &par[numParticles -1], 
-				sizeof(Particle));
-			numParticles--;
-		}
-	}
-}
 
 void render(Game * game)
 {
@@ -321,15 +169,11 @@ void render(Game * game)
 	game->checkRightScreenHit();
 	game->checkLeftScreenHit();
 	
-	
-	float w, h;
-	int x,y;
-	
 	// texture
 	if(setbackground)
 	{
 		// draws background, player, spikes, missiles
-		#include "pedroG_Draw.cpp"
+		drawGame_Textures(game);
 	}
 		
 	// TEXT
@@ -337,63 +181,18 @@ void render(Game * game)
 	r.bot = window_height - 20;
 	r.left = 10;
 	r.center = 0;
-	//ggprint8b(&r, 16, 0x00FFFF00, "fps: %i",  static_cast<int>(frames/timeDiff(&start, &timeCurrent)));
+	//ggprint8b(&r, 16, 0x00FFFF00, "fps: %i",  static_cast<int>(fps/timeDiff(&start, &timeCurrent)));
 	ggprint8b(&r, 16, 0x00FFFF00, "PhysicsRate: %i", static_cast<int>(1/physicsRate));
 	ggprint8b(&r, 16, 0x00FFFF00, "water particles: %i", numParticles);
+	ggprint8b(&r, 16, 0x00FFFF00, "blood particles: %i", numblood);
 	ggprint8b(&r, 16, 0x00FFFF00, "Hit sides: %i", game->checkLeftScreenHit() || game->checkRightScreenHit());
 	
+	// debug/retrostyle mode
 	if(!setbackground)
 	{
-		//draw character as rectangle	
-		glColor3ub(222,10,90);
-		glPushMatrix();
-		glTranslatef(game->player.position.x, game->player.position.y, 0);
-		w = game->player.width;
-		h = game->player.height;
-		glBegin(GL_QUADS);
-		glVertex2i(-w,-h);
-		glVertex2i(-w, h);
-		glVertex2i( w, h);
-		glVertex2i( w,-h);
-		glEnd();
-		glPopMatrix();
-		
-		//draw guy's (x,y) center coordinates
-		glColor3ub(0,0,255);
-		glPushMatrix();
-		x = game->player.position.x;
-		y = game->player.position.y;
-		w = 2;
-		h = 2;
-		glBegin(GL_QUADS);
-		glVertex2i(x-w, y-h);
-		glVertex2i(x-w, y+h);
-		glVertex2i(x+w, y+h);
-		glVertex2i(x+w, y-h);
-		glEnd();
-		glPopMatrix();
+		drawGame_TEST(game);
 	}
 	
-	// draw particles 
-	int randColorWater = 0;
-	for(int i = 0; i < numParticles; ++i)
-	{
-
-		if(randColorWater == 100)
-			randColorWater = 0;
-		//glColor3ub(150 ,160 ,255);// BLUE water
-		glColor3ub(0+randColorWater ,0+randColorWater ,255);// looks best 
-		//glColor3ub(150 + randColorWater, 160 + randColorWater,255); // too light colored
-		Vec *c = &par[i].s.center;
-		w = 2;
-		h = 2;
-		glBegin(GL_QUADS);
-		glVertex2i(c->x-w, c->y-h);
-		glVertex2i(c->x-w, c->y+h);
-		glVertex2i(c->x+w, c->y+h);
-		glVertex2i(c->x+w, c->y-h);
-		glEnd();
-		glPopMatrix();	 
-		randColorWater+= 10; 
-	}
+	// waterfall
+	drawWater();
 }

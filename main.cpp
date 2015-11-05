@@ -78,7 +78,8 @@ int main(int argc, char ** argv)
 	initXWindows();
 	init_opengl();
 	 
-	loadTextures(); 
+	loadTextures();
+       	loadTexture();	
 	//assert(true);
 	cout << "start game" << endl;
 	

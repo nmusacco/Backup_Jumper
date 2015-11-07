@@ -80,7 +80,7 @@ void loadTextures()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, 3, missile->width, missile->height,
-	0, GL_RGB, GL_UNSIGNED_BYTE, missile->data);
+					0, GL_RGB, GL_UNSIGNED_BYTE, missile->data);
 	
 	////////////////////// guts ////////////////////////////
 	glBindTexture(GL_TEXTURE_2D, gutsTexture);
@@ -455,8 +455,6 @@ void drawSpike(Game * game)
 		glTexCoord2f(1,1);
 		glVertex2i(wid, 0);
 		glEnd();
-
-		glEnd();
 		glPopMatrix();
 	}
 	glDisable(GL_ALPHA_TEST);
@@ -628,13 +626,11 @@ void drawGame_Textures(Game * game)
 {
 	drawBackground();
 	drawSpike(game);
-	drawMissile(game);
-
-	// used to allow non textures objects to maintain their color
-	glBindTexture(GL_TEXTURE_2D, 0);
-
 	drawPlatform(game,5);
-	drawSkeleton(game);	
+	drawMissile(game);
+	drawSkeleton(game);
+	// used to allow non textures objects to maintain their color
+	glBindTexture(GL_TEXTURE_2D, 0);	
 }
 
 // debug mode/retro style

@@ -245,6 +245,8 @@ void drawTESTspikes(Game * game)
 
 void drawTESTmissile(Game * game)
 {
+	if(!game->setMissiles)
+	    return;
 	int x, y, w, h;
 	x = game->missiles.position.x;
 	y = game->missiles.position.y;
@@ -372,6 +374,8 @@ void drawTESTguy(Game * game)
 
 void drawMissile(Game * game)
 {
+	if(!game->setMissiles)
+	    return;
 	// used to allow non textures objects to maintain their color
 	glBindTexture(GL_TEXTURE_2D, 0);
 

@@ -5,6 +5,13 @@
 
 #include <cmath>
 
+const double oobillion = 1.0 / 1e9;
+double timeDiff2(struct timespec *start, struct timespec *end) {
+	return (double)(end->tv_sec - start->tv_sec ) +
+			(double)(end->tv_nsec - start->tv_nsec) * oobillion;
+}
+
+
 bool Game::checkBottomScreen()
 {
 	// bottom of screen, allow double jump
@@ -76,6 +83,18 @@ bool Game::checkMissileHit()
 	if(distance <= missiles.height/3 || distance <= player.width)
 		return true;
 	return false;
+}
+
+void Game::removeMissiles()
+{
+	timespec cTime;
+	clock_gettime(CLOCK_REALTIME, &cTime);
+	double timeDiffer = timeDiff2(&missiles.MissilesStart, &cTime);
+	if(timeDiffer >= 4)
+	{
+		setMissiles = false;
+		cout << "Test Misisile" << endl;
+	}
 }
 
 // more collisions!!!

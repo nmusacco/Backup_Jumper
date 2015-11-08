@@ -68,6 +68,7 @@ struct Missile
 	int width;
 	int height;
 	Missile * next;
+	timespec MissilesStart;
 	int nextframe; // used for sprite animation
 };
 
@@ -88,6 +89,7 @@ class Game
 		bool if_jump; // if true allow jumping
 		bool run; // runs main loop
 		bool guts;
+		bool setMissiles;
 		int window_height;
 		int window_width;
 		
@@ -154,6 +156,7 @@ class Game
 		bool checkRightScreenHit();
 		bool checkCollision();
 		bool checkMissileHit();
+		void removeMissiles();
 		// more collision checking with rect platforms??!?!
 		~Game();
 };

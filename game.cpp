@@ -34,6 +34,9 @@ Game::Game()
 void Game::createMissiles()
 {
 
+    	
+    	setMissiles = true;
+	clock_gettime(CLOCK_REALTIME, &missiles.MissilesStart);
 	missiles.nextframe = 0;
 	int x = this->window_width/2;
 	int y = this->window_height/2;
@@ -80,6 +83,8 @@ void Game::applyGravity()
 
 void Game::missileChasePlayer()
 {
+	if(!setMissiles)
+	    return;
 	float x = missiles.position.x;
 	float y = missiles.position.y;
 	float speed = 2;

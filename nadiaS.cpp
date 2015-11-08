@@ -80,6 +80,6 @@ void makePlatform(int amt, Game *game)
 	    //game->platform[i].pos.y=(window_height-(i+1)*window_height/amt);
 
 	    // h_w - h_w/5 * (i + 1) + player height * 2
-	    game->platform[i].pos.y = window_height - 1.0/6.0 *window_height* (i + 1) + game->platform[i].height*2;
+	    game->platform[i].pos.y = window_height - 1.0/5.0 *window_height* (i + 1) + game->platform[i].height*2;
 	}
 }

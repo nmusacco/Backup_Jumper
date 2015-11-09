@@ -1,2 +1,3 @@
-# ProjectFinal
-cs335 class final 
+#CS 350 Final Project
+
+Space Jumper is a space themed platformer. 

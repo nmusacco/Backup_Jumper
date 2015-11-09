@@ -81,14 +81,15 @@ int main(int argc, char ** argv)
     
        Display* disp = XOpenDisplay(NULL);
        Screen*  scrn = DefaultScreenOfDisplay(disp);
-       window_height = scrn->height;
+       window_height = scrn->height - 50;
        window_width = scrn->width;
        
 
     initXWindows();
     init_opengl();
 
-    loadTextures(); 
+    loadTextures();
+    loadTexture(); // nadias code 
     //assert(true);
     cout << "start game" << endl;
 

@@ -74,6 +74,8 @@ bool Game::checkCollision()
 // needs work
 bool Game::checkMissileHit()
 {
+	if(!setMissiles)
+		return false;
 	int x = posX();
 	int y = posY();
 	int mx = missiles.position.x;

@@ -54,9 +54,11 @@ using std::endl;
 
 int MAIN_MENU = 1;
 int RUN_GAME = 2;
-
+int DEATH = 3;
 int STATE = MAIN_MENU;
-bool TOGGLE = true;
+
+bool TOGGLE_PAUSE;
+bool TOGGLE_SOUND = true;
 
 
 // random function
@@ -69,7 +71,7 @@ bool setbackground = false;
 
 Particle blood[MAX_PARTICLES];
 int numblood = 0;
-
+bool bloodToggle = true;
 
 #include "nadiaS.cpp" // make platform and draw function
 #include "pedroG.cpp" // game textures/sprite draw functions
@@ -77,7 +79,6 @@ int numblood = 0;
 
 int main(int argc, char ** argv)
 {
-
 	// makes the game run on a full window
 
 	Display* disp = XOpenDisplay(NULL);
@@ -97,12 +98,8 @@ int main(int argc, char ** argv)
 	cout << "start game" << endl;
 
 	Game game;
-	game.setGravity(GRAVITY);
 
-	// set players position
-	game.setPos(window_width/2, window_height);
-	game.setResolution(window_width, window_height);
-	makePlatform(5,&game);
+
 
 	srand(time(NULL));
 
@@ -111,12 +108,31 @@ int main(int argc, char ** argv)
 	clock_gettime(CLOCK_REALTIME, &start);
 	//    game.state = RUN_GAME;
 	while(game.run)
-	{
-		Buffer = alutCreateBufferFromFile("./Sounds/music.wav");
-		playBackgroundSound();
+	{	
+		game = Game();
 
+		game.setGravity(GRAVITY);
 
+		// set players position
 
+		game.setResolution(window_width, window_height);
+		makePlatform(5,&game);
+		
+		game.setPos(window_width/2, window_height);
+
+		if(TOGGLE_SOUND)
+		{
+			Buffer = alutCreateBufferFromFile("./Sounds/music.wav");
+			playBackgroundSound();
+			TOGGLE_SOUND = false;
+		}
+
+		gutsToggle = true;
+		bloodToggle = true;
+		TOGGLE_PAUSE = true;
+		numblood = 0;
+		SCORE = 0;
+		
 		while(STATE == MAIN_MENU && game.run)
 		{
 
@@ -132,7 +148,7 @@ int main(int argc, char ** argv)
 			glXSwapBuffers(dpy, win);
 		}
 
-
+		usleep(1000);
 
 		while(STATE == RUN_GAME && game.run)
 		{
@@ -141,9 +157,9 @@ int main(int argc, char ** argv)
 			XEvent e;
 			while(XPending(dpy))
 			{
-				if(TOGGLE)
+				if(TOGGLE_PAUSE)
 				{
-					TOGGLE = false;
+					TOGGLE_PAUSE = false;
 					pausegame = false;
 				}
 
@@ -157,6 +173,10 @@ int main(int argc, char ** argv)
 
 
 
+			if(game.guts && numblood == 0)
+			{
+				STATE = DEATH;
+			}
 
 			clock_gettime(CLOCK_REALTIME, &timeCurrent);
 			timeSpan = timeDiff(&timeStart, &timeCurrent);
@@ -191,7 +211,33 @@ int main(int argc, char ** argv)
 
 			render(&game);
 			glXSwapBuffers(dpy, win);
+
 		}
+		
+		while(STATE == DEATH && game.run)
+		{
+			XEvent death;
+			while(XPending(dpy))
+			{
+				XNextEvent(dpy, &death);
+				check_keys(&death, &game);
+				game.setResolution(window_width, window_height);
+			}
+			clock_gettime(CLOCK_REALTIME, &timeCurrent);
+			timeSpan = timeDiff(&timeStart, &timeCurrent);
+			timeCopy(&timeStart, &timeCurrent);
+			physicsCountdown += timeSpan;
+			// check for collisions, move player
+			while(physicsCountdown >= physicsRate)
+			{
+				physics(&game);
+				physicsCountdown -= physicsRate;
+			}
+			render(&game);
+			glXSwapBuffers(dpy, win);
+
+		}
+
 	}	
 
 	cleanupXWindows();
@@ -242,7 +288,7 @@ void render(Game * game)
 	c.left = window_width/2;
 	c.center = 0;
 	//ggprint8b(&r, 16, 0x00FFFF00, "fps: %i",  static_cast<int>(fps/timeDiff(&start, &timeCurrent)));
-	if(!pausegame)
+	if(STATE != DEATH)
 	{
 		ggprint8b(&r, 16, 0x00FFFF00, "PhysicsRate: %i", static_cast<int>(1/physicsRate));
 		ggprint8b(&r, 16, 0x00FFFF00, "water particles: %i", numParticles);

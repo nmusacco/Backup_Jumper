@@ -23,7 +23,7 @@ struct button {
 	Vec center;
 };
 
-bool bloodToggle = false;
+//bool bloodToggle = false;
 bool pausegame = true;
 
 void setMenuBackground()
@@ -95,7 +95,7 @@ void physics(Game * game)
 		game->inAir(); 
 		game->updatePlatforms();
 		game->applyGravity();
-		if(game->checkBottomScreen() && !bloodToggle) // spikes collision?
+		if(game->checkBottomScreen() && bloodToggle) // spikes collision?
 		{
 			int choice = rand() % 3;
 
@@ -107,8 +107,11 @@ void physics(Game * game)
 				alBuffer = alutCreateBufferFromFile("./Sounds/death3.wav");
 			playSound();
 			game->guts = true;
-			bloodToggle = true;
+			bloodToggle = false;
+
 		}
+		//		else
+		//			game->guts = false;
 		game->missileChasePlayer();
 		game->removeMissiles();
 		game->checkCollision();
@@ -182,8 +185,8 @@ void physics(Game * game)
 	}
 
 
-	if(game->guts == false) // respawn, reset guts animation
-		numblood = 0;
+	//	if(game->guts == false) // respawn, reset guts animation
+	//		numblood = 0;
 
 	// waterfall settings
 	Particle *p = &par[numParticles];
@@ -268,53 +271,59 @@ int check_keys(XEvent *e, Game * game)
 	{
 		keys[key] = 1;
 
-		if(key == XK_k) // respawn
+		if(STATE != DEATH)
 		{
-			if(game->guts == true) // 
+			if(key == XK_k) // respawn
 			{
-				game->setPos(window_width/2, window_height);
-				game->guts = false;
-				bloodToggle = false;
+				if(game->guts == true) // 
+				{
+					game->setPos(window_width/2, window_height);
+					game->guts = false;
+					bloodToggle = false;
+				}
 			}
-		}
 
-		if(key == XK_p)
-		{
-			if(!pausegame)
-				pausegame = true;
-			else
-				pausegame = false;
-
-		}
-		if(STATE == RUN_GAME && !pausegame)
-		{
-			if(key != XK_Left || key != XK_Right)
-				killmovement = false;
-
-			if(key == XK_b)
+			if(key == XK_p)
 			{
-				if(bubbler)
-					bubbler = false;
+				if(!pausegame)
+					pausegame = true;
 				else
-					bubbler = true;
-			}
+					pausegame = false;
 
-			if(key == XK_m)
+			}
+			if(STATE == RUN_GAME && !pausegame)
 			{
-				game->createMissiles();
+				if(key != XK_Left || key != XK_Right)
+					killmovement = false;
+
+				if(key == XK_b)
+				{
+					if(bubbler)
+						bubbler = false;
+					else
+						bubbler = true;
+				}
+
+				if(key == XK_m)
+				{
+					game->createMissiles();
+				}
+			}
+			if(key == XK_w)
+			{
+				if(setbackground)
+					setbackground = false;
+				else 
+					setbackground = true;
 			}
 		}
-		if(key == XK_w)
-		{
-			if(setbackground)
-				setbackground = false;
-			else 
-				setbackground = true;
-		}
-
 		if(key == XK_Escape)
 		{
-			game->run = false;
+			if(STATE != DEATH)
+				game->run = false;
+			else
+				STATE = MAIN_MENU;
+			pausegame = true;
 		}
 	}	
 	return 0;
@@ -344,8 +353,8 @@ void check_mouse(XEvent *e, Game *game)
 					{
 						STATE = RUN_GAME;
 					}
-					if(mousex <= (window_width * 2 / 3) - 50
-					   && mousex >= (window_width * 2 / 3) + 50)
+					if(mousex <= (window_width * 2 / 3) + 50
+							&& mousex >= (window_width * 2 / 3) - 50)
 					{
 						game->run = false;
 					}
@@ -353,7 +362,7 @@ void check_mouse(XEvent *e, Game *game)
 			}
 			return;
 		}
-		
+
 	}
 
 }

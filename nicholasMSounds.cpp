@@ -27,7 +27,7 @@ void setupSound()
 	}
 	//Clear error state.
 	alGetError();
-	
+
 	//Setup the listener
 	//Forward and up vectors are used.
 	float vec[6] = {0.0f,0.0f,1.0f, 0.0f,1.0f,0.0f};
@@ -40,8 +40,8 @@ void playSound()
 {
 	//Buffer holds the sound info
 	//Source refers to the sound.
-	
-	
+
+
 	//Generate a source, and store it in a buffer.
 	alGenSources(1, &alSource);
 	alSourcei(alSource, AL_BUFFER, alBuffer);
@@ -53,11 +53,11 @@ void playSound()
 		printf("ERROR: setting source\n");
 		return;
 	}
-	
+
 	alSourcePlay(alSource);
 
 
-        return;
+	return;
 }
 void cleanupSound()
 {
@@ -89,8 +89,8 @@ void playBackgroundSound()
 {
 	//Buffer holds the sound info
 	//Source refers to the sound.
-	 
-	
+
+
 	//Generate a source, and store it in a buffer.
 	alGenSources(1, &Source);
 	alSourcei(Source, AL_BUFFER, Buffer);
@@ -102,10 +102,10 @@ void playBackgroundSound()
 		printf("ERROR: setting source\n");
 		return;
 	}
-	
+
 	alSourcePlay(Source);
 
 
-        return;
+	return;
 }
 

@@ -32,6 +32,7 @@
 // http://www.spriters-resource.com/arcade/ms2/sheet/53203/
 
 #include <math.h> // atan2();  
+bool gutsToggle = true;
 
 Ppmimage * spike = NULL;
 GLuint spikeTexture; 
@@ -170,13 +171,13 @@ void loadTextures()
 
 
 float b_i = 0.0;
- 
+
 void drawBackground(Game * game)
 {
 	float x = 0.0001;
 	//if(b_i >= 0.3 + b_i)
 	//	b_i = 0.00;
-		
+
 	//*/
 	//int width = background->width;
 	//int height = background->height;
@@ -184,16 +185,16 @@ void drawBackground(Game * game)
 	glBindTexture(GL_TEXTURE_2D, backgroundTexture);
 	glBegin(GL_QUADS);
 	glTexCoord2f(0, 0.3 + b_i); // bot left
-		glVertex2i(0,0);
+	glVertex2i(0,0);
 	glTexCoord2f(0,b_i); // top left
-		glVertex2i(0, window_height);
+	glVertex2i(0, window_height);
 	glTexCoord2f(1,b_i); // top right
-		glVertex2i(window_width, window_height);
+	glVertex2i(window_width, window_height);
 	glTexCoord2f(1, 0.3 + b_i); // bot right
-		glVertex2i(window_width, 0);
+	glVertex2i(window_width, 0);
 	glEnd();
 
-	
+
 	b_i+= x;
 }
 
@@ -305,7 +306,6 @@ void drawTESTmissile(Game * game)
 // makes blood particles
 void makeTESTguts(Game * game)
 {
-
 	int vely = 4;
 	if(setbackground)
 		numblood = 100;
@@ -326,6 +326,7 @@ void makeTESTguts(Game * game)
 
 		blood[i].velocity.y = rnd() * game->player.height/vely - rnd() * game->player.height/vely ;;
 	}
+
 }
 
 // draws blood particles both in debug and regular texture version of the game
@@ -364,8 +365,12 @@ void drawTESTguy(Game * game)
 {
 	if(game->guts == true)
 	{
-		if(numblood == 0)
+		if(numblood == 0 && gutsToggle)
+		{
 			makeTESTguts(game);
+			gutsToggle = false;
+		}
+
 		else
 			drawTESTguts(game);
 		return;
@@ -404,8 +409,8 @@ void drawTESTguy(Game * game)
 
 void drawMissile(Game * game)
 {
-//	if(!game->setMissiles)
-//		return;
+	//	if(!game->setMissiles)
+	//		return;
 
 	if(!game->setMissiles)
 	{
@@ -598,8 +603,11 @@ void drawSkeleton(Game * game)
 
 	if(game->guts == true)
 	{
-		if(numblood == 0)
+		if(numblood == 0 && gutsToggle)
+		{
 			makeTESTguts(game);
+			gutsToggle = false;
+		}
 		else
 		{
 
@@ -679,10 +687,10 @@ void drawMissilesExp(Game *game)
 
 		if(setbackground)
 			glColor3f(rnd()*.3+.7, rnd()*.3+.7, 0);			
-			//glColor3ub(255 - randColorWater,10 ,5);// reD? water
+		//glColor3ub(255 - randColorWater,10 ,5);// reD? water
 		else
 			glColor3ub(0,0,255);
-	
+
 		Vec *c = &game->missiles.exp[i].s.center;
 		float w = 2; //- rnd() * 1;
 		float h = 2; //- rnd() * 1;

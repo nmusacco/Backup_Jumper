@@ -97,148 +97,7 @@ int main(int argc, char ** argv)
 	//assert(true);
 	cout << "start game" << endl;
 
-	Game game;
-
-
-
-	srand(time(NULL));
-
-	clock_gettime(CLOCK_REALTIME, &timePause);
-	clock_gettime(CLOCK_REALTIME, &timeStart);
-	clock_gettime(CLOCK_REALTIME, &start);
-	//    game.state = RUN_GAME;
-	while(game.run)
-	{	
-		game = Game();
-
-		game.setGravity(GRAVITY);
-
-		// set players position
-
-		game.setResolution(window_width, window_height);
-		makePlatform(5,&game);
-		
-		game.setPos(window_width/2, window_height);
-
-		if(TOGGLE_SOUND)
-		{
-			Buffer = alutCreateBufferFromFile("./Sounds/music.wav");
-			playBackgroundSound();
-			TOGGLE_SOUND = false;
-		}
-
-		gutsToggle = true;
-		bloodToggle = true;
-		TOGGLE_PAUSE = true;
-		numblood = 0;
-		SCORE = 0;
-		
-		while(STATE == MAIN_MENU && game.run)
-		{
-
-			XEvent menu;
-			while(XPending(dpy))
-			{
-				XNextEvent(dpy, &menu);
-				check_keys(&menu, &game);
-				check_mouse(&menu, &game);
-				game.setResolution(window_width, window_height);
-			}
-			setMenuBackground();
-			glXSwapBuffers(dpy, win);
-		}
-
-		usleep(1000);
-
-		while(STATE == RUN_GAME && game.run)
-		{
-
-			// check input
-			XEvent e;
-			while(XPending(dpy))
-			{
-				if(TOGGLE_PAUSE)
-				{
-					TOGGLE_PAUSE = false;
-					pausegame = false;
-				}
-
-				XNextEvent(dpy, &e);
-				check_keys(&e, &game);
-				check_resize(&e);
-				//check_mouse(&e, &game);
-				// if window resets, then the game should handle this event
-				game.setResolution(window_width, window_height);
-			}
-
-
-
-			if(game.guts && numblood == 0)
-			{
-				STATE = DEATH;
-			}
-
-			clock_gettime(CLOCK_REALTIME, &timeCurrent);
-			timeSpan = timeDiff(&timeStart, &timeCurrent);
-			timeCopy(&timeStart, &timeCurrent);
-
-			if(!pausegame)
-			{
-
-				SCORE++;
-			}
-
-			physicsCountdown += timeSpan;
-			// check for collisions, move player
-			while(physicsCountdown >= physicsRate) {
-				physics(&game);
-
-				physicsCountdown -= physicsRate;
-			}
-
-			// used for sprite timing DON'T TOUCH
-			if(frames > 2)
-				frames = 0;
-			frames++;
-
-			// FPS COUNTER/RESET
-			if(fps > 100)
-			{
-				clock_gettime(CLOCK_REALTIME, &start);
-				fps = 0;
-			}
-			fps++;
-
-			render(&game);
-			glXSwapBuffers(dpy, win);
-
-		}
-		
-		while(STATE == DEATH && game.run)
-		{
-			XEvent death;
-			while(XPending(dpy))
-			{
-				XNextEvent(dpy, &death);
-				check_keys(&death, &game);
-				game.setResolution(window_width, window_height);
-			}
-			clock_gettime(CLOCK_REALTIME, &timeCurrent);
-			timeSpan = timeDiff(&timeStart, &timeCurrent);
-			timeCopy(&timeStart, &timeCurrent);
-			physicsCountdown += timeSpan;
-			// check for collisions, move player
-			while(physicsCountdown >= physicsRate)
-			{
-				physics(&game);
-				physicsCountdown -= physicsRate;
-			}
-			render(&game);
-			glXSwapBuffers(dpy, win);
-
-		}
-
-	}	
+	PlayGame();
 
 	cleanupXWindows();
 	cleanup_fonts();
@@ -285,7 +144,7 @@ void render(Game * game)
 	r.center = 0;
 	Rect c;
 	c.bot = window_height/2;
-	c.left = window_width/2;
+	c.left = window_width/2 - 50;
 	c.center = 0;
 	//ggprint8b(&r, 16, 0x00FFFF00, "fps: %i",  static_cast<int>(fps/timeDiff(&start, &timeCurrent)));
 	if(STATE != DEATH)
@@ -297,8 +156,12 @@ void render(Game * game)
 	        ggprint8b(&r, 16, 0x00FFFF00, "Score: %i", SCORE);
 	}
 	else
-	{	
-		ggprint16(&c, 16, 0x00FFFF00, "Score: %i", SCORE);
+	{
+		ggprint16(&c, 16, 0x00FFFF00, "You have died!");
+		ggprint16(&c, 16, 0x00FFFF00, " ");
+		ggprint16(&c, 16, 0x00FFFF00, "Score: %i", SCORE);	
+		ggprint16(&c, 16, 0x00FFFF00, " ");
+		ggprint16(&c, 16, 0x00FFFF00, "Press ESC to return to the main menu!");
 	}
 
 	// debug/retrostyle mode

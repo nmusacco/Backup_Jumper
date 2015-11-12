@@ -166,26 +166,36 @@ void loadTextures()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, 3, menu->width, menu->height,
 			0, GL_RGB, GL_UNSIGNED_BYTE, menu->data);
-
-
 }
 
+
+float b_i = 0.0;
+ 
 void drawBackground()
 {
+	float x = 0.0001;
+	//if(b_i >= 1)
+	//	b_i = 0.00;
+		
+
+	//*/
 	//int width = background->width;
 	//int height = background->height;
 	glColor3f(1.0, 1.0, 1.0);
 	glBindTexture(GL_TEXTURE_2D, backgroundTexture);
 	glBegin(GL_QUADS);
-	glTexCoord2f(0,1);
-	glVertex2i(0,0);
+	glTexCoord2f(0, b_i);
+		glVertex2i(0,0);
 	glTexCoord2f(0,0);
-	glVertex2i(0, window_height);//height/2);//window_height);
+		glVertex2i(0, window_height);//height/2);//window_height);
 	glTexCoord2f(1,0);
-	glVertex2i(window_width, window_height);//width/2, height/2);//window_width, window_height);
-	glTexCoord2f(1,1);
-	glVertex2i(window_width, 0);//width/2,0);//window_width, 0);
+		glVertex2i(window_width, window_height);//width/2, height/2);//window_width, window_height);
+	glTexCoord2f(1, 0.03 + b_i);
+		glVertex2i(window_width, 0);//width/2,0);//window_width, 0);
 	glEnd();
+
+	
+	b_i+= x;
 }
 
 void drawWater()

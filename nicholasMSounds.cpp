@@ -1,6 +1,8 @@
-//Finally a simple OpenAL example program.
-//Gordon Griesel
-//2015
+/**********************************
+ *         Nicholas Musacco       *
+ *              Sounds            *
+ *********************************/
+
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
@@ -10,12 +12,24 @@
 #include <AL/alut.h>
 
 
-ALuint alBuffer;
+
+//As you can tell this is 99% code that Gordon wrote in his openAl example. 
+//The only real change I made was breaking up the code into functions,
+//and I added a second play sound type of function expect it was for looping sound
+//which is only used for the background music
+
+
+//As for the sound files I used. All sounds were made using my mouth, except for the background music.
+//The background music is from the video game Doom 1.
+//I took the audio from this youtube video: https://www.youtube.com/watch?v=CofjdOuv68U
+
+//TODO: Increase volume on sounds. Nobody wants to turn up their system volume that loud!
+
+ALuint alBuffer;	//variables for sounds
 ALuint alSource;
-ALuint Buffer;
+
+ALuint Buffer;		//variables for the menu sounds
 ALuint Source;
-//ALuint song = alutCreateBufferFromFile("./Sounds/death1.wav");
-//ALuint songSource;
 
 void setupSound()
 {

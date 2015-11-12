@@ -6,21 +6,34 @@
 // 
 // ===========================
 
-//
-//
+
+//OLD:
 //Currently contains the physics function along with basic 
 //pause features to stop motion when the game is paused
 //
 //Future addition will include a pause screen that will
 //pop up with the Esc key is pressed
 //
-//The pause screen will have a few buttons that will be
-//clicked by the users mouse, the buttons will be resume and quit
-//Also when the game is paused the score will be put up
+//The pause screen will have a few options that will be
+//selected by the keyboard, the buttons will be resume and quit
+//Also when the game is paused the score will be put up in the middle of the
+//screen in a larger text size.
+
+
+//NEW:
+//As of 11/11 I created sounds, which are kept in nicholasMSounds.cpp
+//the code is mostly Gordon Griesel's openal example with only my minor changes
+//to allow a sound initialization function, a play sound function, 
+//and a cleanup function
+//
+//As of 11/11 I created the PlayGame() function, which contains the loop 
+//to play the game. This was deemed necessary as the main() function
+//had become littered with my changes to allow for state changes to the game.
+
 
 struct button {
 	float width, height;
-	Vec center;
+	Vec center;			//struct to hold button info
 };
 
 //bool bloodToggle = false;
@@ -29,21 +42,19 @@ bool pausegame = true;
 void setMenuBackground()
 {
 	button startb;
-	startb.center.y  =  window_height/2;
+	startb.center.y  =  window_height/2;	//green start game button
 	startb.center.x  = (window_width/3);
 	startb.width = 50;
 	startb.height = 50;
 
 	button exitb;
-	exitb.center.y = window_height/2;
+	exitb.center.y = window_height/2;	//red exit game button
 	exitb.center.x = (window_width * 2 / 3);
 	exitb.width  = 50;
 	exitb.height = 50;
 
-	//int width = background->width;
-	//int height = background->height;
 	glColor3f(1.0, 1.0, 1.0);
-	glBindTexture(GL_TEXTURE_2D, menuTexture);
+	glBindTexture(GL_TEXTURE_2D, menuTexture);		//This section of code renders the menu background
 	glBegin(GL_QUADS);
 	glTexCoord2f(0,1);
 	glVertex2i(0,0);
@@ -65,7 +76,7 @@ void setMenuBackground()
 	glBegin(GL_QUADS);
 	glVertex2i(-startb.width, -startb.height);
 	glVertex2i(-startb.width,  startb.height);
-	glVertex2i( startb.width,  startb.height);
+	glVertex2i( startb.width,  startb.height);			//These sections of code render the buttons.
 	glVertex2i( startb.width, -startb.height);
 	glEnd();
 	glPopMatrix();
@@ -90,19 +101,19 @@ void setMenuBackground()
 void physics(Game * game)
 {
 
-	if(STATE == RUN_GAME && !pausegame)
-	{
+	if(STATE == RUN_GAME && !pausegame)	//if the game is playing and not paused, run all the physics checks and apply movement and gravity
+	{					//I have it set up this way, so that when the game is paused, the game no longer checks for physics
 		game->inAir(); 
 		game->updatePlatforms();
 		game->applyGravity();
-		if(game->checkBottomScreen() && bloodToggle) // spikes collision?
-		{
+		if(game->checkBottomScreen() && bloodToggle) // spikes collision    bloodToggle is a switch that is turned off once this statement has run once. This means when
+		{					     //the character hits the spikes, the sounds wont play multiple times
 			int choice = rand() % 3;
 
 			if(choice == 1)
 				alBuffer = alutCreateBufferFromFile("./Sounds/death1.wav");
 			if(choice == 2)
-				alBuffer = alutCreateBufferFromFile("./Sounds/death2.wav");
+				alBuffer = alutCreateBufferFromFile("./Sounds/death2.wav");	//random sound selection
 			if(choice == 0)
 				alBuffer = alutCreateBufferFromFile("./Sounds/death3.wav");
 			playSound();
@@ -110,8 +121,7 @@ void physics(Game * game)
 			bloodToggle = false;
 
 		}
-		//		else
-		//			game->guts = false;
+
 		game->missileChasePlayer();
 		game->removeMissiles();
 		game->checkCollision();
@@ -124,34 +134,31 @@ void physics(Game * game)
 			game->setMissiles = false;
 		}
 
-		if(keys[XK_Left]) // left
+		if(keys[XK_Left]) // left arrow
 		{
 			game->player.right = false;
 			game->player.left = true;
 			if(frames == 1)
 				frame += 0.125;
-			//cout << "left" << endl;
 			game->accelX(-1 * INITIAL_VELOCITY);
 		}
 
-		if(keys[XK_Right]) // right
+		if(keys[XK_Right]) // right arrow
 		{
 			game->player.left = false;
 			game->player.right = true;
 			if(frames == 1)
 				frame +=  0.125;
-			//cout << "right" << endl;
 			game->accelX(INITIAL_VELOCITY);
 		}
 
 		if(keys[XK_space] && game->if_jump) // spacebar
 		{
-			//cout << "jump" <<endl;
 			int choice = rand() % 4;
 			if(choice == 1)
 				alBuffer = alutCreateBufferFromFile("./Sounds/jump1.wav");
 			if(choice == 2)
-				alBuffer = alutCreateBufferFromFile("./Sounds/jump2.wav");
+				alBuffer = alutCreateBufferFromFile("./Sounds/jump2.wav");	//random sound selection
 			if(choice == 3)
 				alBuffer = alutCreateBufferFromFile("./Sounds/jump3.wav");
 			if(choice == 0)
@@ -185,10 +192,9 @@ void physics(Game * game)
 	}
 
 
-	//	if(game->guts == false) // respawn, reset guts animation
-	//		numblood = 0;
+	
 
-	// waterfall settings
+	// waterfall particle settings
 	Particle *p = &par[numParticles];
 	if(!pausegame)
 	{
@@ -201,16 +207,14 @@ void physics(Game * game)
 
 			if (p->s.center.y < 0.0 || p->s.center.y > window_height) 
 			{
-				//std::cout << "off screen" << std::endl;
 				memcpy(&par[i], &par[numParticles -1], 
 						sizeof(Particle));
 				numParticles--;
-				//if(numParticles == 0)
-				//game->guts = false;
 			}
 		}
 	}
-	// blood settings
+
+	// blood particle settings
 	Particle *p2 = &blood[numblood];
 	if(!pausegame)
 	{
@@ -229,10 +233,8 @@ void physics(Game * game)
 			}
 		}
 	}
-	//making missile exp
-	//if(game->setMissiles == false) // respawn, reset guts animation
-	//game->missiles.numExp = 0;
 
+	//making missile exp particles
 	Particle *p3 = &game->missiles.exp[game->missiles.numExp];
 	if(!pausegame)
 	{
@@ -271,7 +273,7 @@ int check_keys(XEvent *e, Game * game)
 	{
 		keys[key] = 1;
 
-		if(STATE != DEATH)
+		if(STATE != DEATH) //this turns off keys except for ESC when you are dead
 		{
 			if(key == XK_k) // respawn
 			{
@@ -346,8 +348,8 @@ void check_mouse(XEvent *e, Game *game)
 			//Left button was pressed
 			if(STATE == MAIN_MENU)
 			{
-				if((window_height - mousey >= window_height - (window_height/2) - 50 ) //300
-						&& window_height - mousey <= window_height - (window_height/2) + 50) //200
+				if((window_height - mousey >= window_height - (window_height/2) - 50 ) 			//button click areas
+						&& window_height - mousey <= window_height - (window_height/2) + 50)
 				{
 					if(mousex >= (window_width/3) - 50 && mousex <= (window_width/3) + 50)
 					{
@@ -391,7 +393,7 @@ void PlayGame()
 		
 		game.setPos(window_width/2, window_height);
 
-		if(TOGGLE_SOUND)
+		if(TOGGLE_SOUND)		//Sound switch so that the background music doesnt get recalled after the initial call
 		{
 			Buffer = alutCreateBufferFromFile("./Sounds/music.wav");
 			playBackgroundSound();
@@ -399,7 +401,7 @@ void PlayGame()
 		}
 
 		gutsToggle = true;
-		bloodToggle = true;
+		bloodToggle = true;		//Reset switches to clear the prev game information. This includes the score and blood particles
 		TOGGLE_PAUSE = true;
 		numblood = 0;
 		SCORE = 0;
@@ -437,8 +439,6 @@ void PlayGame()
 				XNextEvent(dpy, &e);
 				check_keys(&e, &game);
 				check_resize(&e);
-				//check_mouse(&e, &game);
-				// if window resets, then the game should handle this event
 				game.setResolution(window_width, window_height);
 			}
 
@@ -446,7 +446,7 @@ void PlayGame()
 
 			if(game.guts && numblood == 0)
 			{
-				STATE = DEATH;
+				STATE = DEATH;	//changes the game state to the death screen once the person has died and the blood particles are off the screen
 			}
 
 			clock_gettime(CLOCK_REALTIME, &timeCurrent);
@@ -456,10 +456,11 @@ void PlayGame()
 			if(!pausegame)
 			{
 
-				SCORE++;
+				SCORE++;		//iterates the score every loop that the game is not paused
 			}
 
 			physicsCountdown += timeSpan;
+
 			// check for collisions, move player
 			while(physicsCountdown >= physicsRate) {
 				physics(&game);
@@ -494,19 +495,19 @@ void PlayGame()
 				check_keys(&death, &game);
 				game.setResolution(window_width, window_height);
 			}
+			
 			clock_gettime(CLOCK_REALTIME, &timeCurrent);
 			timeSpan = timeDiff(&timeStart, &timeCurrent);
 			timeCopy(&timeStart, &timeCurrent);
 			physicsCountdown += timeSpan;
-			// check for collisions, move player
 			while(physicsCountdown >= physicsRate)
 			{
 				physics(&game);
-				physicsCountdown -= physicsRate;
+				physicsCountdown -= physicsRate;		//this will keep the game rendering so that the user can see the players full body explosion
 			}
 			render(&game);
 			glXSwapBuffers(dpy, win);
-
+	
 		}
 
 	}

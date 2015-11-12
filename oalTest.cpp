@@ -10,6 +10,9 @@
 #include <AL/alut.h>
 
 
+ALuint alBuffer;
+ALuint alSource;
+
 void setupSound()
 {
 	//Get started right here.
@@ -28,11 +31,12 @@ void setupSound()
 	alListenerfv(AL_ORIENTATION, vec);
 	alListenerf(AL_GAIN, 1.0f);
 }
-void playSound(ALuint alBuffer)
+void playSound()
 {
 	//Buffer holds the sound info
 	//Source refers to the sound.
-	ALuint alSource;
+	//ALuint alSource;
+	
 	//Generate a source, and store it in a buffer.
 	alGenSources(1, &alSource);
 	alSourcei(alSource, AL_BUFFER, alBuffer);
@@ -49,14 +53,16 @@ void playSound(ALuint alBuffer)
 
 	//}
 
-	//First delete the source.
-	alDeleteSources(1, &alSource);
-	//Delete the buffer.
-	alDeleteBuffers(1, &alBuffer);
+
         return;
 }
 void cleanupSound()
 {
+	//First delete the source.
+	alDeleteSources(1, &alSource);
+	//Delete the buffer.
+	alDeleteBuffers(1, &alBuffer);
+
 	//Close out OpenAL itself.
 	//Get active context.
 	ALCcontext *Context = alcGetCurrentContext();

@@ -237,6 +237,10 @@ void render(Game * game)
 	r.bot = window_height - 20;
 	r.left = 10;
 	r.center = 0;
+	Rect c;
+	c.bot = window_height/2;
+	c.left = window_width/2;
+	c.center = 0;
 	//ggprint8b(&r, 16, 0x00FFFF00, "fps: %i",  static_cast<int>(fps/timeDiff(&start, &timeCurrent)));
 	if(!pausegame)
 	{
@@ -244,8 +248,12 @@ void render(Game * game)
 		ggprint8b(&r, 16, 0x00FFFF00, "water particles: %i", numParticles);
 		ggprint8b(&r, 16, 0x00FFFF00, "blood particles: %i", numblood);
 		ggprint8b(&r, 16, 0x00FFFF00, "Hit sides: %i", game->checkLeftScreenHit() || game->checkRightScreenHit());
+	        ggprint8b(&r, 16, 0x00FFFF00, "Score: %i", SCORE);
 	}
-	ggprint8b(&r, 16, 0x00FFFF00, "Score: %i", SCORE);
+	else
+	{	
+		ggprint16(&c, 16, 0x00FFFF00, "Score: %i", SCORE);
+	}
 
 	// debug/retrostyle mode
 	if(!setbackground)

@@ -20,7 +20,6 @@
 
 struct button {
 	float width, height;
-	//	float radius;
 	Vec center;
 };
 
@@ -30,14 +29,14 @@ bool pausegame = true;
 void setMenuBackground()
 {
 	button startb;
-	startb.center.y  =  window_height - 250;
-	startb.center.x  = 200;
+	startb.center.y  =  window_height/2;
+	startb.center.x  = (window_width/3);
 	startb.width = 50;
 	startb.height = 50;
 
 	button exitb;
-	exitb.center.y = window_height - 250;
-	exitb.center.x = window_width  - 200;
+	exitb.center.y = window_height/2;
+	exitb.center.x = (window_width * 2 / 3);
 	exitb.width  = 50;
 	exitb.height = 50;
 
@@ -114,7 +113,10 @@ void physics(Game * game)
 		game->removeMissiles();
 		game->checkCollision();
 
-		if(game->checkMissileHit()){
+		if(game->checkMissileHit())
+		{
+			alBuffer = alutCreateBufferFromFile("./Sounds/explosion.wav");
+			playSound();			
 			game->guts = true;
 			game->setMissiles = false;
 		}
@@ -335,15 +337,15 @@ void check_mouse(XEvent *e, Game *game)
 			//Left button was pressed
 			if(STATE == MAIN_MENU)
 			{
-				if((window_height - mousey >= window_height - 300)
-						&& window_height - mousey <= window_height - 200)
+				if((window_height - mousey >= window_height - (window_height/2) - 50 ) //300
+						&& window_height - mousey <= window_height - (window_height/2) + 50) //200
 				{
-					if(mousex >= 150 && mousex <= 250)
+					if(mousex >= (window_width/3) - 50 && mousex <= (window_width/3) + 50)
 					{
 						STATE = RUN_GAME;
 					}
-					if(mousex <= window_width - 150
-							&& mousex >= window_width - 250)
+					if(mousex <= (window_width * 2 / 3) - 50
+					   && mousex >= (window_width * 2 / 3) + 50)
 					{
 						game->run = false;
 					}
@@ -351,11 +353,7 @@ void check_mouse(XEvent *e, Game *game)
 			}
 			return;
 		}
-		if (e->xbutton.button==3) {
-			//Right button was pressed
-			game->run = false;
-			return;
-		}
+		
 	}
 
 }

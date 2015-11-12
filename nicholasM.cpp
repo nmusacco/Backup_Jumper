@@ -128,7 +128,10 @@ void physics(Game * game)
 	if(keys[XK_space] && game->if_jump) // spacebar
 	{
 	    //cout << "jump" <<endl;
-
+	    ALuint alBuffer;
+	    alBuffer = alutCreateBufferFromFile("./openal/test.wav");
+	    playSound(alBuffer);
+            
 	    game->accelY(2 * INITIAL_VELOCITY);
 	}
 
@@ -288,8 +291,6 @@ void check_mouse(XEvent *e, Game *game)
 		    if(mousex >= 150 && mousex <= 250)
 		    {
 			STATE = RUN_GAME;
-			//pausegame = false;	
-
 		    }
 		    if(mousex <= window_width - 150
 		       && mousex >= window_width - 250)
@@ -302,16 +303,10 @@ void check_mouse(XEvent *e, Game *game)
 	}
 	if (e->xbutton.button==3) {
 	    //Right button was pressed
-	    //std::cout << "right mouse b down" << std::endl;
 	    game->run = false;
 	    return;
 	}
     }
-    //Did the mouse move?
-    //	if (savex != e->xbutton.x || savey != e->xbutton.y) 
-    //	{
-    //
-    //
-    //	}
+   
 }
 

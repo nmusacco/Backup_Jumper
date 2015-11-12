@@ -27,7 +27,7 @@ unsigned long SCORE = 0;
 
 // Gordon's timer & x11/opengl code
 #include "gordoncode.cpp"
-
+#include "oalTest.cpp"
 
 // NOT used for fps counter!
 // now used for sprite timer
@@ -87,6 +87,8 @@ int main(int argc, char ** argv)
 
     initXWindows();
     init_opengl();
+
+    setupSound();
 
     loadTextures();
     loadTexture(); // nadias code 
@@ -191,7 +193,7 @@ int main(int argc, char ** argv)
 
     cleanupXWindows();
     cleanup_fonts();
-
+    cleanupSound();
     cout << "end game" << endl;
     return 0;
 }

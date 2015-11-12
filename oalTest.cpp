@@ -10,8 +10,7 @@
 #include <AL/alut.h>
 
 
-void cleanup();
-void setup()
+void setupSound()
 {
 	//Get started right here.
 	alutInit(0, NULL);
@@ -31,11 +30,7 @@ void setup()
 }
 void playSound(ALuint alBuffer)
 {
-	setup();
-	//Buffer holds the sound information.
-//	ALuint alBuffer;
-//	alBuffer = alutCreateBufferFromFile("./test.wav");
-	//
+	//Buffer holds the sound info
 	//Source refers to the sound.
 	ALuint alSource;
 	//Generate a source, and store it in a buffer.
@@ -47,7 +42,7 @@ void playSound(ALuint alBuffer)
 	alSourcei(alSource, AL_LOOPING, AL_FALSE);
 	if (alGetError() != AL_NO_ERROR) {
 		printf("ERROR: setting source\n");
-		return 0;
+		return;
 	}
 	//for (int i=0; i<4; i++) {
 		alSourcePlay(alSource);
@@ -58,10 +53,9 @@ void playSound(ALuint alBuffer)
 	alDeleteSources(1, &alSource);
 	//Delete the buffer.
 	alDeleteBuffers(1, &alBuffer);
-	cleanup();
-return 0;
+        return;
 }
-void cleanup()
+void cleanupSound()
 {
 	//Close out OpenAL itself.
 	//Get active context.

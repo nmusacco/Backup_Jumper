@@ -31,7 +31,7 @@ struct Vec
 struct Powerup
 {
 	Vec position;
-	//Vec velocity;
+	Vec velocity;
 	int width;
 	int height;
 
@@ -77,7 +77,7 @@ struct Platform
 	Vec pos;
 	int width;
 	int height;
-	
+	Vec velocity;
 };
 
 class Game

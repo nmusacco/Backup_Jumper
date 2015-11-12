@@ -29,7 +29,7 @@ void setupSound()
 	float vec[6] = {0.0f,0.0f,1.0f, 0.0f,1.0f,0.0f};
 	alListener3f(AL_POSITION, 0.0f, 0.0f, 0.0f);
 	alListenerfv(AL_ORIENTATION, vec);
-	alListenerf(AL_GAIN, 1.0f);
+	alListenerf(AL_GAIN, 6.0f);
 }
 void playSound()
 {

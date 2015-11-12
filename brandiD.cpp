@@ -103,7 +103,7 @@ void Game::removeMissiles()
 void Game::makeMissilesExp()
 {
 
-        int vely = 4;
+        float vely = 0.5;
                missiles.numExp = 100;
 
         int x = missiles.position.x;

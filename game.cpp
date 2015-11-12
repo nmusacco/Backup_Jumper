@@ -28,6 +28,8 @@ Game::Game()
 	if_hit = false;
 	run = true;
 	guts = false;
+	missiles.numExp = 0;
+	
 }
 
 // create ONE missile

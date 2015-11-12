@@ -221,8 +221,8 @@ void physics(Game * game)
     }
 
 //making missile exp
-if(game->setMissiles == false) // respawn, reset guts animation
-        game->missiles.numExp = 0;
+//if(game->setMissiles == false) // respawn, reset guts animation
+        //game->missiles.numExp = 0;
 
  Particle *p3 = &game->missiles.exp[game->missiles.numExp];
     for(int i = 0; i < game->missiles.numExp; ++i)

@@ -46,7 +46,7 @@ void playSound(ALuint alBuffer)
 	}
 	//for (int i=0; i<4; i++) {
 		alSourcePlay(alSource);
-		usleep(250000);
+
 	//}
 
 	//First delete the source.

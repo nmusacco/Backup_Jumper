@@ -171,26 +171,25 @@ void loadTextures()
 
 float b_i = 0.0;
  
-void drawBackground()
+void drawBackground(Game * game)
 {
-	float x = 0.0001;
-	//if(b_i >= 1)
-	//	b_i = 0.00;
+	float x = 0.001;
+	if(b_i >= 0.3 + b_i)
+		b_i = 0.00;
 		
-
 	//*/
 	//int width = background->width;
 	//int height = background->height;
 	glColor3f(1.0, 1.0, 1.0);
 	glBindTexture(GL_TEXTURE_2D, backgroundTexture);
 	glBegin(GL_QUADS);
-	glTexCoord2f(0, b_i);
+	glTexCoord2f(0, 1);
 		glVertex2i(0,0);
 	glTexCoord2f(0,0);
 		glVertex2i(0, window_height);//height/2);//window_height);
 	glTexCoord2f(1,0);
 		glVertex2i(window_width, window_height);//width/2, height/2);//window_width, window_height);
-	glTexCoord2f(1, 0.03 + b_i);
+	glTexCoord2f(1, 1);
 		glVertex2i(window_width, 0);//width/2,0);//window_width, 0);
 	glEnd();
 
@@ -701,7 +700,7 @@ void drawMissilesExp(Game *game)
 // all draw functions that get called in render funciton
 void drawGame_Textures(Game * game)
 {
-	drawBackground();
+	drawBackground(game);
 	drawSpike(game);
 	drawPlatform(game,5);
 	drawMissile(game);

@@ -60,7 +60,7 @@ void drawPlatform(Game *game, int amt)
 	    }
 }
 
-// HEY!!! (10/28/2015)
+// HEY!!! (10/28/2015)-
 // =====================================================================
 // Pedro Gonzalez: "changed some stuff so the heights and widths are 
 // 			tied with player's width and height"
@@ -72,10 +72,14 @@ void makePlatform(int amt, Game *game)
 	int width = game->player.width * 15;
 	int height = game->player.height * 0.35;
 	srand(time(NULL));
-	for(int i = 0; i<amt; i++)
+	game->platform[0].width = width;
+	game->platform[0].height = height;
+	game->platform[0].pos.x = game->player.position.x;
+	game->platform[0].pos.y = game->player.position.y - game->player.height;
+	for(int i = 1; i<amt; i++)
 	{
 	    game->platform[i].width =  width; 
-	    game->platform[i].height= height;
+	    game->platform[i].height= height; 
 	    game->platform[i].pos.x= rand() % window_width-rand()%game->platform[i].width;
 	    //game->platform[i].pos.y=(window_height-(i+1)*window_height/amt);
 

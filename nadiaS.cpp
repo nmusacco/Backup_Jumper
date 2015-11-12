@@ -72,18 +72,15 @@ void makePlatform(int amt, Game *game)
 	int width = game->player.width * 15;
 	int height = game->player.height * 0.35;
 	srand(time(NULL));
-	game->platform[0].width = width;
-	game->platform[0].height = height;
-	game->platform[0].pos.x = game->player.position.x;
-	game->platform[0].pos.y = game->player.position.y - game->player.height;
-	for(int i = 1; i<amt; i++)
+	for(int i = 0; i<amt; i++)
 	{
 	    game->platform[i].width =  width; 
-	    game->platform[i].height= height; 
-	    game->platform[i].pos.x= rand() % window_width-rand()%game->platform[i].width;
+	    game->platform[i].height= height;
+	    game->platform[i].pos.x= rand() % window_width;
 	    //game->platform[i].pos.y=(window_height-(i+1)*window_height/amt);
 
 	    // h_w - h_w/5 * (i + 1) + player height * 2
 	    game->platform[i].pos.y = window_height - 1.0/5.0 *window_height* (i + 1) + game->platform[i].height*2;
 	}
 }
+

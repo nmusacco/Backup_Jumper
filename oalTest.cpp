@@ -41,7 +41,7 @@ void playSound()
 	alGenSources(1, &alSource);
 	alSourcei(alSource, AL_BUFFER, alBuffer);
 	//Set volume and pitch to normal, no looping of sound.
-	alSourcef(alSource, AL_GAIN, 1.0f);
+	alSourcef(alSource, AL_GAIN, 6.0f);
 	alSourcef(alSource, AL_PITCH, 1.0f);
 	alSourcei(alSource, AL_LOOPING, AL_FALSE);
 	if (alGetError() != AL_NO_ERROR) {

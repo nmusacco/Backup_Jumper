@@ -27,7 +27,7 @@ unsigned long SCORE = 0;
 
 // Gordon's timer & x11/opengl code
 #include "gordoncode.cpp"
-#include "oalTest.cpp"
+#include "nicholasMSounds.cpp"
 
 // NOT used for fps counter!
 // now used for sprite timer

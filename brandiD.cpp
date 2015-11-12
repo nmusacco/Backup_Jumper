@@ -3,6 +3,7 @@
 // -----------------------------------------
 // collisions!
 
+#define rnd() (float)rand() / (float)RAND_MAX
 #include <cmath>
 
 const double oobillion = 1.0 / 1e9;
@@ -95,8 +96,60 @@ void Game::removeMissiles()
 	if(timeDiffer >= 4)
 	{
 		setMissiles = false;
-		cout << "Test Misisile" << endl;
+		//cout << "Test Missile" << endl;
 	}
 }
+
+void Game::makeMissilesExp()
+{
+
+        int vely = 4;
+               missiles.numExp = 100;
+
+        int x = missiles.position.x;
+        int y = missiles.position.y;
+
+        //Particles &p = par;
+        for(int i = 0; i < missiles.numExp; ++i)
+        {
+                missiles.exp[i].s.center.x = x;
+                missiles.exp[i].s.center.y = y;
+                missiles.exp[i].velocity.x = rnd() * 5 - rnd() * 5;
+
+                missiles.exp[i].velocity.y = rnd() * missiles.height/vely - rnd() * missiles.height/vely ;
+        }
+}
+
+/*
+void Game::drawMissilesExp()
+{
+        glBindTexture(GL_TEXTURE_2D, 0);
+        // draw gut particles particles 
+        int randColorWater = 0;
+        for(int i = 0; i < missiles.numExp; ++i)
+        {
+                if(randColorWater == 100)
+                        randColorWater = 0;
+
+                if(setbackground)
+                        glColor3ub(255 - randColorWater,10 ,5);// reD? water
+                else
+                        glColor3ub(150,160,255);
+                //glColor3ub(0+randColorWater ,0+randColorWater ,255);// looks best 
+                //glColor3ub(150 + randColorWater, 160 + randColorWater,255); // too light colored
+                Vec *c = &missiles.exp[i].s.center;
+                float w = 2; //- rnd() * 1;
+                float h = 2; //- rnd() * 1;
+                glBegin(GL_QUADS);
+                glVertex2i(c->x-w, c->y-h);
+                glVertex2i(c->x-w, c->y+h);
+                glVertex2i(c->x+w, c->y+h);
+                glVertex2i(c->x+w, c->y-h);
+                glEnd();
+                glPopMatrix();
+                randColorWater+= 10;
+        }
+}
+*/
 
 // more collisions!!!

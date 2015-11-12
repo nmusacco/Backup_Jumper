@@ -637,6 +637,38 @@ void drawSkeleton(Game * game)
 	renderCell(frame, x_increment, y_increment, lvl, toplvl, game);
 }
 
+void drawMissilesExp(Game *game)
+{
+        if(game->setMissiles)
+		return;
+	glBindTexture(GL_TEXTURE_2D, 0);
+        // draw gut particles particles 
+        int randColorWater = 0;
+        for(int i = 0; i < game->missiles.numExp; ++i)
+        {
+                if(randColorWater == 100)
+                        randColorWater = 0;
+
+                if(setbackground)
+                        glColor3ub(255 - randColorWater,10 ,5);// reD? water
+                else
+                        glColor3ub(150,160,255);
+                //glColor3ub(0+randColorWater ,0+randColorWater ,255);// looks best 
+                //glColor3ub(150 + randColorWater, 160 + randColorWater,255); // too light colored
+                Vec *c = &game->missiles.exp[i].s.center;
+                float w = 2; //- rnd() * 1;
+                float h = 2; //- rnd() * 1;
+                glBegin(GL_QUADS);
+                glVertex2i(c->x-w, c->y-h);
+                glVertex2i(c->x-w, c->y+h);
+                glVertex2i(c->x+w, c->y+h);
+                glVertex2i(c->x+w, c->y-h);
+                glEnd();
+                glPopMatrix();
+                randColorWater+= 10;
+        }
+}
+
 // all draw functions that get called in render funciton
 void drawGame_Textures(Game * game)
 {
@@ -655,5 +687,10 @@ void drawGame_TEST(Game * game)
 	drawTESTspikes(game);
 	drawPlatform(game,5);
 	drawTESTmissile(game);
+	drawMissilesExp(game);
 	drawTESTguy(game);
 }
+
+//add comment
+
+

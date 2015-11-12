@@ -114,8 +114,10 @@ void physics(Game * game)
 	game->removeMissiles();
 	game->checkCollision();
 
-	if(game->checkMissileHit())
+	if(game->checkMissileHit()){
 	    game->guts = true;
+	game->setMissiles = false;
+}
 
 	if(keys[XK_Left]) // left
 	{
@@ -217,6 +219,27 @@ void physics(Game * game)
 	    numblood--;
 	}
     }
+
+//making missile exp
+if(game->setMissiles == false) // respawn, reset guts animation
+        game->missiles.numExp = 0;
+
+ Particle *p3 = &game->missiles.exp[game->missiles.numExp];
+    for(int i = 0; i < game->missiles.numExp; ++i)
+    {
+        p3 = &game->missiles.exp[i];
+        p3->s.center.x += p3->velocity.x;
+        p3->s.center.y += p3->velocity.y;
+        p3->velocity.y -= 0.1;
+
+        if (p3->s.center.y < 0.0 || p3->s.center.y > window_height)
+        {
+            memcpy(&game->missiles.exp[i], &game->missiles.exp[game->missiles.numExp -1],
+                    sizeof(Particle));
+            game->missiles.numExp--;
+        }
+    }
+
 }
 
 

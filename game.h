@@ -70,6 +70,8 @@ struct Missile
 	Missile * next;
 	timespec MissilesStart;
 	int nextframe; // used for sprite animation
+	Particle exp[10000];
+	int numExp;
 };
 
 struct Platform
@@ -157,6 +159,8 @@ class Game
 		bool checkCollision();
 		bool checkMissileHit();
 		void removeMissiles();
+		void makeMissilesExp();
+		//void drawMissileExp();
 		// more collision checking with rect platforms??!?!
 		~Game();
 };

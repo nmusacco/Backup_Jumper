@@ -36,6 +36,7 @@ void Game::createMissiles()
 
     	
     	setMissiles = true;
+	missiles.numExp = 0;
 	clock_gettime(CLOCK_REALTIME, &missiles.MissilesStart);
 	missiles.nextframe = 0;
 	int x = this->window_width/2;

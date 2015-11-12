@@ -128,9 +128,9 @@ void physics(Game * game)
 	if(keys[XK_space] && game->if_jump) // spacebar
 	{
 	    //cout << "jump" <<endl;
-	    ALuint alBuffer;
+	    
 	    alBuffer = alutCreateBufferFromFile("./openal/test.wav");
-	    playSound(alBuffer);
+	    playSound();
             
 	    game->accelY(2 * INITIAL_VELOCITY);
 	}

@@ -24,7 +24,7 @@ struct button {
     Vec center;
 };
 
-
+bool bloodToggle = false;
 bool pausegame = true;
 
 void setMenuBackground()
@@ -96,8 +96,20 @@ void physics(Game * game)
 	game->inAir(); 
 	game->updatePlatforms();
 	game->applyGravity();
-	if(game->checkBottomScreen()) // spikes collision?
+	if(game->checkBottomScreen() && !bloodToggle) // spikes collision?
+	{
+	    int choice = rand() % 3;
+	       
+	    if(choice == 1)
+	        alBuffer = alutCreateBufferFromFile("./Sounds/death1.wav");
+	    if(choice == 2)
+	        alBuffer = alutCreateBufferFromFile("./Sounds/death2.wav");
+	    if(choice == 0)
+	        alBuffer = alutCreateBufferFromFile("./Sounds/death3.wav");
+	    playSound();
 	    game->guts = true;
+	    bloodToggle = true;
+	}
 	game->missileChasePlayer();
 	game->removeMissiles();
 	game->checkCollision();
@@ -128,8 +140,16 @@ void physics(Game * game)
 	if(keys[XK_space] && game->if_jump) // spacebar
 	{
 	    //cout << "jump" <<endl;
-	    
-	    alBuffer = alutCreateBufferFromFile("./openal/test.wav");
+	    int choice = rand() % 4;
+            if(choice == 1)
+	        alBuffer = alutCreateBufferFromFile("./Sounds/jump1.wav");
+            if(choice == 2)
+	        alBuffer = alutCreateBufferFromFile("./Sounds/jump2.wav");
+            if(choice == 3)
+	        alBuffer = alutCreateBufferFromFile("./Sounds/jump3.wav");
+            if(choice == 0)
+	        alBuffer = alutCreateBufferFromFile("./Sounds/jump4.wav");
+
 	    playSound();
             
 	    game->accelY(2 * INITIAL_VELOCITY);
@@ -223,6 +243,7 @@ int check_keys(XEvent *e, Game * game)
 	    {
 		game->setPos(window_width/2, window_height);
 		game->guts = false;
+		bloodToggle = false;
 	    }
 	}
 

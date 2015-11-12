@@ -395,8 +395,18 @@ void drawTESTguy(Game * game)
 
 void drawMissile(Game * game)
 {
+//	if(!game->setMissiles)
+//		return;
+
 	if(!game->setMissiles)
+	{
+		if(game->missiles.numExp == 0)
+			game->makeMissilesExp();
+		else
+			drawMissilesExp(game);	
 		return;
+	}
+
 	// used to allow non textures objects to maintain their color
 	glBindTexture(GL_TEXTURE_2D, 0);
 
@@ -659,11 +669,11 @@ void drawMissilesExp(Game *game)
 			randColorWater = 0;
 
 		if(setbackground)
-			glColor3ub(255 - randColorWater,10 ,5);// reD? water
+			glColor3f(rnd()*.3+.7, rnd()*.3+.7, 0);			
+			//glColor3ub(255 - randColorWater,10 ,5);// reD? water
 		else
-			glColor3ub(150,160,255);
-		//glColor3ub(0+randColorWater ,0+randColorWater ,255);// looks best 
-		//glColor3ub(150 + randColorWater, 160 + randColorWater,255); // too light colored
+			glColor3ub(0,0,255);
+	
 		Vec *c = &game->missiles.exp[i].s.center;
 		float w = 2; //- rnd() * 1;
 		float h = 2; //- rnd() * 1;

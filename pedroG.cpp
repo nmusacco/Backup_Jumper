@@ -57,7 +57,6 @@ GLuint silhouetteTexture;
 GLuint silhouetteTextureSpikes;
 GLuint silhouetteTextureMissile;
 GLuint silhouetteTextureGuts;
-//void makeMissilesExp(Game *game);
 void drawMissilesExp(Game *game);	
 
 void loadTextures()
@@ -271,7 +270,7 @@ void drawTESTmissile(Game * game)
 {
 	if(!game->setMissiles)
 	{
-		if(game->missiles.numExp == 0)
+		if(game->missiles.numExp == -1)
 			game->makeMissilesExp();
 		else
 			drawMissilesExp(game);	
@@ -414,7 +413,7 @@ void drawMissile(Game * game)
 
 	if(!game->setMissiles)
 	{
-		if(game->missiles.numExp == 0)
+		if(game->missiles.numExp == -1)
 			game->makeMissilesExp();
 		else
 			drawMissilesExp(game);	

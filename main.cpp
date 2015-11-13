@@ -49,8 +49,8 @@ using std::endl;
 
 // TODO fix gravity when window resizes
 #define GRAVITY 1
-#define MAX_VELOCITY 6
-#define INITIAL_VELOCITY 5
+int MAX_VELOCITY = 6;
+int INITIAL_VELOCITY = 5;
 
 int MAIN_MENU = 1;
 int RUN_GAME = 2;
@@ -81,11 +81,14 @@ int main(int argc, char ** argv)
 {
 	// makes the game run on a full window
 
+	///*
 	Display* disp = XOpenDisplay(NULL);
 	Screen*  scrn = DefaultScreenOfDisplay(disp);
-	window_height = scrn->height - 50;
+	window_height = scrn->height - 70;
 	window_width = scrn->width;
+	//*/
 
+	
 
 	initXWindows();
 	init_opengl();

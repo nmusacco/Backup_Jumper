@@ -172,6 +172,7 @@ void physics(Game * game)
 		if(killmovement && game->inAir()) // kill movement on x axis only
 			game->player.velocity.x = 0;
 
+
 		if(game->velX() > MAX_VELOCITY)
 			game->player.velocity.x = MAX_VELOCITY;
 		if(game->velX() < -1 * MAX_VELOCITY)
@@ -374,6 +375,12 @@ void PlayGame()
 	Game game;
 
 
+	if(window_height > 1080)
+	{
+		//game.gravity = 9;
+		MAX_VELOCITY = 12;
+		INITIAL_VELOCITY = 7;
+	}
 
 	srand(time(NULL));
 

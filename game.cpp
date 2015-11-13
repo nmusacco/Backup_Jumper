@@ -38,7 +38,7 @@ void Game::createMissiles()
 
 
     setMissiles = true;
-    missiles.numExp = 0;
+    missiles.numExp = -1;
     clock_gettime(CLOCK_REALTIME, &missiles.MissilesStart);
     missiles.nextframe = 0;
     int x = this->window_width/2;
@@ -72,6 +72,7 @@ bool Game::inAir()
 
 void Game::applyGravity()
 {
+
     if(player.position.y - player.height > 0)
 	accelY(-0.25 * gravity);
 
@@ -202,9 +203,12 @@ void Game::move()
     missiles.position.x += missiles.velocity.x;
     missiles.position.y += missiles.velocity.y;
 
+    float y = 0.04;
+    if(window_height > 1080)
+	y = 0.06;
     //player.position.y -= 0.1 *player.height;
     for(int i = 0; i < 5; ++i)
-	platform[i].pos.y -= 0.04 * player.height;
+	platform[i].pos.y -= y * player.height;
 }
 
 void Game::updatePlatforms()

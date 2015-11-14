@@ -128,8 +128,8 @@ void physics(Game * game)
 
 		if(game->checkMissileHit())
 		{
-			alBuffer = alutCreateBufferFromFile("./Sounds/explosion.wav");
-			playSound();			
+//			alBuffer = alutCreateBufferFromFile("./Sounds/explosion.wav");
+//			playSound();			
 			game->guts = true;
 			game->setMissiles = false;
 		}
@@ -460,7 +460,7 @@ void PlayGame()
 			timeSpan = timeDiff(&timeStart, &timeCurrent);
 			timeCopy(&timeStart, &timeCurrent);
 
-			if(!pausegame)
+			if(!pausegame && numblood < 1)
 			{
 
 				SCORE++;		//iterates the score every loop that the game is not paused
@@ -520,3 +520,29 @@ void PlayGame()
 	}
 	return;
 }
+
+
+void makeMissilesExp(Game * game)
+{
+
+	float vely = 2;
+	game->missiles.numExp = 200;
+
+	int x = game->missiles.position.x;
+	int y = game->missiles.position.y;
+	
+	alBuffer = alutCreateBufferFromFile("./Sounds/explosion.wav");
+	playSound();			
+
+	//Particles &p = par;
+	for(int i = 0; i < game->missiles.numExp; ++i)
+	{
+		game->missiles.exp[i].s.center.x = x;
+		game->missiles.exp[i].s.center.y = y;
+		game->missiles.exp[i].velocity.x = rnd() * 5 - rnd() * 5;
+
+		game->missiles.exp[i].velocity.y = rnd() * game->player.height/vely - rnd() * game->player.height/vely ;
+	}
+}
+
+

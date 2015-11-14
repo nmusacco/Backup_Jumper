@@ -270,8 +270,8 @@ void drawTESTmissile(Game * game)
 {
 	if(!game->setMissiles)
 	{
-		if(game->missiles.numExp == -1)
-			game->makeMissilesExp();
+		if(game->missiles.numExp == -2)
+			makeMissilesExp(game);
 		else
 			drawMissilesExp(game);	
 		return;
@@ -413,8 +413,8 @@ void drawMissile(Game * game)
 
 	if(!game->setMissiles)
 	{
-		if(game->missiles.numExp == -1)
-			game->makeMissilesExp();
+		if(game->missiles.numExp == -2)
+			makeMissilesExp(game);
 		else
 			drawMissilesExp(game);	
 		return;
@@ -679,6 +679,8 @@ void drawMissilesExp(Game *game)
 	glBindTexture(GL_TEXTURE_2D, 0);
 	// draw gut particles particles 
 	int randColorWater = 0;
+
+
 	for(int i = 0; i < game->missiles.numExp; ++i)
 	{
 		if(randColorWater == 100)

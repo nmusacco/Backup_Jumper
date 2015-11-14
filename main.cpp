@@ -11,7 +11,7 @@
 
 // game class
 #include "game.h"
-#include<iostream>
+#include <iostream>
 // GLOBAL vars
 int window_width = 800;
 int window_height = 600;
@@ -48,8 +48,8 @@ using std::endl;
 
 
 // TODO fix gravity when window resizes
-#define GRAVITY 1
-int MAX_VELOCITY = 6;
+float GRAVITY = 1; 
+int MAX_VELOCITY = 8;
 int INITIAL_VELOCITY = 5;
 
 int MAIN_MENU = 1;
@@ -81,10 +81,21 @@ int main(int argc, char ** argv)
 {
 	// makes the game run on a full window
 
-	///*
+	/*
 	Display* disp = XOpenDisplay(NULL);
 	Screen*  scrn = DefaultScreenOfDisplay(disp);
-	window_height = scrn->height - 70;
+	window_height = scrn->height;
+	
+	if(window_height >= 1080)
+	{
+		window_height -= 70;
+		cout << "big window" << endl;
+		INITIAL_VELOCITY = 8;
+		MAX_VELOCITY = 12;
+	}
+	else if(window_height > 800)
+		window_height -= 50;
+	
 	window_width = scrn->width;
 	//*/
 
@@ -142,8 +153,8 @@ void render(Game * game)
 
 	// TEXT
 	Rect r;
-	r.bot = window_height - 20;
-	r.left = 10;
+	r.bot = window_height - 90;
+	r.left = 80;
 	r.center = 0;
 	Rect c;
 	c.bot = window_height/2;
@@ -152,15 +163,15 @@ void render(Game * game)
 	//ggprint8b(&r, 16, 0x00FFFF00, "fps: %i",  static_cast<int>(fps/timeDiff(&start, &timeCurrent)));
 	if(STATE != DEATH)
 	{
-		ggprint8b(&r, 16, 0x00FFFF00, "PhysicsRate: %i", static_cast<int>(1/physicsRate));
-		ggprint8b(&r, 16, 0x00FFFF00, "water particles: %i", numParticles);
-		ggprint8b(&r, 16, 0x00FFFF00, "blood particles: %i", numblood);
-		ggprint8b(&r, 16, 0x00FFFF00, "Hit sides: %i", game->checkLeftScreenHit() || game->checkRightScreenHit());
-	        ggprint8b(&r, 16, 0x00FFFF00, "Score: %i", SCORE);
+		//ggprint8b(&r, 16, 0x00FFFF00, "PhysicsRate: %i", static_cast<int>(1/physicsRate));
+		//ggprint8b(&r, 16, 0x00FFFF00, "water particles: %i", numParticles);
+		//ggprint8b(&r, 16, 0x00FFFF00, "blood particles: %i", numblood);
+		//ggprint8b(&r, 16, 0x00FFFF00, "Hit sides: %i", game->checkLeftScreenHit() || game->checkRightScreenHit());
+	    ggprint16(&r, 16, 0x00FFFF00, "Score: %i", SCORE);
 	}
 	else
 	{
-		ggprint16(&c, 16, 0x00FFFF00, "You have died!");
+		ggprint16(&c, 16, 0x00FF0000, "You have died!");
 		ggprint16(&c, 16, 0x00FFFF00, " ");
 		ggprint16(&c, 16, 0x00FFFF00, "Score: %i", SCORE);	
 		ggprint16(&c, 16, 0x00FFFF00, " ");

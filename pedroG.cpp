@@ -183,13 +183,13 @@ void drawBackground(Game * game)
 	glColor3f(1.0, 1.0, 1.0);
 	glBindTexture(GL_TEXTURE_2D, backgroundTexture);
 	glBegin(GL_QUADS);
-	glTexCoord2f(0, 0.3 + b_i); // bot left
+	glTexCoord2f(0, 0.1 + b_i); // bot left
 	glVertex2i(0,0);
 	glTexCoord2f(0,b_i); // top left
 	glVertex2i(0, window_height);
 	glTexCoord2f(1,b_i); // top right
 	glVertex2i(window_width, window_height);
-	glTexCoord2f(1, 0.3 + b_i); // bot right
+	glTexCoord2f(1, 0.1 + b_i); // bot right
 	glVertex2i(window_width, 0);
 	glEnd();
 

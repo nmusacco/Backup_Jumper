@@ -334,8 +334,6 @@ int check_keys(XEvent *e, Game * game)
 
 
 
-
-
 // check for button clicks?
 void check_mouse(XEvent *e, Game *game)
 {
@@ -398,7 +396,9 @@ void PlayGame()
 		game.setResolution(window_width, window_height);
 		makePlatform(5,&game);
 		
-		game.setPos(window_width/2, window_height);
+		// Pedro here
+		// For the love of zeus don't touch
+		//game.setPos(window_width/2, window_height);
 
 		if(TOGGLE_SOUND)		//Sound switch so that the background music doesnt get recalled after the initial call
 		{

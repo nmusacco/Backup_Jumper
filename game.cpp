@@ -29,7 +29,7 @@ Game::Game()
     run = true;
     guts = false;
     missiles.numExp = 0;
-
+	platformHead = NULL;
 }
 
 // create ONE missile
@@ -79,9 +79,9 @@ void Game::applyGravity()
     Powerup * p = powerups;
     while(p != NULL)
     {
-	if(p->position.y - p->height > 0)
-	    p->velocity.y += -0.25 * gravity;
-	p = p->next;
+		if(p->position.y - p->height > 0)
+			p->velocity.y += -0.25 * gravity;
+		p = p->next;
     }
 }
 
@@ -98,18 +98,18 @@ void Game::missileChasePlayer()
     missiles.nextframe++;
 
     if(posX() > x)   
-	x_vel = speed;
+		x_vel = speed;
     else if(posX() == x)
-	x_vel = 0;
+		x_vel = 0;
     else	
-	x_vel = -speed;
+		x_vel = -speed;
 
     if(posY() > y)
-	y_vel = speed;
+		y_vel = speed;
     else if(posY() == y)
-	y_vel = 0;
+		y_vel = 0;
     else
-	y_vel = -speed;
+		y_vel = -speed;
 
     missiles.velocity.x = x_vel;
     missiles.velocity.y = y_vel;
@@ -152,14 +152,13 @@ void Game::setResolution(int x, int y)
     missiles.width = 3*player.width;
     missiles.height = 2*3*player.height;
 
-
-
-    for(int i = 0; i < 5; ++i)
+	Platform * p = platformHead;
+    while(p)
     {
-	platform[i].width = player.width * 15;
-	platform[i].height = player.height * 0.35;
-	//platform[i].pos.y += 1.0/6.0 *window_height* (i + 1) + platform[i].height*2;
-    }
+		p->width = player.width * 15;
+		p->height = player.height * 0.35;
+		p = p->next;
+	}
 }
 
 
@@ -205,10 +204,15 @@ void Game::move()
 
     float y = 0.04;
     if(window_height > 1080)
-	y = 0.06;
-    //player.position.y -= 0.1 *player.height;
-    for(int i = 0; i < 5; ++i)
-	platform[i].pos.y -= y * player.height;
+		y = 0.06;
+    
+	//player.position.y -= 0.1 *player.height;
+	Platform * p = platformHead;
+    while(p)
+	{
+		p->pos.y -= y * player.height;
+		p = p->next;
+	}
 }
 
 void Game::updatePlatforms()
@@ -216,13 +220,17 @@ void Game::updatePlatforms()
     //int width = player.width * 15;
     //int height = player.height * 0.35;
     //when one platform hits the ground it is replaced and put on top
-    for(int i = 0; i < 5; ++i)
-	if(platform[i].pos.y < 0)
+    
+	Platform * p = platformHead;
+	while(p)
 	{
-	    srand(time(NULL));
-	    platform[i].pos.x= rand()%window_width-rand()%platform[i].width;
-	    // h_w - h_w/5 * (i + 1) + player height * 2
-	    platform[i].pos.y = window_height + platform[i].height;//-20;//window_height - 1.0/6.0 *window_height* (i + 1) + platform[i].height*2;
+		if(p->pos.y < 0)
+		{
+			srand(time(NULL));
+			p->pos.x= rand()%window_width ;
+			p->pos.y = window_height + p->height;
+		}
+		p = p->next;
 	}
 }
 
@@ -233,5 +241,15 @@ void Game::updatePlatforms()
 // deallocate here!
 Game::~Game()
 {
-
+	int x = 0;
+	Platform * p = platformHead;
+	Platform * hold = NULL;
+	while(p)
+	{
+		x++;
+		hold = p;
+		p = p->next;
+		delete hold;
+	}
+	cout << "NUMBER OF PLATFORMS DELETED: " << x << endl;
 }

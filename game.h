@@ -79,7 +79,8 @@ struct Platform
 	Vec pos;
 	int width;
 	int height;
-	Vec velocity;
+	Platform * next;
+	Platform(Vec x, int w, int h, Platform * n): pos(x), width(w), height(h), next(n){}
 };
 
 class Game
@@ -103,11 +104,50 @@ class Game
 		
 		Missile missiles;
 		Powerup * powerups;
-		Platform platform[5];
+		Platform * platformHead;
 
 		// initialized game objects
 		// set player position, etc
 		Game();
+		
+		// Game gets assigned a Game object later on so we needed an assign operator
+		///*
+		Game & operator = (const Game & other)
+		{
+			if(this != &other)
+			{
+				int x = 0;
+				Platform * p = this->platformHead;
+				Platform * hold = NULL;
+				while(p)
+				{
+					x++;
+					hold = p;
+					p = p->next;
+					delete hold;
+				}
+				cout << "COPY!!! OF PLATFORMS DELETED: " << x << endl;
+				
+				this->setPos(30,1000);
+				this->setAccel(0,0);
+				this->gravity = 1;
+
+				this->powerupTimer = 14;
+
+				this->powerups = NULL;
+				//missiles = NULL;
+
+				this->accelY(-1);
+				this->if_jump = false;
+				this->if_hit = false;
+				this->run = true;
+				this->guts = false;
+				this->missiles.numExp = 0;
+				this->platformHead = NULL;
+			}
+			return *this;
+		}
+		//*/
 		
 		void createMissiles();
 		
@@ -161,7 +201,9 @@ class Game
 		void removeMissiles();
 		void makeMissilesExp();
 		//void drawMissileExp();
-		// more collision checking with rect platforms??!?!
+		
+		
+		
 		~Game();
 };
 

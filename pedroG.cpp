@@ -270,7 +270,7 @@ void drawTESTmissile(Game * game)
 {
 	if(!game->setMissiles)
 	{
-		if(game->missiles.numExp == -2)
+		if(game->missiles.numExp == -1)
 			makeMissilesExp(game);
 		else
 			drawMissilesExp(game);	
@@ -413,7 +413,7 @@ void drawMissile(Game * game)
 
 	if(!game->setMissiles)
 	{
-		if(game->missiles.numExp == -2)
+		if(game->missiles.numExp == -1)
 			makeMissilesExp(game);
 		else
 			drawMissilesExp(game);	

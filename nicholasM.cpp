@@ -182,11 +182,13 @@ void physics(Game * game)
 
 		if(!game->setMissiles)
 		{	
-			for(int i = 0; i < 5; ++i)
+			for(int i = 0; i < 50; ++i)
 			{		
 				if((int)SCORE % 5000 == rand() % 5000)
 				{
 					game->createMissiles();
+					alBuffer = alutCreateBufferFromFile("./Sounds/missile.wav");
+					playSound();
 					break;
 				}
 			}

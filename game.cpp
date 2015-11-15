@@ -224,7 +224,7 @@ void Game::updatePlatforms()
 	Platform * next = p->next;
 	Platform * prev = NULL;
 	Vec pos;
-	srand (time(NULL));
+	//srand (time(NULL));
 	if(!p)
 		return;
 	

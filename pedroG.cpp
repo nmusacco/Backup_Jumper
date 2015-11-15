@@ -173,7 +173,7 @@ float b_i = 0.0;
 
 void drawBackground(Game * game)
 {
-	float x = 0.0001;
+	float x = 0.0005;
 	//if(b_i >= 0.3 + b_i)
 	//	b_i = 0.00;
 
@@ -204,6 +204,8 @@ void drawWater()
 	{
 		if(randColorWater == 100)
 			randColorWater = 0;
+		
+		//glColor3f(rnd()*.3+.7, rnd()*.3+.7, 0);
 		//glColor3ub(255 ,160 ,255);// reD? water
 		glColor3ub(0+randColorWater ,0+randColorWater ,255);// looks best 
 		//glColor3ub(150 + randColorWater, 160 + randColorWater,255); // too light colored
@@ -310,7 +312,7 @@ void makeTESTguts(Game * game)
 		numblood = 100;
 	else
 	{
-		numblood = 200;
+		numblood = 500;
 		vely = 2 ;
 	}
 	int x = game->posX();
@@ -709,8 +711,11 @@ void drawMissilesExp(Game *game)
 // all draw functions that get called in render funciton
 void drawGame_Textures(Game * game)
 {
+	
 	drawBackground(game);
 	drawSpike(game);
+	glBindTexture(GL_TEXTURE_2D, 0);	
+	drawWater();
 	drawPlatform(game,5);
 	drawMissile(game);
 	drawSkeleton(game);
@@ -721,6 +726,7 @@ void drawGame_Textures(Game * game)
 // debug mode/retro style
 void drawGame_TEST(Game * game)
 {
+	drawWater();
 	drawTESTspikes(game);
 	drawPlatform(game,5);
 	drawTESTmissile(game);

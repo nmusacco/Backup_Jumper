@@ -391,7 +391,6 @@ void PlayGame()
 
 		game.setGravity(GRAVITY);
 
-		// set players position
 
 		game.setResolution(window_width, window_height);
 		makePlatform(5,&game);
@@ -525,8 +524,8 @@ void PlayGame()
 void makeMissilesExp(Game * game)
 {
 
-	float vely = 2;
-	game->missiles.numExp = 200;
+	float vely = 6;
+	game->missiles.numExp = 500;
 
 	int x = game->missiles.position.x;
 	int y = game->missiles.position.y;

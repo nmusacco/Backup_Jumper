@@ -91,7 +91,7 @@ int main(int argc, char ** argv)
 	{
 		window_height -= 70;
 		cout << "big window" << endl;
-		INITIAL_VELOCITY = 8;
+		INITIAL_VELOCITY = 12;
 		MAX_VELOCITY = 12;
 	}
 	else if(window_height > 800)
@@ -129,8 +129,9 @@ void makeParticle(int x, int y)
 	Particle *p = &par[numParticles];
 	p->s.center.x = x;
 	p->s.center.y = y;
-	p->velocity.x =  1.0 + rnd() * 0.1;
-	p->velocity.y = rnd() * 1.0 - 0.5;
+	p->velocity.x =  1.0 + rnd() * 2;
+	//p->velocity.y = rnd() * 1.0 - 0.5;
+	p->velocity.y = rnd() * 0.4 - 0.5;
 	numParticles++;
 }
 
@@ -145,12 +146,17 @@ void render(Game * game)
 	game->checkRightScreenHit();
 	game->checkLeftScreenHit();
 
+
 	// texture
 	if(setbackground)
 	{
 		// draws background, player, spikes, missiles
 		drawGame_Textures(game);
 	}
+	else
+	// debug/retrostyle mode
+		drawGame_TEST(game);
+	
 
 	// TEXT
 	Rect r;
@@ -178,13 +184,8 @@ void render(Game * game)
 		ggprint16(&c, 16, 0x00FFFF00, " ");
 		ggprint16(&c, 16, 0x00FFFF00, "Press ESC to return to the main menu!");
 	}
+		// waterfall
 
-	// debug/retrostyle mode
-	if(!setbackground)
-	{
-		drawGame_TEST(game);
-	}
 
-	// waterfall
-	drawWater();
+
 }

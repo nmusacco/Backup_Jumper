@@ -65,7 +65,7 @@ bool Game::checkCollision()
 		// checks x axis
 		if(posX() <= (p->pos.x + p->width) && posX() >= (p->pos.x - p->width))
 			// check y axis
-			if(posY() - player.height >= p->pos.y  && posY() - player.height <= p->pos.y + p->height)
+			if(posY() - player.height >= p->pos.y - p->height/2  && posY() - player.height <= p->pos.y + p->height)
 			// makes him land first before setting it as a collision
 				if(velY() <= 0)
 				{ 

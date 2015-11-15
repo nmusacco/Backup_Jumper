@@ -180,11 +180,11 @@ void physics(Game * game)
 		game->removeMissiles();
 		game->checkCollision();
 
-		if(!game->setMissiles)
+		if(!game->setMissiles && game->missiles.numExp <= 0)
 		{	
 			for(int i = 0; i < 50; ++i)
 			{		
-				if((int)SCORE % 5000 == rand() % 5000)
+				if((int)SCORE % 5000 == rand() % 5000 && !game->setMissiles)
 				{
 					game->createMissiles();
 					alBuffer = alutCreateBufferFromFile("./Sounds/missile.wav");

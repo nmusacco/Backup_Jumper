@@ -42,8 +42,8 @@ void Game::createMissiles()
     int x = this->window_width/2;
     int y = this->window_height/2;
 
-    int width = 3*player.width;
-    int height = 2*player.height;
+    int width = 2*player.width;
+    int height = 6*player.height;
 
     missiles.position.x = x;
     missiles.position.y = y;
@@ -148,7 +148,7 @@ void Game::setResolution(int x, int y)
     player.width = window_height*0.01;
     player.height = window_height*0.05;
     missiles.width = 3*player.width;
-    missiles.height = 2*3*player.height;
+    missiles.height = 6*player.height;
 
 	Platform * p = platformHead;
     while(p)

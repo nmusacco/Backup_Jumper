@@ -155,6 +155,18 @@ void physics(Game * game)
 		game->removeMissiles();
 		game->checkCollision();
 
+		if(!game->setMissiles)
+		{	
+			for(int i = 0; i < 5; ++i)
+			{		
+				if(SCORE % 5000 == rand() % 5000)
+				{
+					game->createMissiles();
+					break;
+				}
+			}
+		}
+
 		if(game->checkMissileHit())
 		{
 //			alBuffer = alutCreateBufferFromFile("./Sounds/explosion.wav");
@@ -448,6 +460,7 @@ void PlayGame()
 		TOGGLE_PAUSE = true;
 		numblood = 0;
 		SCORE = 0;
+		game.setMissiles = false;
 		
 		while(STATE == MAIN_MENU && game.run)
 		{
@@ -502,15 +515,7 @@ void PlayGame()
 				game.setResolution(window_width, window_height);
 			}
 	
-			if(!game.setMissiles)
-			{	
-				for(int i = 0; i < 5; ++i)
-				{				
-					if(SCORE % 5000 == rand() % 5000)
-						game.createMissiles();
-				}
 
-			}
 			if(game.guts && numblood <= 50)
 			{
 				STATE = DEATH;	//changes the game state to the death screen once the person has died and the blood particles are off the screen

@@ -29,7 +29,7 @@ Game::Game()
     run = true;
     guts = false;
     missiles.numExp = 0;
-	platformHead = NULL;
+    platformHead = NULL;
 }
 
 // create ONE missile
@@ -101,7 +101,7 @@ void Game::missileChasePlayer()
 	return;
     float x = missiles.position.x;
     float y = missiles.position.y;
-    float speed = 7;
+    float speed = 2;
     float x_vel;
     float y_vel;
 

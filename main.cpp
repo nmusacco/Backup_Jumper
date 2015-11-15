@@ -42,6 +42,7 @@ void check_mouse(XEvent *e, Game *game);
 void physics(Game * game);
 void render(Game * game);
 void makeParticle(int x, int y);
+void makeMissilesExp(Game* game);
 
 using std::cout;
 using std::endl;
@@ -81,7 +82,7 @@ int main(int argc, char ** argv)
 {
 	// makes the game run on a full window
 
-	/*
+	///*
 	Display* disp = XOpenDisplay(NULL);
 	Screen*  scrn = DefaultScreenOfDisplay(disp);
 	window_height = scrn->height;

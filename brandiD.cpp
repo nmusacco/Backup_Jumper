@@ -107,23 +107,3 @@ void Game::removeMissiles()
 	}
 }
 
-void Game::makeMissilesExp()
-{
-
-	float vely = 2;
-	missiles.numExp = 200;
-
-	int x = missiles.position.x;
-	int y = missiles.position.y;
-
-	//Particles &p = par;
-	for(int i = 0; i < missiles.numExp; ++i)
-	{
-		missiles.exp[i].s.center.x = x;
-		missiles.exp[i].s.center.y = y;
-		missiles.exp[i].velocity.x = rnd() * 5 - rnd() * 5;
-
-		missiles.exp[i].velocity.y = rnd() * player.height/vely - rnd() * player.height/vely ;
-	}
-}
-

@@ -39,23 +39,17 @@ void makePlatform(int amt, Game *game)
 	Vec pos;
 	
 	srand (time(NULL));
-	
 	int w = game->player.width * 15;
 	int h = game->player.height * 0.35;
-
 	pos.x = rand() % window_width;
 	pos.y = window_height - 1.0/5.0 * window_height + h * 2;
 	
 	// first element in platformHead
-	//srand (time(NULL));
 	game->platformHead = new Platform(pos, w, h, NULL); // top and first platform
-	
-	
 	
 	// the rest of the linked list
 	Platform * ptr = game->platformHead;
 	ptr->num = 0;
-	
 	for(int i = 1; i < 5; ++i) // 4
 	{
 		pos.x = rand() % window_width;
@@ -64,10 +58,11 @@ void makePlatform(int amt, Game *game)
 		ptr->next = new Platform(pos, w, h, NULL);		
 		ptr->next->num = i;
 		ptr = ptr->next;
-		//ptr = new Platform(pos, w, h, NULL);
-		//srand (time(NULL));
-		int numofPlat_sameAxis = rand() % 3;
-		//ptr->shareXaxis = numofPlat_sameAxis;
+
+		int xaxis = 3;
+		if(window_width > 800)
+			xaxis = 4;
+		int numofPlat_sameAxis = rand() % xaxis;
 		cout << numofPlat_sameAxis << endl;
 		for(int r = 0; r < numofPlat_sameAxis; ++r) // 
 		{
@@ -79,7 +74,6 @@ void makePlatform(int amt, Game *game)
 			ptr = ptr->next;
 		}	
 	}
-	
 	// sets the player's x axis to the first platforms x axis
 	game->player.position.x = game->platformHead->pos.x;
 }

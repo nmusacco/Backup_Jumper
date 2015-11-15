@@ -246,28 +246,12 @@ void Game::updatePlatforms()
 			{
 				int hold = p->next->num;
 				next = p->next->next;
-				//srand(time(NULL));
-				pos.x = rand() % (int)(window_width - w) + w;//rand() % (window_width - w) + w;
+				pos.x = rand() % (int)(window_width - w) + w;
 				cout << "delete" << hold << endl;
 				delete p->next;
 
 				p->next = new Platform(pos, w, h, next);
 				p->next->num = hold;
-				/*
-				Platform * last = p;			
-				int numofPlat_sameAxis = rand() % 3;
-				for(int r = 0; r < numofPlat_sameAxis; ++r)
-				{
-					int newx = rand() % (window_width/(r + 1));
-					//pos.x = (newx >= pos.x - w && newx <= pos.x + w) ? newx - w * 3 : newx;
-					pos.x = newx;
-					
-					for(;last->next; last = last->next);
-					last->next = new Platform(pos, w, h, NULL);
-					//last = p->next;
-				}
-				*/
-				//p = p->next;
 			}
 		p = p->next;
 	}

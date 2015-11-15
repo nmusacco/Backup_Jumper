@@ -39,9 +39,21 @@ void Game::createMissiles()
     missiles.numExp = -1;
     clock_gettime(CLOCK_REALTIME, &missiles.MissilesStart);
     missiles.nextframe = 0;
-    int x = this->window_width/2;
-    int y = this->window_height/2;
-
+    int x;
+    int y;
+    switch(rand()%3)
+    {
+         case 0:  y = this->window_height / 2;
+                  x = this->window_width / 2 * -1;
+                  break;
+         case 1:  y = this->window_height / 2;
+                  x = this->window_width + this->window_width / 2;
+                  break;
+         case 2:  y = this->window_height + this->window_height/2;
+                  x = this->window_width / 2;
+                  break;
+    }
+    
     int width = 2*player.width;
     int height = 6*player.height;
 
@@ -89,7 +101,7 @@ void Game::missileChasePlayer()
 	return;
     float x = missiles.position.x;
     float y = missiles.position.y;
-    float speed = 2;
+    float speed = 7;
     float x_vel;
     float y_vel;
 

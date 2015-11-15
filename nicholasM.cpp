@@ -159,7 +159,7 @@ void physics(Game * game)
 		{	
 			for(int i = 0; i < 5; ++i)
 			{		
-				if(SCORE % 5000 == rand() % 5000)
+				if((int)SCORE % 5000 == rand() % 5000)
 				{
 					game->createMissiles();
 					break;
@@ -367,14 +367,19 @@ int check_keys(XEvent *e, Game * game)
 					setbackground = true;
 			}
 		}
-		if(key == XK_Escape)
+		else
 		{
-			if(STATE != DEATH)
-				game->run = false;
-			else
-				STATE = MAIN_MENU;
-			pausegame = true;
+			if(key == XK_m)
+			{
+				if(STATE != DEATH)
+					return 0;
+				else
+					STATE = MAIN_MENU;
+				pausegame = true;
+			}
 		}
+		if(key == XK_Escape)
+			game->run = false;
 	}	
 	return 0;
 }

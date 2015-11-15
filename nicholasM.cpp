@@ -98,7 +98,7 @@ void setMenuBackground()
 
 void setHowToBackground()
 {
-	
+	/*	
 	Rect R;
 	R.bot  =  (window_height * 4 / 5);	//green start game button
 	R.left  = (window_width/5);
@@ -109,7 +109,7 @@ void setHowToBackground()
 	overlay.center.x = window_width - 150;
 	overlay.width  = 150;
 	overlay.height = 16;
-	
+	*/
 
 	glColor3f(1.0, 1.0, 1.0);
 	glBindTexture(GL_TEXTURE_2D, howToTexture);		//This section of code renders the menu background
@@ -124,7 +124,7 @@ void setHowToBackground()
 	glVertex2i(window_width, 0);//width/2,0);//window_width, 0);
 	glEnd();
 	   
-
+	/*
 	ggprint16(&R, 34, 0x00FFFF00, "TIP: Press W to change between");
 	ggprint16(&R, 34, 0x00FFFF00, "     Graphic settings while");
 	ggprint16(&R, 34, 0x00FFFF00, "     you are in game!");
@@ -147,7 +147,7 @@ void setHowToBackground()
 	glPopMatrix();
 
 	ggprint16(&R, 34, 0x0000FF00, "HINT: Press Enter to Continue");
-
+	*/
 			
 }
 
@@ -334,12 +334,18 @@ int check_keys(XEvent *e, Game * game)
 		keys[key] = 0;
 		if(key == XK_space)
 			killmovement = false;
+	
+		if((!keys[XK_Right] || !keys[XK_Left]) && !keys[XK_space] && !game->inAir())
+  			 killmovement = true;
+
+
+
 	}
 
 	if(e->type == KeyPress)
 	{
 		keys[key] = 1;
-
+		
 		if(STATE == HOW_TO)
 		{
 			if(key == XK_Return)

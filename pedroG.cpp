@@ -71,7 +71,7 @@ void loadTextures()
 	missile = ppm6GetImage("./images/missile.ppm");
 	guts = ppm6GetImage("./images/guts.ppm");
 	menu = ppm6GetImage("./images/main.ppm");
-	howTo = ppm6GetImage("./images/howTo.ppm");
+	howTo = ppm6GetImage("./images/howTo2.ppm");
 
 
 	// generate opengl texture element
@@ -295,10 +295,9 @@ void drawTESTmissile(Game * game)
 	x = game->missiles.position.x;
 	y = game->missiles.position.y;
 	w = game->missiles.width;
-	
 	h = game->missiles.height;
 	
-	int width = 3*game->player.width;
+	/*int width = 3*game->player.width;
     int height = 2*game->player.height;
 	if(w != width || h != height)
 	{	
@@ -307,7 +306,7 @@ void drawTESTmissile(Game * game)
 		std::cout << "EXPECTED W: " << width << " h: " << height << endl;
 		std::cout << "PLAYER SIZE player w: " << game->player.width << " h: " << game->player.height << endl;
 		//exit(1);
-	}
+	}*/
 	float PI = 3.14159265359;
 	float angle = atan2(game->posX() - x, game->posY() - y) * 180 / PI;
 

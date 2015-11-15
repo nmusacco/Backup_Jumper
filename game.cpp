@@ -101,7 +101,7 @@ void Game::missileChasePlayer()
 	return;
     float x = missiles.position.x;
     float y = missiles.position.y;
-    float speed = 2;
+    float speed = 24;
     float x_vel;
     float y_vel;
 

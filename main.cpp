@@ -187,7 +187,7 @@ void render(Game * game)
 		ggprint16(&c, 16, 0x00FFFF00, " ");
 		ggprint16(&c, 16, 0x00FFFF00, "Score: %i", SCORE);	
 		ggprint16(&c, 16, 0x00FFFF00, " ");
-		ggprint16(&c, 16, 0x00FFFF00, "Press ESC to return to the main menu!");
+		ggprint16(&c, 16, 0x00FFFF00, "Press M to return to the main menu!");
 	}
 		// waterfall
 

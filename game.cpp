@@ -101,7 +101,7 @@ void Game::missileChasePlayer()
 	return;
     float x = missiles.position.x;
     float y = missiles.position.y;
-    float speed = 24;
+    float speed = 4;
     float x_vel;
     float y_vel;
 
@@ -241,7 +241,7 @@ void Game::updatePlatforms()
 	
 	pos.y = window_height + p->height;
 		
-	if(p->pos.y < 0) // move the first element
+	if(p->pos.y + h < 0) // move the first element
 	{
 		delete p;
 		pos.x = rand() % (window_width - w) + w;
@@ -253,7 +253,7 @@ void Game::updatePlatforms()
 	while(p) // move the rest of the elements in the list
 	{
 		if(p->next)
-			if(p->next->pos.y < 0)
+			if(p->next->pos.y  < -h)
 			{
 				int hold = p->next->num;
 				next = p->next->next;

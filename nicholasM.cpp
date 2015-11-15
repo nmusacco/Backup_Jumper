@@ -96,6 +96,35 @@ void setMenuBackground()
 
 }
 
+void setHowToBackground()
+{
+	/*
+	button startb;
+	startb.center.y  =  window_height/2;	//green start game button
+	startb.center.x  = (window_width/3);
+	startb.width = 50;
+	startb.height = 50;
+
+	button exitb;
+	exitb.center.y = window_height/2;	//red exit game button
+	exitb.center.x = (window_width * 2 / 3);
+	exitb.width  = 50;
+	exitb.height = 50;
+	*/
+
+	glColor3f(1.0, 1.0, 1.0);
+	glBindTexture(GL_TEXTURE_2D, howToTexture);		//This section of code renders the menu background
+	glBegin(GL_QUADS);
+	glTexCoord2f(0,1);
+	glVertex2i(0,0);
+	glTexCoord2f(0,0);
+	glVertex2i(0, window_height);//height/2);//window_height);
+	glTexCoord2f(1,0);
+	glVertex2i(window_width, window_height);//width/2, height/2);//window_width, window_height);
+	glTexCoord2f(1,1);
+	glVertex2i(window_width, 0);//width/2,0);//window_width, 0);
+	glEnd();
+}
 
 
 void physics(Game * game)
@@ -274,6 +303,12 @@ int check_keys(XEvent *e, Game * game)
 	{
 		keys[key] = 1;
 
+		if(STATE == HOW_TO)
+		{
+			if(key == XK_Return)
+				STATE = RUN_GAME;
+		}
+
 		if(STATE != DEATH) //this turns off keys except for ESC when you are dead
 		{
 			if(key == XK_k) // respawn
@@ -352,7 +387,7 @@ void check_mouse(XEvent *e, Game *game)
 				{
 					if(mousex >= (window_width/3) - 50 && mousex <= (window_width/3) + 50)
 					{
-						STATE = RUN_GAME;
+						STATE = HOW_TO;
 					}
 					if(mousex <= (window_width * 2 / 3) + 50
 							&& mousex >= (window_width * 2 / 3) - 50)
@@ -370,6 +405,7 @@ void check_mouse(XEvent *e, Game *game)
 
 void PlayGame()
 {
+	bool menuToggle = true;
 	Game game;
 
 
@@ -387,6 +423,7 @@ void PlayGame()
 	clock_gettime(CLOCK_REALTIME, &start);
 	while(game.run)
 	{	
+		//bool menuToggle = true;	
 		game = Game();
 
 		game.setGravity(GRAVITY);
@@ -426,8 +463,25 @@ void PlayGame()
 			setMenuBackground();
 			glXSwapBuffers(dpy, win);
 		}
+		
+		while(STATE == HOW_TO && game.run && menuToggle)
+		{
 
-		usleep(1000);
+			XEvent howTo;
+			while(XPending(dpy))
+			{
+				XNextEvent(dpy, &howTo);
+				check_keys(&howTo, &game);
+				check_mouse(&howTo, &game);
+				game.setResolution(window_width, window_height);
+			}
+			setHowToBackground();
+			glXSwapBuffers(dpy, win);
+		}
+		if(menuToggle)
+			menuToggle = false;
+		
+		STATE = RUN_GAME;
 
 		while(STATE == RUN_GAME && game.run)
 		{
@@ -448,9 +502,7 @@ void PlayGame()
 				game.setResolution(window_width, window_height);
 			}
 
-
-
-			if(game.guts && numblood == 0)
+			if(game.guts && numblood <= 50)
 			{
 				STATE = DEATH;	//changes the game state to the death screen once the person has died and the blood particles are off the screen
 			}

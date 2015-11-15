@@ -53,6 +53,9 @@ GLuint backgroundTexture;
 Ppmimage *menu = NULL;
 GLuint  menuTexture;
 
+Ppmimage *howTo = NULL;
+GLuint howToTexture;
+
 GLuint silhouetteTexture;
 GLuint silhouetteTextureSpikes;
 GLuint silhouetteTextureMissile;
@@ -68,6 +71,8 @@ void loadTextures()
 	missile = ppm6GetImage("./images/missile.ppm");
 	guts = ppm6GetImage("./images/guts.ppm");
 	menu = ppm6GetImage("./images/main.ppm");
+	howTo = ppm6GetImage("./images/howTo.ppm");
+
 
 	// generate opengl texture element
 	glGenTextures(1, &skeletonTexture);
@@ -76,6 +81,7 @@ void loadTextures()
 	glGenTextures(1, &missileTexture);
 	glGenTextures(1, &gutsTexture);
 	glGenTextures(1, &menuTexture);
+	glGenTextures(1, &howToTexture);
 
 	glGenTextures(1, &silhouetteTexture);
 	glGenTextures(1, &silhouetteTextureSpikes);
@@ -166,6 +172,14 @@ void loadTextures()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, 3, menu->width, menu->height,
 			0, GL_RGB, GL_UNSIGNED_BYTE, menu->data);
+
+	//////////////HOW_TO BACKGROUND /////////////////////////////
+	glBindTexture(GL_TEXTURE_2D, howToTexture);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexImage2D(GL_TEXTURE_2D, 0, 3, howTo->width, howTo->height,
+			0, GL_RGB, GL_UNSIGNED_BYTE, howTo->data);
+
 }
 
 

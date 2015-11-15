@@ -53,10 +53,15 @@ float GRAVITY = 1;
 int MAX_VELOCITY = 8;
 int INITIAL_VELOCITY = 5;
 
-int MAIN_MENU = 1;
-int RUN_GAME = 2;
-int DEATH = 3;
-int STATE = MAIN_MENU;
+
+enum stage
+{
+	MAIN_MENU,
+	HOW_TO,
+	RUN_GAME,
+	DEATH
+};
+stage STATE = MAIN_MENU;
 
 bool TOGGLE_PAUSE;
 bool TOGGLE_SOUND = true;

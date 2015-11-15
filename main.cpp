@@ -169,9 +169,14 @@ void render(Game * game)
 	r.left = 80;
 	r.center = 0;
 	Rect c;
-	c.bot = window_height/2;
-	c.left = window_width/2 - 50;
+	c.bot = window_height / 2;
+	c.left = window_width * 2 / 5;
 	c.center = 0;
+	square overlay;
+	overlay.center.x = window_width/2;
+	overlay.center.y = window_height/2;
+	overlay.height = 100;
+	overlay.width = 250;
 	//ggprint8b(&r, 16, 0x00FFFF00, "fps: %i",  static_cast<int>(fps/timeDiff(&start, &timeCurrent)));
 	if(STATE != DEATH)
 	{
@@ -183,13 +188,24 @@ void render(Game * game)
 	}
 	else
 	{
-		ggprint16(&c, 16, 0x00FF0000, "You have died!");
-		ggprint16(&c, 16, 0x00FFFF00, " ");
-		ggprint16(&c, 16, 0x00FFFF00, "Score: %i", SCORE);	
-		ggprint16(&c, 16, 0x00FFFF00, " ");
-		ggprint16(&c, 16, 0x00FFFF00, "Press M to return to the main menu!");
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glColor3ub(0, 0, 0);
+		glPushMatrix();
+		glTranslatef(overlay.center.x, overlay.center.y, 0);
+
+		glBegin(GL_QUADS);
+		glVertex2i(-overlay.width, -overlay.height);
+		glVertex2i(-overlay.width,  overlay.height);
+		glVertex2i( overlay.width,  overlay.height);			//These sections of code render the buttons.
+		glVertex2i( overlay.width, -overlay.height);
+		glEnd();
+		glPopMatrix();
+
+		ggprint16(&c, 24, 0x00FF0000, "You have died!");
+		ggprint16(&c, 24, 0x00FFFF00, "Score: %i", SCORE);	
+		ggprint16(&c, 24, 0x0000FF00, "Press M to return to the main menu!");
 	}
-		// waterfall
+	
 
 
 

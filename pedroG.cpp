@@ -262,15 +262,13 @@ void drawThrust(float angle, float x, float y, float PI, int height)
 
 void drawTESTspikes(Game * game)
 {
-	float w = 10 * game->player.width;//spike->width *
-	//int w = game->player.width;
-	//int h = game->player.height;
+	float w = 10 * game->player.width;
+	
 	for(int i = 0; i < window_width; i+= w)
 	{
 		glPushMatrix();
 		glTranslatef(i, 0, 0);
 		glColor3ub(255,200,1);
-
 
 		glBegin(GL_TRIANGLES);
 		glVertex2i(0,0); // bottom left
@@ -297,8 +295,19 @@ void drawTESTmissile(Game * game)
 	x = game->missiles.position.x;
 	y = game->missiles.position.y;
 	w = game->missiles.width;
+	
 	h = game->missiles.height;
+	
+	int width = 3*game->player.width;
+    int height = 2*game->player.height;
+	if(w != width || h != height)
+	{	
 
+		std::cout << "DRAW MISSILE width: " << w << " height: "<<  h<< std::endl;
+		std::cout << "EXPECTED W: " << width << " h: " << height << endl;
+		std::cout << "PLAYER SIZE player w: " << game->player.width << " h: " << game->player.height << endl;
+		//exit(1);
+	}
 	float PI = 3.14159265359;
 	float angle = atan2(game->posX() - x, game->posY() - y) * 180 / PI;
 
@@ -703,8 +712,13 @@ void drawMissilesExp(Game *game)
 			randColorWater = 0;
 
 		if(setbackground)
-			glColor3f(rnd()*.3+.7, rnd()*.3+.7, 0);			
-		//glColor3ub(255 - randColorWater,10 ,5);// reD? water
+		{
+			if(rand() % 2)
+				glColor3ub(255,0,0);
+			else
+				glColor3f(rnd()*.3+.7, rnd()*.3+.7, 0);			
+		
+		}
 		else
 			glColor3ub(0,0,255);
 
@@ -747,6 +761,3 @@ void drawGame_TEST(Game * game)
 	drawMissilesExp(game);
 	drawTESTguy(game);
 }
-
-
-

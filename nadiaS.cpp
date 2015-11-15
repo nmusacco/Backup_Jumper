@@ -14,7 +14,7 @@ GLuint platformTexture;
 void loadTexture()
 {
 	//load platform texture image from ppm structure
-	platform = ppm6GetImage("./images/brick.ppm");
+	platform = ppm6GetImage("./images/metal1.ppm");
 	glGenTextures(1, &platformTexture);
 	glBindTexture(GL_TEXTURE_2D, platformTexture);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -24,11 +24,12 @@ void loadTexture()
 }
 
 // Pedro Gonzalez
-// -----------------------
+// -------------------------------------------------------------
 // This creates the initial platforms in the start of the game
 // also this is more optimized
 // this function should be called ONCE!
 // UNLESS the game has no platforms allocated
+// -------------------------------------------------------------
 void makePlatform(int amt, Game *game)
 {
 	if(!game) // error checking!!!
@@ -45,24 +46,30 @@ void makePlatform(int amt, Game *game)
 	pos.y = window_height - 1.0/5.0 * window_height + h * 2;
 	
 	// first element in platformHead
-	game->platformHead = new Platform(pos, w, h, NULL); // top and first platform
+	
 	
 	// the rest of the linked list
 	Platform * ptr = game->platformHead;
-	ptr->num = 0;
-	for(int i = 1; i < 5; ++i) // 4
+	//ptr->num = 0;
+	for(int i = 0; i < 5; ++i) // 5
 	{
+		if(i == 0)
+		{
+			game->platformHead = new Platform(pos, w, h, NULL); // top and first platform //1
+			ptr = game->platformHead;
+		}
 		pos.x = rand() % window_width;
 		pos.y = window_height - 1.0/5.0 *window_height* (i + 1) + h*2;
 
-		ptr->next = new Platform(pos, w, h, NULL);		
-		ptr->next->num = i;
+		ptr->next = new Platform(pos, w, h, NULL); // 1 - 5		
+		//ptr->next->num = i;
 		ptr = ptr->next;
 
 		int xaxis = 3;
 		if(window_width > 800)
-			xaxis = 4;
-		int numofPlat_sameAxis = rand() % xaxis;
+			xaxis = 5;
+		
+		int numofPlat_sameAxis = rand() % xaxis + 1;
 		cout << numofPlat_sameAxis << endl;
 		for(int r = 0; r < numofPlat_sameAxis; ++r) // 
 		{

@@ -35,8 +35,6 @@ Game::Game()
 // create ONE missile
 void Game::createMissiles()
 {
-
-
     setMissiles = true;
     missiles.numExp = -1;
     clock_gettime(CLOCK_REALTIME, &missiles.MissilesStart);
@@ -161,7 +159,6 @@ void Game::setResolution(int x, int y)
 	}
 }
 
-
 void Game::setPos(float x = 0, float y = 0)
 {
     player.position.x = x;
@@ -215,27 +212,52 @@ void Game::move()
 	}
 }
 
+int xd = 0;
+// removes platforms that go out of screen 
+// and places new ones on top of the window screen
 void Game::updatePlatforms()
 {
-    //int width = player.width * 15;
-    //int height = player.height * 0.35;
-    //when one platform hits the ground it is replaced and put on top
-    
+	int w = player.width * 15;
+    int h = player.height * 0.35;
+
 	Platform * p = platformHead;
-	while(p)
+	Platform * next = p->next;
+	Platform * prev = NULL;
+	Vec pos;
+	srand (time(NULL));
+	if(!p)
+		return;
+	
+	pos.y = window_height + p->height;
+		
+	if(p->pos.y < 0) // move the first element
 	{
-		if(p->pos.y < 0)
-		{
-			srand(time(NULL));
-			p->pos.x= rand()%window_width ;
-			p->pos.y = window_height + p->height;
-		}
+		delete p;
+		pos.x = rand() % (window_width - w) + w;
+		platformHead = new Platform(pos, w, h, next);
+		//p = platformHead->next;
+	}
+
+
+	while(p) // move the rest of the elements in the list
+	{
+		if(p->next)
+			if(p->next->pos.y < 0)
+			{
+				int hold = p->next->num;
+				next = p->next->next;
+				pos.x = rand() % (int)(window_width - w) + w;
+				cout << "delete" << hold << endl;
+				delete p->next;
+
+				p->next = new Platform(pos, w, h, next);
+				p->next->num = hold;
+			}
 		p = p->next;
 	}
 }
 
 #include "brandiD.cpp"
-
 
 // remove all missiles, platforms etc that are remaining in game?
 // deallocate here!
@@ -244,6 +266,7 @@ Game::~Game()
 	int x = 0;
 	Platform * p = platformHead;
 	Platform * hold = NULL;
+	
 	while(p)
 	{
 		x++;
@@ -251,5 +274,7 @@ Game::~Game()
 		p = p->next;
 		delete hold;
 	}
+	
+	platformHead = NULL;
 	cout << "NUMBER OF PLATFORMS DELETED: " << x << endl;
 }

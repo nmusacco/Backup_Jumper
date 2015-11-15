@@ -1,6 +1,8 @@
-/*Nadia Salem
+/* ===============================================
+* Nadia Salem
 * this is to draw and make platforms for the game
-* */
+* 
+*/ 
 
 // Pedro Gonzalez
 // ---------------------
@@ -33,39 +35,45 @@ void makePlatform(int amt, Game *game)
 		return;
 	if(game->platformHead) // if platforms exist get OUT OF HERE!!!
 		return;
+	
 	Vec pos;
+	
+	srand (time(NULL));
 	int w = game->player.width * 15;
 	int h = game->player.height * 0.35;
-
 	pos.x = rand() % window_width;
 	pos.y = window_height - 1.0/5.0 * window_height + h * 2;
 	
 	// first element in platformHead
-	game->platformHead = new Platform(pos, w, h, NULL);
+	game->platformHead = new Platform(pos, w, h, NULL); // top and first platform
 	
 	// the rest of the linked list
 	Platform * ptr = game->platformHead;
-	for(int i = 1; i < 5; ++i)
+	ptr->num = 0;
+	for(int i = 1; i < 5; ++i) // 4
 	{
-
 		pos.x = rand() % window_width;
 		pos.y = window_height - 1.0/5.0 *window_height* (i + 1) + h*2;
-		
-	
-		ptr->next = new Platform(pos, w, h, NULL);
-			
-		ptr = ptr->next;
-		//ptr = new Platform(pos, w, h, NULL);
 
-		int numofPlat_sameAxis = rand() % 2;
-		for(int r = 0; r < numofPlat_sameAxis; ++r)
+		ptr->next = new Platform(pos, w, h, NULL);		
+		ptr->next->num = i;
+		ptr = ptr->next;
+
+		int xaxis = 3;
+		if(window_width > 800)
+			xaxis = 4;
+		int numofPlat_sameAxis = rand() % xaxis;
+		cout << numofPlat_sameAxis << endl;
+		for(int r = 0; r < numofPlat_sameAxis; ++r) // 
 		{
-			pos.x = rand() % window_width;
+			int newx = rand() % (window_width/(r + 1));
+			//pos.x = (newx >= pos.x - w && newx <= pos.x + w) ? newx - w * 3 : newx;
+			pos.x = newx;
 			ptr->next = new Platform(pos, w, h, NULL);
+			ptr->next->num = -1;
 			ptr = ptr->next;
 		}	
 	}
-	
 	// sets the player's x axis to the first platforms x axis
 	game->player.position.x = game->platformHead->pos.x;
 }

@@ -9,8 +9,7 @@
 // for animation/physics
 
 
-
-//game class
+// game class
 #include "game.h"
 #include <iostream>
 // GLOBAL vars
@@ -43,7 +42,8 @@ void check_mouse(XEvent *e, Game *game);
 void physics(Game * game);
 void render(Game * game);
 void makeParticle(int x, int y);
-void makeMissilesExp(Game * game);
+void makeMissilesExp(Game* game);
+
 using std::cout;
 using std::endl;
 
@@ -52,14 +52,11 @@ using std::endl;
 float GRAVITY = 1; 
 int MAX_VELOCITY = 8;
 int INITIAL_VELOCITY = 5;
-enum stage
-{
-	MAIN_MENU,
-	HOW_TO,
-	RUN_GAME,
-	DEATH
-};
-stage STATE = MAIN_MENU;
+
+int MAIN_MENU = 1;
+int RUN_GAME = 2;
+int DEATH = 3;
+int STATE = MAIN_MENU;
 
 bool TOGGLE_PAUSE;
 bool TOGGLE_SOUND = true;
@@ -74,7 +71,7 @@ bool bubbler = false;
 bool setbackground = false;
 
 Particle blood[MAX_PARTICLES];
-int numblood = -1;
+int numblood = 0;
 bool bloodToggle = true;
 
 #include "nadiaS.cpp" // make platform and draw function
@@ -85,7 +82,7 @@ int main(int argc, char ** argv)
 {
 	// makes the game run on a full window
 
-	/*
+	///*
 	Display* disp = XOpenDisplay(NULL);
 	Screen*  scrn = DefaultScreenOfDisplay(disp);
 	window_height = scrn->height;
@@ -169,7 +166,7 @@ void render(Game * game)
 	{
 		//ggprint8b(&r, 16, 0x00FFFF00, "PhysicsRate: %i", static_cast<int>(1/physicsRate));
 		//ggprint8b(&r, 16, 0x00FFFF00, "water particles: %i", numParticles);
-		//ggprint8b(&r, 16, 0x00FFFF00, "blood particles: %i", numblod);
+		//ggprint8b(&r, 16, 0x00FFFF00, "blood particles: %i", numblood);
 		//ggprint8b(&r, 16, 0x00FFFF00, "Hit sides: %i", game->checkLeftScreenHit() || game->checkRightScreenHit());
 	    ggprint16(&r, 16, 0x00FFFF00, "Score: %i", SCORE);
 	}

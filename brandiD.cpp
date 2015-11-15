@@ -83,7 +83,7 @@ bool Game::checkCollision()
 bool Game::checkMissileHit()
 {
 	if(!setMissiles)
-	return false;
+		return false;
 	int x = posX();
 	int y = posY();
 	int mx = missiles.position.x;
@@ -91,7 +91,7 @@ bool Game::checkMissileHit()
 	
 	float distance = sqrt(pow(x-mx,2) + pow(y-my,2));
 	if(distance <= missiles.height/3 || distance <= player.width)
-	return true;
+		return true;
 	return false;
 }
 

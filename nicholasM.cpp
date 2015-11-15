@@ -31,7 +31,7 @@
 //had become littered with my changes to allow for state changes to the game.
 
 
-struct button {
+struct coords {
 	float width, height;
 	Vec center;			//struct to hold button info
 };
@@ -41,13 +41,13 @@ bool pausegame = true;
 
 void setMenuBackground()
 {
-	button startb;
+	coords startb;
 	startb.center.y  =  window_height/2;	//green start game button
 	startb.center.x  = (window_width/3);
 	startb.width = 50;
 	startb.height = 50;
 
-	button exitb;
+	coords exitb;
 	exitb.center.y = window_height/2;	//red exit game button
 	exitb.center.x = (window_width * 2 / 3);
 	exitb.width  = 50;
@@ -98,13 +98,12 @@ void setMenuBackground()
 
 void setHowToBackground()
 {
+	
+	Rect R;
+	R.bot  =  (window_height * 4 / 5);	//green start game button
+	R.left  = (window_width/5);
+	
 	/*
-	button startb;
-	startb.center.y  =  window_height/2;	//green start game button
-	startb.center.x  = (window_width/3);
-	startb.width = 50;
-	startb.height = 50;
-
 	button exitb;
 	exitb.center.y = window_height/2;	//red exit game button
 	exitb.center.x = (window_width * 2 / 3);
@@ -124,6 +123,15 @@ void setHowToBackground()
 	glTexCoord2f(1,1);
 	glVertex2i(window_width, 0);//width/2,0);//window_width, 0);
 	glEnd();
+	   
+	ggprint16(&R, 16, 0x00FFFF00, "TIP: Press Enter to Continue");
+	ggprint16(&R, 16, 0x00FFFF00, "TIP: Press W to change between");
+	ggprint16(&R, 16, 0x00FFFF00, "     Graphic settings while");
+	ggprint16(&R, 16, 0x00FFFF00, "     you are in game!");
+
+
+
+			
 }
 
 

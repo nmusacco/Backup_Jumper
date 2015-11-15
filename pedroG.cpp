@@ -726,6 +726,5 @@ void drawGame_TEST(Game * game)
 	drawTESTguy(game);
 }
 
-//add comment
 
 

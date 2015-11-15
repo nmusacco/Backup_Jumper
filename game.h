@@ -76,6 +76,7 @@ struct Missile
 
 struct Platform
 {
+	int num;
 	Vec pos;
 	int width;
 	int height;

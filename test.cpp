@@ -51,6 +51,9 @@ int main()
 	makePlatform(&d);
 	makePlatform(&d);
 	makePlatform(&d);
+	
+		
+	
 	d = Game();
 	makePlatform(&d);
 	

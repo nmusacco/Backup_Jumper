@@ -7,7 +7,8 @@
 #include <cmath>
 
 const double oobillion = 1.0 / 1e9;
-double timeDiff2(struct timespec *start, struct timespec *end) {
+double timeDiff2(struct timespec *start, struct timespec *end) 
+{
 	return (double)(end->tv_sec - start->tv_sec ) +
 	(double)(end->tv_nsec - start->tv_nsec) * oobillion;
 }

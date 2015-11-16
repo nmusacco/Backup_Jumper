@@ -657,7 +657,7 @@ void makeMissilesExp(Game * game)
 {
 
 	float vely = 6;
-	game->missiles.numExp = 500;
+	game->missiles.numExp = 1000;
 
 	int x = game->missiles.position.x;
 	int y = game->missiles.position.y;
@@ -670,7 +670,7 @@ void makeMissilesExp(Game * game)
 	{
 		game->missiles.exp[i].s.center.x = x;
 		game->missiles.exp[i].s.center.y = y;
-		game->missiles.exp[i].velocity.x = rnd() * 5 - rnd() * 5;
+		game->missiles.exp[i].velocity.x = rnd() * 10 - rnd() * 10;
 
 		game->missiles.exp[i].velocity.y = rnd() * game->player.height/vely - rnd() * game->player.height/vely ;
 	}

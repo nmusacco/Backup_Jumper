@@ -208,7 +208,7 @@ void drawBackground(Game * game)
 	glEnd();
 
 
-	//b_i+= x;
+	b_i+= x;
 }
 
 void drawWater()

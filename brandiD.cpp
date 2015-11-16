@@ -17,9 +17,9 @@ double timeDiff2(struct timespec *start, struct timespec *end)
 bool Game::checkBottomScreen()
 {
 	// bottom of screen, allow double jump
-	if(player.position.y - player.height <= 10 * player.width) // WORKS!!!
+	if(player.position.y - player.height <= 5 * player.width) // WORKS!!!
 	{
-		setPosY(player.height + 10 * player.width);
+		setPosY(player.height + 5 * player.width);
 		setAccel(velX(),0);
 		if_jump = true;
 		return true;

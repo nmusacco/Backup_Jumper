@@ -296,17 +296,7 @@ void drawTESTmissile(Game * game)
 	y = game->missiles.position.y;
 	w = game->missiles.width;
 	h = game->missiles.height;
-	
-	/*int width = 3*game->player.width;
-    int height = 2*game->player.height;
-	if(w != width || h != height)
-	{	
 
-		std::cout << "DRAW MISSILE width: " << w << " height: "<<  h<< std::endl;
-		std::cout << "EXPECTED W: " << width << " h: " << height << endl;
-		std::cout << "PLAYER SIZE player w: " << game->player.width << " h: " << game->player.height << endl;
-		//exit(1);
-	}*/
 	float PI = 3.14159265359;
 	float angle = atan2(game->posX() - x, game->posY() - y) * 180 / PI;
 
@@ -468,7 +458,7 @@ void drawMissile(Game * game)
 	glPushMatrix();
 	glTranslatef(x, y, 0);
 	glRotatef(angle,0,0.0,-1.0);
-	glBindTexture(GL_TEXTURE_2D, missileTexture);
+	//glBindTexture(GL_TEXTURE_2D, missileTexture);
 
 	glBindTexture(GL_TEXTURE_2D, silhouetteTextureMissile);
 	glEnable(GL_ALPHA_TEST);
@@ -505,7 +495,7 @@ void drawMissile(Game * game)
 
 void drawSpike(Game * game)
 {
-	glBindTexture(GL_TEXTURE_2D, spikeTexture);
+	//glBindTexture(GL_TEXTURE_2D, spikeTexture);
 	float wid = 10 * game->player.width;//spike->width *
 	for(int i = 0; i < window_width; i+= wid)
 	{
@@ -539,7 +529,7 @@ void renderCell(float f, float x_i, float y_i, float lvl, float toplvl, Game * g
 
 	glPushMatrix();
 	glTranslatef(g->player.position.x, g->player.position.y + g->player.width*5, 0);
-	glBindTexture(GL_TEXTURE_2D, skeletonTexture);
+	//glBindTexture(GL_TEXTURE_2D, skeletonTexture);
 
 	if(g->player.left)
 		glScalef( -1.0f, 1, 1);
@@ -588,7 +578,7 @@ void drawGuts(Game * g)
 	int wid = 10 * g->player.width;
 	glPushMatrix();
 	glTranslatef(g->player.position.x, g->player.position.y + g->player.width*5, 0);
-	glBindTexture(GL_TEXTURE_2D, gutsTexture);
+	//glBindTexture(GL_TEXTURE_2D, gutsTexture);
 
 	if(g->player.left)
 		glScalef( -1.0f, 1, 1);

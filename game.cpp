@@ -100,9 +100,15 @@ void Game::applyGravity()
 void Game::missileChasePlayer()
 {
     if(!setMissiles)
-	return;
+		return;
+	
+	float PI = 3.14159265359;
+	
     float x = missiles.position.x;
     float y = missiles.position.y;
+	
+	missiles.angle = atan2(posX() - x, posY() - y) * 180 / PI;
+	
     float speed = 3;
     float x_vel;
     float y_vel;

@@ -237,8 +237,9 @@ void drawWater()
 	}
 }
 
-void drawThrust(float angle, float x, float y, float PI, int height)
+void drawThrust(float angle, float x, float y, int height)
 {
+	float PI = 3.14159265359;
 	float rad = (((-angle)+90.0) / 360.0f) * PI * 2.0;
 	//convert angle to a vector
 	float xdir = cos(rad);
@@ -297,10 +298,9 @@ void drawTESTmissile(Game * game)
 	w = game->missiles.width;
 	h = game->missiles.height;
 
-	float PI = 3.14159265359;
-	float angle = atan2(game->posX() - x, game->posY() - y) * 180 / PI;
+	float angle = game->missiles.angle;
 
-	drawThrust(angle, x, y, PI, h/2);
+	drawThrust(angle, x, y, h/2);
 
 	glColor3ub(0,0,255);
 	glPushMatrix();
@@ -447,13 +447,13 @@ void drawMissile(Game * game)
 	// 1 big missiles has a height of 134px and spritetexture's height is 380 so 134/380 = 0.352...
 	float y_i =  0.352632;
 
-	float PI = 3.14159265359;
-	float angle = atan2(game->posX() - x, game->posY() - y) * 180 / PI;
+
+	float angle = game->missiles.angle;
 	//cout << "angle :" << angle << endl;
 	int wid = 3*game->player.width;
 	int height = 2*game->player.height;
 
-	drawThrust(angle, x, y, PI, height);
+	drawThrust(angle, x, y, height);
 
 	glPushMatrix();
 	glTranslatef(x, y, 0);

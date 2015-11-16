@@ -69,6 +69,7 @@ struct Missile
 	int height;
 	Missile * next;
 	timespec MissilesStart;
+	float angle;
 	int nextframe; // used for sprite animation
 	Particle exp[10000];
 	int numExp;

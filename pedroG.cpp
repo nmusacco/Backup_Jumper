@@ -208,7 +208,7 @@ void drawBackground(Game * game)
 	glEnd();
 
 
-	b_i+= x;
+	//b_i+= x;
 }
 
 void drawWater()
@@ -320,13 +320,9 @@ void drawTESTmissile(Game * game)
 void makeTESTguts(Game * game)
 {
 	int vely = 4;
-	if(setbackground)
-		numblood = 100;
-	else
-	{
-		numblood = 500;
-		vely = 2 ;
-	}
+
+	numblood = 100;
+	
 	int x = game->posX();
 	int y = game->posY();
 

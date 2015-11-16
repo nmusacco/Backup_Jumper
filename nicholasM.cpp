@@ -485,7 +485,7 @@ void PlayGame()
 {
 	bool menuToggle = true;
 	Game game;
-
+	game.setResolution(window_width, window_height);
 
 	if(window_height > 1080)
 	{
@@ -503,11 +503,11 @@ void PlayGame()
 	{	
 		//bool menuToggle = true;	
 		game = Game();
-
+		game.setResolution(window_width, window_height);
 		game.setGravity(GRAVITY);
 
 
-		game.setResolution(window_width, window_height);
+		
 		makePlatform(5,&game);
 		
 		// Pedro here

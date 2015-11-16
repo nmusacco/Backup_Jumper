@@ -41,7 +41,7 @@ void Game::createMissiles()
     missiles.nextframe = 0;
     int x;
     int y;
-    switch(rand()%3)
+    switch(rand()%2)
     {
          case 0:  y = this->window_height / 2;
                   x = this->window_width / 2 * -1;
@@ -49,10 +49,12 @@ void Game::createMissiles()
          case 1:  y = this->window_height / 2;
                   x = this->window_width + this->window_width / 2;
                   break;
-         case 2:  y = this->window_width + this->window_width/2;
+		/*
+		case 2:  y = this->window_width + this->window_width/2;
                   x = this->window_width / 2;
                   break;
-    }
+		*/
+   }
     
     int width = 2*player.width;
     int height = 6*player.height;

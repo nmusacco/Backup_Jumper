@@ -49,9 +49,9 @@ using std::endl;
 
 
 // TODO fix gravity when window resizes
-float GRAVITY = 1.5; 
-int MAX_VELOCITY = 6;
-int INITIAL_VELOCITY = 4;
+float GRAVITY = 2; 
+int MAX_VELOCITY = 12;
+int INITIAL_VELOCITY = 10;
 
 
 enum stage
@@ -89,22 +89,24 @@ int main(int argc, char ** argv)
 {
 	// makes the game run on a full window
 
-	/*
+	///*
 	Display* disp = XOpenDisplay(NULL);
 	Screen*  scrn = DefaultScreenOfDisplay(disp);
 	window_height = scrn->height;
 	
+	
+	
 	if(window_height >= 1080)
 	{
-		window_height -= 70;
+		window_height -= 60;
 		cout << "big window" << endl;
-		INITIAL_VELOCITY = 12;
-		MAX_VELOCITY = 12;
+		//INITIAL_VELOCITY = 12;
+		//MAX_VELOCITY = 12;
 	}
 	else if(window_height > 800)
 		window_height -= 50;
-	
 	window_width = scrn->width;
+	
 	//*/
 
 	

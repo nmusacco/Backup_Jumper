@@ -36,7 +36,7 @@ Game::Game()
 void Game::createMissiles()
 {
     setMissiles = true;
-	missiles.missileType = rand() % 2;
+	missiles.missileType = rand() % 3;
     missiles.numExp = -1;
     clock_gettime(CLOCK_REALTIME, &missiles.MissilesStart);
     missiles.nextframe = 0;
@@ -50,11 +50,6 @@ void Game::createMissiles()
          case 1:  y = this->window_height / 2;
                   x = this->window_width + this->window_width / 2;
                   break;
-		/*
-		case 2:  y = this->window_width + this->window_width/2;
-                  x = this->window_width / 2;
-                  break;
-		*/
    }
     
     int width = 2*player.width;
@@ -111,8 +106,10 @@ void Game::missileChasePlayer()
 	missiles.angle = atan2(posX() - x, posY() - y) * 180 / PI;
 	
     float speed;
-	if(missiles.missileType)
+	if(missiles.missileType == 1)
 		speed = 1;
+	else if(missiles.missileType == 2)
+		speed = 15;
 	else
 		speed = 3;
 	

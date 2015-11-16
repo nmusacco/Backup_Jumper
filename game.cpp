@@ -82,8 +82,10 @@ void Game::applyGravity()
 {
 
     if(player.position.y - player.height > 0)
+    {
 	accelY(-0.25 * gravity);
-
+        //std::cout<<"\n now it is: " << gravity;
+    }
     Powerup * p = powerups;
     while(p != NULL)
     {
@@ -138,7 +140,7 @@ void Game::missileChasePlayer()
 
 void Game::setGravity(int g)
 {
-    gravity = g;
+    gravity = (float)g * aspect;
 }
 
 
@@ -180,6 +182,10 @@ void Game::setResolution(int x, int y)
 		p->height = player.height * 0.35;
 		p = p->next;
 	}
+    
+    aspect = (window_height / 600.0) / (window_width / 800.0); // these numbers are divided by the original game windows size in order 
+                                                               //to get a ratio so we could tinker with a small window and have it work the same on a large window
+
 }
 
 void Game::setPos(float x = 0, float y = 0)

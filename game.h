@@ -65,6 +65,7 @@ struct Missile
 {
 	Vec position;
 	Vec velocity;
+	int missileType;
 	int width;
 	int height;
 	Missile * next;

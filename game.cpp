@@ -36,6 +36,7 @@ Game::Game()
 void Game::createMissiles()
 {
     setMissiles = true;
+	missiles.missileType = rand() % 2;
     missiles.numExp = -1;
     clock_gettime(CLOCK_REALTIME, &missiles.MissilesStart);
     missiles.nextframe = 0;
@@ -109,7 +110,12 @@ void Game::missileChasePlayer()
 	
 	missiles.angle = atan2(posX() - x, posY() - y) * 180 / PI;
 	
-    float speed = 3;
+    float speed;
+	if(missiles.missileType)
+		speed = 1;
+	else
+		speed = 3;
+	
     float x_vel;
     float y_vel;
 

@@ -425,7 +425,7 @@ int check_keys(XEvent *e, Game * game)
 			}
 		}
 		else
-		{
+		{ 
 			if(key == XK_m)
 			{
 				if(STATE != DEATH)
@@ -470,9 +470,13 @@ void check_mouse(XEvent *e, Game *game)
 					}
 				}
 			}
+			if(STATE == DEATH)
+			{
+				STATE = MAIN_MENU;
+			}
 			return;
 		}
-
+	
 	}
 
 }
@@ -627,6 +631,7 @@ void PlayGame()
 			{
 				XNextEvent(dpy, &death);
 				check_keys(&death, &game);
+				check_mouse(&death, &game);
 				game.setResolution(window_width, window_height);
 			}
 			

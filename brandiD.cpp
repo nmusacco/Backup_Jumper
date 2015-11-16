@@ -100,7 +100,12 @@ void Game::removeMissiles()
 	timespec cTime;
 	clock_gettime(CLOCK_REALTIME, &cTime);
 	double timeDiffer = timeDiff2(&missiles.MissilesStart, &cTime);
-	if(timeDiffer >= 10)
+	int time;
+	if(missiles.missileType)
+		time = 40;
+	else
+		time = 10;
+	if(timeDiffer >= time)
 	{
 		setMissiles = false;
 		//cout << "Test Missile" << endl;

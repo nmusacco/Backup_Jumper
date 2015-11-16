@@ -205,7 +205,7 @@ void render(Game * game)
 
 		ggprint16(&c, 24, 0x00FF0000, "You have died!");
 		ggprint16(&c, 24, 0x00FFFF00, "Score: %i", SCORE);	
-		ggprint16(&c, 24, 0x0000FF00, "Press M to return to the main menu!");
+		ggprint16(&c, 24, 0x0000FF00, "Click or press M to return to the main menu!");
 	}
 	
 

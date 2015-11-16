@@ -503,13 +503,7 @@ void PlayGame()
 	{	
 		//bool menuToggle = true;	
 		game = Game();
-		game.setResolution(window_width, window_height);
-		game.setGravity(GRAVITY);
 
-
-		
-		makePlatform(5,&game);
-		
 		// Pedro here
 		// For the love of zeus don't touch
 		//game.setPos(window_width/2, window_height);
@@ -561,6 +555,10 @@ void PlayGame()
 			menuToggle = false;
 		
 		STATE = RUN_GAME;
+		game.setResolution(window_width, window_height);
+		game.setGravity(GRAVITY);
+		makePlatform(5,&game);
+		
 
 		while(STATE == RUN_GAME && game.run)
 		{

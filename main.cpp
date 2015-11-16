@@ -24,7 +24,7 @@ bool killmovement = false;
 
 unsigned long SCORE = 0;
 
-
+int calls = 0;
 // Gordon's timer & x11/opengl code
 #include "gordoncode.cpp"
 #include "nicholasMSounds.cpp"
@@ -62,6 +62,8 @@ enum stage
 	DEATH
 };
 stage STATE = MAIN_MENU;
+
+
 
 bool TOGGLE_PAUSE;
 bool TOGGLE_SOUND = true;

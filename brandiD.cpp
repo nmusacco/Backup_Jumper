@@ -19,7 +19,7 @@ bool Game::checkBottomScreen()
 	// bottom of screen, allow double jump
 	if(player.position.y - player.height <= 10 * player.width) // WORKS!!!
 	{
-		setPosY(player.height);
+		setPosY(player.height + 10 * player.width);
 		setAccel(velX(),0);
 		if_jump = true;
 		return true;

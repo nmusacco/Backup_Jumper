@@ -165,12 +165,22 @@ void physics(Game * game)
 			int choice = rand() % 3;
 
 			if(choice == 1)
+			{
 				alBuffer = alutCreateBufferFromFile("./Sounds/death1.wav");
+				playSound(1);
+			}
 			if(choice == 2)
+			{
 				alBuffer = alutCreateBufferFromFile("./Sounds/death2.wav");	//random sound selection
+				playSound(2);
+			}
 			if(choice == 0)
+			{
 				alBuffer = alutCreateBufferFromFile("./Sounds/death3.wav");
-			playSound();
+				playSound(3);
+			}
+			calls++;
+			//playSound()
 			game->guts = true;
 			bloodToggle = false;
 
@@ -188,7 +198,8 @@ void physics(Game * game)
 				{
 					game->createMissiles();
 					alBuffer = alutCreateBufferFromFile("./Sounds/missile.wav");
-					playSound();
+					calls++;
+					playSound(4);
 					//break;
 				}
 			}
@@ -224,15 +235,28 @@ void physics(Game * game)
 		{
 			int choice = rand() % 4;
 			if(choice == 1)
+			{			
 				alBuffer = alutCreateBufferFromFile("./Sounds/jump1.wav");
+				playSound(5);
+			}
 			if(choice == 2)
+			{
 				alBuffer = alutCreateBufferFromFile("./Sounds/jump2.wav");	//random sound selection
-			if(choice == 3)
-				alBuffer = alutCreateBufferFromFile("./Sounds/jump3.wav");
-			if(choice == 0)
-				alBuffer = alutCreateBufferFromFile("./Sounds/jump4.wav");
+				playSound(6);	
+			}
 
-			playSound();
+			if(choice == 3)
+			{
+				alBuffer = alutCreateBufferFromFile("./Sounds/jump3.wav");
+				playSound(7);
+			}
+			if(choice == 0)
+			{
+				alBuffer = alutCreateBufferFromFile("./Sounds/jump4.wav");
+				playSound(8);
+			}
+			calls++;
+//			playSound();
 
 			game->accelY(2 * INITIAL_VELOCITY);
 		}
@@ -389,7 +413,7 @@ int check_keys(XEvent *e, Game * game)
 
 				if(key == XK_m)
 				{
-					game->createMissiles();
+					//game->createMissiles();
 				}
 			}
 			if(key == XK_w)
@@ -635,7 +659,7 @@ void makeMissilesExp(Game * game)
 	int y = game->missiles.position.y;
 	
 	alBuffer = alutCreateBufferFromFile("./Sounds/explosion.wav");
-	playSound();			
+	playSound(9);			
 
 	//Particles &p = par;
 	for(int i = 0; i < game->missiles.numExp; ++i)

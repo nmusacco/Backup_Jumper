@@ -49,7 +49,7 @@ void Game::createMissiles()
          case 1:  y = this->window_height / 2;
                   x = this->window_width + this->window_width / 2;
                   break;
-         case 2:  y = this->window_height + this->window_height/2;
+         case 2:  y = this->window_width + this->window_width/2;
                   x = this->window_width / 2;
                   break;
     }
@@ -101,7 +101,7 @@ void Game::missileChasePlayer()
 	return;
     float x = missiles.position.x;
     float y = missiles.position.y;
-    float speed = 4;
+    float speed = 3;
     float x_vel;
     float y_vel;
 

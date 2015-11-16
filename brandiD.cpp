@@ -17,7 +17,7 @@ double timeDiff2(struct timespec *start, struct timespec *end)
 bool Game::checkBottomScreen()
 {
 	// bottom of screen, allow double jump
-	if(player.position.y - player.height <= 0) // WORKS!!!
+	if(player.position.y - player.height <= 10 * player.width) // WORKS!!!
 	{
 		setPosY(player.height);
 		setAccel(velX(),0);
@@ -100,7 +100,7 @@ void Game::removeMissiles()
 	timespec cTime;
 	clock_gettime(CLOCK_REALTIME, &cTime);
 	double timeDiffer = timeDiff2(&missiles.MissilesStart, &cTime);
-	if(timeDiffer >= 10)
+	if(timeDiffer >= 7)
 	{
 		setMissiles = false;
 		//cout << "Test Missile" << endl;

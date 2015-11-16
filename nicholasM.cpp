@@ -556,6 +556,7 @@ void PlayGame()
 		
 		STATE = RUN_GAME;
 		game.setResolution(window_width, window_height);
+		game.setPos(window_width/2, window_height + game.player.height);
 		game.setGravity(GRAVITY);
 		makePlatform(5,&game);
 		

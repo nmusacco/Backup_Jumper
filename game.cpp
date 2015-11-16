@@ -109,11 +109,11 @@ void Game::missileChasePlayer()
 	
     float speed;
 	if(missiles.missileType == 1)
-		speed = 1;
+		speed = 2;
 	else if(missiles.missileType == 2)
-		speed = 15;
+		speed = 20;
 	else
-		speed = 3;
+		speed = 6;
 	
     float x_vel;
     float y_vel;
@@ -140,7 +140,7 @@ void Game::missileChasePlayer()
 
 void Game::setGravity(int g)
 {
-    gravity = (float)g * aspect;
+    gravity = g;//(float)g * aspect;
 }
 
 
@@ -183,7 +183,7 @@ void Game::setResolution(int x, int y)
 		p = p->next;
 	}
     
-    aspect = (window_height / 600.0) / (window_width / 800.0); // these numbers are divided by the original game windows size in order 
+    //aspect = (window_height / 600.0) / (window_width / 800.0); // these numbers are divided by the original game windows size in order 
                                                                //to get a ratio so we could tinker with a small window and have it work the same on a large window
 
 }

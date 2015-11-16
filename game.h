@@ -99,7 +99,7 @@ class Game
 		int window_height;
 		int window_width;
 	
-		float aspect;	
+		//float aspect;	
 		int int_vel;
 		int max_vel;
 		float gravity; // default is gonna be 1 unless set otherwise

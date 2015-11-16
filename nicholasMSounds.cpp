@@ -34,7 +34,7 @@ ALuint Source;
 
 void setupSound()
 {
-	/*//Get started right here.
+	//Get started right here.
 	alutInit(0, NULL);
 	if (alGetError() != AL_NO_ERROR) {
 		printf("ERROR: alutInit()\n");
@@ -48,12 +48,12 @@ void setupSound()
 	float vec[6] = {0.0f,0.0f,1.0f, 0.0f,1.0f,0.0f};
 	alListener3f(AL_POSITION, 0.0f, 0.0f, 0.0f);
 	alListenerfv(AL_ORIENTATION, vec);
-	alListenerf(AL_GAIN, 1.0f);*/
+	alListenerf(AL_GAIN, 1.0f);
 }
 
 void playSound(int num)
 {
-    /*
+    
 	//Buffer holds the sound info
 	//Source refers to the sound.
 	num -=1;
@@ -71,12 +71,12 @@ void playSound(int num)
 
 	alSourcePlay(alSource[num]);
 
-*/
+
 	return;
 }
 void cleanupSound()
 {
-/*
+
 		//First delete the source.
 //	for(int i = 0; i < NUM_SOUNDS; i++)
 	alDeleteSources(NUM_SOUNDS, alSource);
@@ -100,12 +100,12 @@ void cleanupSound()
 	alcDestroyContext(Context);
 	//Close device.
 	alcCloseDevice(Device);
-	return;*/
+	return;
 }
 
 void playBackgroundSound()
 {
-    /*
+    
 	//Buffer holds the sound info
 	//Source refers to the sound.
 
@@ -124,7 +124,7 @@ void playBackgroundSound()
 
 	alSourcePlay(Source);
 
-*/
+
 	return;
 }
 

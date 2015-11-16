@@ -102,11 +102,11 @@ void Game::removeMissiles()
 	double timeDiffer = timeDiff2(&missiles.MissilesStart, &cTime);
 	int time;
 	if(missiles.missileType == 1)
-		time = 40;
+		time = 30;
 	else if(missiles.missileType == 2)
 		time = 2;
 	else
-		time = 10;
+		time = 7;
 	if(timeDiffer >= time)
 	{
 		setMissiles = false;

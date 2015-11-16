@@ -49,9 +49,9 @@ using std::endl;
 
 
 // TODO fix gravity when window resizes
-float GRAVITY = 2; 
-int MAX_VELOCITY = 12;
-int INITIAL_VELOCITY = 10;
+float GRAVITY = 1.0; 
+int MAX_VELOCITY = 30;
+int INITIAL_VELOCITY = 16;
 
 
 enum stage
@@ -174,7 +174,7 @@ void render(Game * game)
 	r.center = 0;
 	Rect c;
 	c.bot = window_height / 2;
-	c.left = window_width * 2 / 5;
+	c.left = window_width / 2 - 225;
 	c.center = 0;
 	square overlay;
 	overlay.center.x = window_width/2;

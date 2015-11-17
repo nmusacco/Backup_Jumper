@@ -12,6 +12,7 @@
 // game class
 #include "game.h"
 #include <iostream>
+#include<stdio.h>
 // GLOBAL vars
 int window_width = 800;
 int window_height = 600;
@@ -87,6 +88,11 @@ bool bloodToggle = true;
 
 int main(int argc, char ** argv)
 {
+	cout<<"Decompressing files\n";
+	system("tar -xvzf images.tar.gz");
+	system("tar -xvzf Sounds.tar.gz");
+
+
 	// makes the game run on a full window
 
 	///*
@@ -127,6 +133,9 @@ int main(int argc, char ** argv)
 	cleanup_fonts();
 	cleanupSound();
 	cout << "end game" << endl;
+	cout << "removing noncompressed files\n";
+	system("rm -rf Sounds/");
+	system("rm -rf images/");	
 	return 0;
 }
 

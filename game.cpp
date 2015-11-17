@@ -111,7 +111,7 @@ void Game::missileChasePlayer()
 	if(missiles.missileType == 1)
 		speed = 2;
 	else if(missiles.missileType == 2)
-		speed = 20;
+		speed = 18;
 	else
 		speed = 6;
 	

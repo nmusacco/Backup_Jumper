@@ -70,7 +70,7 @@ void makePlatform(int amt, Game *game)
 			xaxis = 5;
 		
 		int numofPlat_sameAxis = rand() % xaxis + 1;
-		cout << numofPlat_sameAxis << endl;
+		//cout << numofPlat_sameAxis << endl;
 		for(int r = 0; r < numofPlat_sameAxis; ++r) // 
 		{
 			int newx = rand() % (window_width/(r + 1));

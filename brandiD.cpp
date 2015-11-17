@@ -95,11 +95,22 @@ bool Game::checkMissileHit()
 	return false;
 }
 
-void Game::removeMissiles()
+void Game::removeMissiles(bool pausegame)
 {
+	
+	if(!setMissiles)// || pausegame)
+	   return;
+	if(pausegame)
+	{
+	  timespec pTime;
+	  clock_gettime(CLOCK_REALTIME, &pTime);
+	  missiles.MissilesStart.tv_sec += pTime.tv_sec;
+	  missiles.MissilesStart.tv_nsec += pTime.tv_nsec;
+	}
 	timespec cTime;
 	clock_gettime(CLOCK_REALTIME, &cTime);
-	double timeDiffer = timeDiff2(&missiles.MissilesStart, &cTime);
+	double timeDiffer = 0;
+	timeDiffer = timeDiff2(&missiles.MissilesStart, &cTime);
 	float time;
 	if(missiles.missileType == 1)
 		time = 30;

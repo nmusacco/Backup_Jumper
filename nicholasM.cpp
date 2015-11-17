@@ -155,6 +155,7 @@ void setHowToBackground()
 void physics(Game * game)
 {
 
+	game->removeMissiles(pausegame);	
 	if(STATE == RUN_GAME && !pausegame)	//if the game is playing and not paused, run all the physics checks and apply movement and gravity
 	{					//I have it set up this way, so that when the game is paused, the game no longer checks for physics
 		game->inAir(); 
@@ -187,7 +188,7 @@ void physics(Game * game)
 		}
 
 		game->missileChasePlayer();
-		game->removeMissiles();
+
 		game->checkCollision();
 
 		if(!game->setMissiles && game->missiles.numExp <= 0)

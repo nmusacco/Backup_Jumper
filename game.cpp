@@ -60,7 +60,7 @@ void Game::createMissiles()
     missiles.width = width;
     missiles.height = height;
 
-    cout << "missile created" << endl;
+   // cout << "missile created" << endl;
 }
 
 
@@ -275,7 +275,7 @@ void Game::updatePlatforms()
 				int hold = p->next->num;
 				next = p->next->next;
 				pos.x = rand() % (int)(window_width - w) + w;
-				cout << "delete" << hold << endl;
+				//cout << "delete" << hold << endl;
 				delete p->next;
 
 				p->next = new Platform(pos, w, h, next);
@@ -304,5 +304,5 @@ Game::~Game()
 	}
 	
 	platformHead = NULL;
-	cout << "NUMBER OF PLATFORMS DELETED: " << x << endl;
+	//cout << "NUMBER OF PLATFORMS DELETED: " << x << endl;
 }

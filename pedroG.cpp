@@ -400,7 +400,7 @@ void drawTESTguy(Game * game)
 	glEnd();
 	glPopMatrix();
 
-	//draw guy's (x,y) center coordinates
+	/*//draw guy's (x,y) center coordinates
 	glColor3ub(0,0,255);
 	glPushMatrix();
 	int x = game->player.position.x;
@@ -414,6 +414,7 @@ void drawTESTguy(Game * game)
 	glVertex2i(x+w, y-h);
 	glEnd();
 	glPopMatrix();
+	//*/
 }
 
 void drawMissile(Game * game)

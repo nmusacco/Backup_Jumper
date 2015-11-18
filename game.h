@@ -202,7 +202,7 @@ class Game
 		bool checkRightScreenHit();
 		bool checkCollision();
 		bool checkMissileHit();
-		void removeMissiles(bool pausegame);
+		void removeMissiles();
 		void makeMissilesExp();
 		//void drawMissileExp();
 		

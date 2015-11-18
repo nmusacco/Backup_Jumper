@@ -89,7 +89,7 @@ bool bloodToggle = true;
 int main(int argc, char ** argv)
 {
 	cout<<"Decompressing files\n";
-	system("tar -xvzf images.tar.gz");
+	system("tar -xvzf images.tar.gz");  //Straightforward, function relays string to the console which performs the tar command for decompressing files
 	system("tar -xvzf Sounds.tar.gz");
 
 
@@ -127,15 +127,16 @@ int main(int argc, char ** argv)
 	//assert(true);
 	cout << "start game" << endl;
 
-	PlayGame();
+	PlayGame();						//contents of playGame used to reside in main, but became too large after implementing states. It now resides in a function to keep main clean.
+									//the function resides in nicholasM.cpp
 
 	cleanupXWindows();
-	cleanup_fonts();
+	cleanup_fonts();				//Lots of deallocation
 	cleanupSound();
 	cout << "end game" << endl;
 	cout << "removing noncompressed files\n";
-	system("rm -rf Sounds/");
-	system("rm -rf images/");	
+	system("rm -rf Sounds/");						//similar to decompression, but it instead recursively removes the contents of these files
+	system("rm -rf images/");						//thank Gordon for the idea of using this, shrinks the filesize quite a bit
 	return 0;
 }
 
@@ -209,7 +210,7 @@ void render(Game * game)
 		glBegin(GL_QUADS);
 		glVertex2i(-overlay.width, -overlay.height);
 		glVertex2i(-overlay.width,  overlay.height);
-		glVertex2i( overlay.width,  overlay.height);			//These sections of code render the buttons.
+		glVertex2i( overlay.width,  overlay.height);			//These sections of code render the black box so that the death screen wording can be read clearly
 		glVertex2i( overlay.width, -overlay.height);
 		glEnd();
 		glPopMatrix();

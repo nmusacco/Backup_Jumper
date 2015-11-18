@@ -204,7 +204,7 @@ class Game
 		bool checkMissileHit();
 		void removeMissiles();
 		void makeMissilesExp();
-		//void drawMissileExp();
+		//void drawMissileExp();      //Moved to nicholasM.cpp and removed from game class
 		
 		
 		

@@ -1,14 +1,14 @@
 // CS335 fall 2015
 // ===========================
 // Final Project: Group 2
-// 
+//
 // student: Nicholas Musacco
-// 
+//
 // ===========================
 
 
 //OLD:
-//Currently contains the physics function along with basic 
+//Currently contains the physics function along with basic
 //pause features to stop motion when the game is paused
 //
 //Future addition will include a pause screen that will
@@ -23,10 +23,10 @@
 //NEW:
 //As of 11/11 I created sounds, which are kept in nicholasMSounds.cpp
 //the code is mostly Gordon Griesel's openal example with only my minor changes
-//to allow a sound initialization function, a play sound function, 
+//to allow a sound initialization function, a play sound function,
 //and a cleanup function
 //
-//As of 11/11 I created the PlayGame() function, which contains the loop 
+//As of 11/11 I created the PlayGame() function, which contains the loop
 //to play the game. This was deemed necessary as the main() function
 //had become littered with my changes to allow for state changes to the game.
 
@@ -36,8 +36,7 @@ struct square {
 	Vec center;			//struct to hold button info
 };
 
-//bool bloodToggle = false;
-bool pausegame = true;
+bool pausegame = true; //main component of pausegame feature. False means the game is not paused
 
 void setMenuBackground()
 {
@@ -98,71 +97,35 @@ void setMenuBackground()
 
 void setHowToBackground()
 {
-	/*	
-	Rect R;
-	R.bot  =  (window_height * 4 / 5);	//green start game button
-	R.left  = (window_width/5);
-	
-	
-	square overlay;
-	overlay.center.y = 16;	//red exit game button
-	overlay.center.x = window_width - 150;
-	overlay.width  = 150;
-	overlay.height = 16;
-	*/
 
 	glColor3f(1.0, 1.0, 1.0);
-	glBindTexture(GL_TEXTURE_2D, howToTexture);		//This section of code renders the menu background
+	glBindTexture(GL_TEXTURE_2D, howToTexture);		//This section of code renders the How To background
 	glBegin(GL_QUADS);
 	glTexCoord2f(0,1);
 	glVertex2i(0,0);
 	glTexCoord2f(0,0);
-	glVertex2i(0, window_height);//height/2);//window_height);
+	glVertex2i(0, window_height);
 	glTexCoord2f(1,0);
-	glVertex2i(window_width, window_height);//width/2, height/2);//window_width, window_height);
+	glVertex2i(window_width, window_height);
 	glTexCoord2f(1,1);
-	glVertex2i(window_width, 0);//width/2,0);//window_width, 0);
+	glVertex2i(window_width, 0);;
 	glEnd();
-	   
-	/*
-	ggprint16(&R, 34, 0x00FFFF00, "TIP: Press W to change between");
-	ggprint16(&R, 34, 0x00FFFF00, "     Graphic settings while");
-	ggprint16(&R, 34, 0x00FFFF00, "     you are in game!");
-
-	R.bot = 0; //(window_height/5);
-	R.left = (window_width * 92 / 100);
 
 
-	glBindTexture(GL_TEXTURE_2D, 0);
-	glColor3ub(0, 0, 0);
-	glPushMatrix();
-	glTranslatef(overlay.center.x, overlay.center.y, 0);
-
-	glBegin(GL_QUADS);
-	glVertex2i(-overlay.width, -overlay.height);
-	glVertex2i(-overlay.width,  overlay.height);
-	glVertex2i( overlay.width,  overlay.height);			//These sections of code render the buttons.
-	glVertex2i( overlay.width, -overlay.height);
-	glEnd();
-	glPopMatrix();
-
-	ggprint16(&R, 34, 0x0000FF00, "HINT: Press Enter to Continue");
-	*/
-			
 }
 
 
 void physics(Game * game)
 {
 
-	
+
 	if(STATE == RUN_GAME && !pausegame)	//if the game is playing and not paused, run all the physics checks and apply movement and gravity
 	{					//I have it set up this way, so that when the game is paused, the game no longer checks for physics
-		game->inAir(); 
+		game->inAir();
 		game->updatePlatforms();
 		game->applyGravity();
-		if(game->checkBottomScreen() && bloodToggle) // spikes collision    bloodToggle is a switch that is turned off once this statement has run once. This means when
-		{					     //the character hits the spikes, the sounds wont play multiple times
+		if(game->checkBottomScreen() && bloodToggle) // spikes collision    bloodToggle is a switch that is turned off once this statement has run once and is turned back one once the game is over. This means when
+		{					     //the character hits the spikes, the sounds wont play multiple times. I nearly blew out my eardrum at first
 			int choice = rand() % 3;
 
 			if(choice == 1)
@@ -181,40 +144,37 @@ void physics(Game * game)
 				playSound(3);
 			}
 			calls++;
-			//playSound()
+
 			game->guts = true;
 			bloodToggle = false;
 
 		}
 
 		game->missileChasePlayer();
-		game->removeMissiles();	
+		game->removeMissiles();
 		game->checkCollision();
 
 		if(!game->setMissiles && game->missiles.numExp <= 0)
-		{	
-			//for(int i = 0; i < 5; ++i)
-			{		
+		{
+			//for(int i = 0; i < 5; ++i)					//Unroll that loop! Efficiency.
+			{
 				if((int)SCORE % 100 == rand() % 100 && !game->setMissiles)
 				{
 					game->createMissiles();
 					alBuffer = alutCreateBufferFromFile("./Sounds/missile.wav");
 					calls++;
 					playSound(4);
-					//break;
 				}
 			}
 		}
 
 		if(game->checkMissileHit())
 		{
-//			alBuffer = alutCreateBufferFromFile("./Sounds/explosion.wav");
-//			playSound();			
-			game->guts = true;
+			game->guts = true;						//if the missile hits the player, display the guts particles and quit rendering missile
 			game->setMissiles = false;
 		}
 
-		if(keys[XK_Left]) // left arrow
+		if(keys[XK_Left]) // left arrow, move right
 		{
 			game->player.right = false;
 			game->player.left = true;
@@ -223,7 +183,7 @@ void physics(Game * game)
 			game->accelX(-1 * INITIAL_VELOCITY);
 		}
 
-		if(keys[XK_Right]) // right arrow
+		if(keys[XK_Right]) // right arrow, move right
 		{
 			game->player.left = false;
 			game->player.right = true;
@@ -232,18 +192,18 @@ void physics(Game * game)
 			game->accelX(INITIAL_VELOCITY);
 		}
 
-		if(keys[XK_space] && game->if_jump) // spacebar
+		if(keys[XK_space] && game->if_jump) // spacebar to jump if you arent already in the air
 		{
 			int choice = rand() % 4;
 			if(choice == 1)
-			{			
+			{
 				alBuffer = alutCreateBufferFromFile("./Sounds/jump1.wav");
 				playSound(5);
 			}
 			if(choice == 2)
 			{
 				alBuffer = alutCreateBufferFromFile("./Sounds/jump2.wav");	//random sound selection
-				playSound(6);	
+				playSound(6);
 			}
 
 			if(choice == 3)
@@ -256,9 +216,6 @@ void physics(Game * game)
 				alBuffer = alutCreateBufferFromFile("./Sounds/jump4.wav");
 				playSound(8);
 			}
-			calls++;
-//			playSound();
-
 			game->accelY(2 * INITIAL_VELOCITY);
 		}
 
@@ -286,7 +243,7 @@ void physics(Game * game)
 	}
 
 
-	
+
 
 	// waterfall particle settings
 	Particle *p = &par[numParticles];
@@ -297,11 +254,11 @@ void physics(Game * game)
 			p = &par[i];
 			p->s.center.x += p->velocity.x;
 			p->s.center.y += p->velocity.y;
-			p->velocity.y -= 0.1; 
+			p->velocity.y -= 0.1;
 
-			if (p->s.center.y < 0.0 || p->s.center.y > window_height) 
+			if (p->s.center.y < 0.0 || p->s.center.y > window_height)
 			{
-				memcpy(&par[i], &par[numParticles -1], 
+				memcpy(&par[i], &par[numParticles -1],
 						sizeof(Particle));
 				numParticles--;
 			}
@@ -317,11 +274,11 @@ void physics(Game * game)
 			p2 = &blood[i];
 			p2->s.center.x += p2->velocity.x;
 			p2->s.center.y += p2->velocity.y;
-			p2->velocity.y -= 0.1; 
+			p2->velocity.y -= 0.1;
 
-			if (p2->s.center.y < 0.0 || p2->s.center.y > window_height) 
+			if (p2->s.center.y < 0.0 || p2->s.center.y > window_height)
 			{
-				memcpy(&blood[i], &blood[numblood -1], 
+				memcpy(&blood[i], &blood[numblood -1],
 						sizeof(Particle));
 				numblood--;
 			}
@@ -329,7 +286,7 @@ void physics(Game * game)
 	}
 
 	//making missile exp particles
-	Particle *p3 = &game->missiles.exp[game->missiles.numExp];
+	Particle *p3 = &game->missiles.exp[game->missiles.numExp];				//takes over after makeMissilesExp() creates the particles and their respective directions
 	if(!pausegame)
 	{
 		for(int i = 0; i < game->missiles.numExp; ++i)
@@ -356,12 +313,12 @@ int check_keys(XEvent *e, Game * game)
 
 
 	killmovement = true;
-	if(e->type == KeyRelease) 
+	if(e->type == KeyRelease)
 	{
 		keys[key] = 0;
 		if(key == XK_space)
 			killmovement = false;
-	
+
 		if((!keys[XK_Right] || !keys[XK_Left]) && !keys[XK_space] && !game->inAir())
   			 killmovement = true;
 
@@ -372,7 +329,7 @@ int check_keys(XEvent *e, Game * game)
 	if(e->type == KeyPress)
 	{
 		keys[key] = 1;
-		
+
 		if(STATE == HOW_TO)
 		{
 			if(key == XK_Return)
@@ -383,7 +340,7 @@ int check_keys(XEvent *e, Game * game)
 		{
 			if(key == XK_k) // respawn
 			{
-				if(game->guts == true) // 
+				if(game->guts == true) //
 				{
 					game->setPos(window_width/2, window_height);
 					game->guts = false;
@@ -412,7 +369,7 @@ int check_keys(XEvent *e, Game * game)
 						bubbler = true;
 				}
 
-				if(key == XK_m)
+				if(key == XK_m)					//Dated functionality now that missiles spawn automatically
 				{
 					//game->createMissiles();
 				}
@@ -421,24 +378,24 @@ int check_keys(XEvent *e, Game * game)
 			{
 				if(setbackground)
 					setbackground = false;
-				else 
+				else
 					setbackground = true;
 			}
 		}
 		else
-		{ 
+		{
 			if(key == XK_m)
 			{
-				if(STATE != DEATH)
-					return 0;
-				else
+				//if(STATE != DEATH)							//if you press M any time other than death screen, it will do nothing
+					//return 0;
+				//else
 					STATE = MAIN_MENU;
-				pausegame = true;
+				//pausegame = true;
 			}
 		}
-		if(key == XK_Escape)
+		if(key == XK_Escape)						//lets you escape at any pointer
 			game->run = false;
-	}	
+	}
 	return 0;
 }
 
@@ -477,7 +434,7 @@ void check_mouse(XEvent *e, Game *game)
 			}
 			return;
 		}
-	
+
 	}
 
 }
@@ -501,16 +458,12 @@ void PlayGame()
 	clock_gettime(CLOCK_REALTIME, &timeStart);
 	clock_gettime(CLOCK_REALTIME, &start);
 	while(game.run)
-	{	
-		//bool menuToggle = true;	
-		game = Game();
-
-		// Pedro here
-		// For the love of zeus don't touch
-		//game.setPos(window_width/2, window_height);
+	{
+		
+		game = Game(); 			//reinitializes upon replay
 
 		if(TOGGLE_SOUND)		//Sound switch so that the background music doesnt get recalled after the initial call
-		{
+		{						//otherwise they loop over each other and it sounds bad, plus it created a memory leak
 			Buffer = alutCreateBufferFromFile("./Sounds/music.wav");
 			playBackgroundSound();
 			TOGGLE_SOUND = false;
@@ -518,11 +471,11 @@ void PlayGame()
 
 		gutsToggle = true;
 		bloodToggle = true;		//Reset switches to clear the prev game information. This includes the score and blood particles
-		TOGGLE_PAUSE = true;
+		TOGGLE_PAUSE = true;	//basically reinitializing anything that didnt get reinitialized in the game = Game();
 		numblood = 0;
 		SCORE = 0;
 		game.setMissiles = false;
-		
+
 		while(STATE == MAIN_MENU && game.run)
 		{
 
@@ -530,14 +483,14 @@ void PlayGame()
 			while(XPending(dpy))
 			{
 				XNextEvent(dpy, &menu);
-				check_keys(&menu, &game);
-				check_mouse(&menu, &game);
-				game.setResolution(window_width, window_height);
-			}
+				check_keys(&menu, &game);											//Ahhh STATES, made this far easier to control.
+				check_mouse(&menu, &game);											//Each while(STATE == X) loop renders a background and checks for input 
+				game.setResolution(window_width, window_height);					//and the input functions all have checks to see what STATE is currently running
+			}																		//and only allows proper input
 			setMenuBackground();
 			glXSwapBuffers(dpy, win);
 		}
-		
+
 		while(STATE == HOW_TO && game.run && menuToggle)
 		{
 
@@ -552,15 +505,15 @@ void PlayGame()
 			setHowToBackground();
 			glXSwapBuffers(dpy, win);
 		}
-		if(menuToggle)
+		if(menuToggle)										//No one wants to see the how to menu over and over and over again.
 			menuToggle = false;
 		
-		STATE = RUN_GAME;
+		STATE = RUN_GAME; //gotta have this here, otherwise if the player clicks the green button after one game the STATE will be HOW_TO but it cant access it
 		game.setResolution(window_width, window_height);
-		game.setPos(window_width/2, window_height + game.player.height);
-		game.setGravity(GRAVITY);
+		game.setPos(window_width/2, window_height + game.player.height);	//this is when playforms are created and the players position is set to the top
+		game.setGravity(GRAVITY);											//if this is called beforehand it wont take proper screen size into consideration
 		makePlatform(5,&game);
-		
+
 
 		while(STATE == RUN_GAME && game.run)
 		{
@@ -580,7 +533,7 @@ void PlayGame()
 				check_resize(&e);
 				game.setResolution(window_width, window_height);
 			}
-	
+
 
 			if(game.guts && numblood <= 50)
 			{
@@ -594,7 +547,7 @@ void PlayGame()
 			if(!pausegame && numblood < 1)
 			{
 
-				SCORE++;		//iterates the score every loop that the game is not paused
+				SCORE++;		//iterates the score every loop that the game is not paused and the player is not dead
 			}
 
 			physicsCountdown += timeSpan;
@@ -623,7 +576,7 @@ void PlayGame()
 			glXSwapBuffers(dpy, win);
 
 		}
-		
+
 		while(STATE == DEATH && game.run)
 		{
 			XEvent death;
@@ -634,7 +587,7 @@ void PlayGame()
 				check_mouse(&death, &game);
 				game.setResolution(window_width, window_height);
 			}
-			
+
 			clock_gettime(CLOCK_REALTIME, &timeCurrent);
 			timeSpan = timeDiff(&timeStart, &timeCurrent);
 			timeCopy(&timeStart, &timeCurrent);
@@ -646,7 +599,7 @@ void PlayGame()
 			}
 			render(&game);
 			glXSwapBuffers(dpy, win);
-	
+
 		}
 
 	}
@@ -654,7 +607,7 @@ void PlayGame()
 }
 
 
-void makeMissilesExp(Game * game)
+void makeMissilesExp(Game * game)					//pretty straightforward. if the missile is going to explode, play the sound and make the particles.
 {
 
 	float vely = 6;
@@ -662,11 +615,10 @@ void makeMissilesExp(Game * game)
 
 	int x = game->missiles.position.x;
 	int y = game->missiles.position.y;
-	
-	alBuffer = alutCreateBufferFromFile("./Sounds/explosion.wav");
-	playSound(9);			
 
-	//Particles &p = par;
+	alBuffer = alutCreateBufferFromFile("./Sounds/explosion.wav");
+	playSound(9);
+
 	for(int i = 0; i < game->missiles.numExp; ++i)
 	{
 		game->missiles.exp[i].s.center.x = x;
